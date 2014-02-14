@@ -19,7 +19,7 @@ npm install -g bower
 bower install
 ```
 
-To run the site locally just start app
+To run a dev server that will automatically restart when file changes are detected:
 ```
-node app.js
+node dev-app.js
 ```
