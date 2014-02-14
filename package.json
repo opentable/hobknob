@@ -20,6 +20,10 @@
     "express3-handlebars": "~0.5.0"
   },
   "devDependencies": {
-    "forever-monitor": "~1.2.3"
+    "forever-monitor": "~1.2.3",
+    "grunt": "~0.4.2",
+    "matchdep": "~0.3.0",
+    "grunt-cli": "~0.1.13",
+    "shelljs": "~0.2.6"
   }
 }
