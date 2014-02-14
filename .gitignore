@@ -13,3 +13,10 @@ results
 
 npm-debug.log
 node_modules
+
+/.idea/*
+*.iml
+/.vagrant/*
+/node_modules/*
+/logs/*
+/package/

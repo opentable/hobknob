@@ -1,0 +1,21 @@
+{
+  "name": "featuretoggle-frontend",
+  "version": "0.0.1",
+  "homepage": "https://github.com/opentable/featuretoggle-frontend",
+  "authors": [
+    "Ryan Tomlinson <tomlinsonryan@gmail.com>"
+  ],
+  "description": "front end packages for feature toggle dashboard",
+  "main": "app.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.1.1"
+  }
+}
