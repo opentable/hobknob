@@ -3,15 +3,15 @@
 		<tr>
 			<td>Id</td>
 			<td>Name</td>
-			<td>State</td>
+			<td>ConfigString</td>
 		</tr>
 	</trhead>
 	<tbody>
 		{{#featuretoggles}}
 			<tr class={{State}}>
-				<td>{{Id}}</td>
+				<td>{{_id}}</td>
 				<td>{{Name}}</td>
-				<td>{{State}}</td>
+				<td>{{ConfigString}}</td>
 			</tr>
 		{{/featuretoggles}}
 	</tbody>
