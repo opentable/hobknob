@@ -1,5 +1,7 @@
+var featureToggleApi = require('./../src/services/featuretoggle_service.js');
+
 exports.index = function(req, res){
-  res.render('index', { title: 'Feature toggles', pageHeader: 'Dashboard', featuretoggles: getFeatureToggles() });
+  res.render('index', { title: 'Feature toggles', pageHeader: 'Dashboard', featuretoggles: featureToggleApi.getFeatureToggles() });
 };
 
 exports.togglelist = function(db) {
@@ -11,24 +13,4 @@ exports.togglelist = function(db) {
 			});
 		});
 	};
-};
-
-var getFeatureToggles = function() {
-	var featureToggles = [{
-		"Id": 1,
-		"Name": "Toggle 1",
-		"State": "active"
-	},
-	{
-		"Id": 2,
-		"Name": "Toggle 2",
-		"State": "active"
-	},
-	{
-		"Id": 3,
-		"Name": "Toggle 3",
-		"State": "active"
-	}]
-	
-	return featureToggles;
 };
