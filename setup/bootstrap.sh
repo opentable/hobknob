@@ -24,8 +24,8 @@ mkdir -p /var/www/featuretoggle
 chown otdeploy /var/www/featuretoggle
 chgrp otdeploy /var/www/featuretoggle
 
-
 npm install forever -g
+npm install bower -g
 
 # install init script
 cp /vagrant/setup/featuretoggle /etc/init.d/featuretoggle

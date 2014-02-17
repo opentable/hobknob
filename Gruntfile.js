@@ -25,5 +25,28 @@ module.exports = function(grunt) {
 
     // Automatically load in all Grunt npm tasks
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+    
+    grunt.registerTask('default', 'build');
+    grunt.registerTask('build', ['clean:build', 'copy:build']);
+    grunt.registerTask('deploy', [
+        'get-artifacts',
+        //'sshexec:take-app-offline',
+        'wait:tenseconds',
+        'sshexec:stop',
+        'sshexec:make-release-dir',
+        'sshexec:update-symlinks',
+        'sftp:deploy',
+        'sshexec:npm-update',
+        'sshexec:bower-update',
+        'sshexec:set-config',
+        'sshexec:start',
+        'wait:fiveseconds',
+        // 'http:warm-up' left out for now
+        // 'verify-service-status',
+        //'sshexec:put-app-online',
+        'wait:fiveseconds',
+        'sshexec:delete-old-release-dirs',
+        'clean:afterDeploy'
+    ]);
 
 };

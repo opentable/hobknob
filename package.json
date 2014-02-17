@@ -17,13 +17,20 @@
   },
   "dependencies": {
     "express": "~3.4.8",
-    "express3-handlebars": "~0.5.0"
+    "express3-handlebars": "~0.5.0",
+    "js-yaml": "~3.0.1",
+    "config": "~0.4.35"
   },
   "devDependencies": {
     "forever-monitor": "~1.2.3",
     "grunt": "~0.4.2",
     "matchdep": "~0.3.0",
     "grunt-cli": "~0.1.13",
-    "shelljs": "~0.2.6"
+    "shelljs": "~0.2.6",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-copy": "~0.5.0",
+    "grunt-artifactory-artifact": "~0.6.1",
+    "grunt-wait": "~0.1.0",
+    "grunt-ssh": "~0.10.0"
   }
 }

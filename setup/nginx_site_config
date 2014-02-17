@@ -1,4 +1,4 @@
-upstream featuretoggle-frontend {
+upstream featuretoggle {
     server 127.0.0.1:3006;
 }
 

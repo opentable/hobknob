@@ -16,4 +16,4 @@ app.get('/', routes.index);
 
 console.log('Starting up feature toggle dashboard');
 
-app.listen(3003);
+app.listen(3006);

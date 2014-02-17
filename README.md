@@ -23,3 +23,11 @@ To run a dev server that will automatically restart when file changes are detect
 ```
 node dev-app.js
 ```
+You can then access the site on http://127.0.0.1:3006
+
+Running on a vagrant instance
+--
+
+The vmware_fusion provider for Vagrant is required
+
+`grunt vagrant-up` will spin up a vagrant instance with the application running on port 3006
