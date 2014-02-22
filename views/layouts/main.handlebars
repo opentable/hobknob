@@ -7,6 +7,7 @@
     
     <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" media="all" rel="stylesheet" />
 	<link href="/css/dashboard.css" media="all" rel="stylesheet" />
+    <link href="/css/toggleswitch.css" media="all" rel="stylesheet" />
 </head>
 <body>
 	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -54,5 +55,11 @@
 
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/javascript/jquery.toggleswitch.min.js"></script>
+    <script type='text/javascript'>
+      jQuery(document).ready(function($) {
+          $('.toggleswitch').toggleSwitch();
+      });
+    </script>
 </body>
 </html>

@@ -5,8 +5,6 @@ exports.authenticate = function(req, res) {
 };
 
 exports.login = function(req, res) {
-    console.log('logging in...');
-    console.log('username is: ' + req.body.username);
     authenticationService.login(req.body.username, req.body.password, function(result) {
         console.log('Authenticated: ' + result);
         if (result) {

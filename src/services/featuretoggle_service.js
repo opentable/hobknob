@@ -1,6 +1,20 @@
 require("js-yaml");
+var request = require("request");
+var config = require("config").Endpoints.featureToggleApi;
+var environmentConfig = require("config").Environment;
 
-exports.getFeatureToggles = function (){
+exports.getAllFeatureToggles = function(callback) {
+  if (environmentConfig.useMockData) {
+    return getMockFeatureToggles();
+  }
+  var url = config.connectionString + '/features';
+  request(url, function (err, response, body) {
+    if(err) { console.log(err); callback(); return; }
+    callback(JSON.parse(body));
+  });
+}
+
+var getMockFeatureToggles = function (){
     var featureToggles = [{
 		"_id": 1,
 		"Name": "Reviews Api Caching",

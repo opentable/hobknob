@@ -1,9 +1,11 @@
 var express = require('express'),
   exphbs  = require('express3-handlebars'),
+  helpers = require('./src/helper'),
   app = express(),
   dashboardroutes = require('./routes'),
   authenticateroutes = require('./routes/authenticate'),
-  path = require('path');
+  path = require('path'),
+  hbs;
 
 var authenticationChecker = function(req, res, next) { 
   if (req.session.user && req.session.user.isAuthenticated) {
@@ -13,8 +15,22 @@ var authenticationChecker = function(req, res, next) {
   }
 };
 
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+// Create `ExpressHandlebars` instance with a default layout.
+hbs = exphbs.create({
+    defaultLayout: 'main',
+    helpers      : helpers,
+
+    // Uses multiple partials dirs, templates in "shared/templates/" are shared
+    // with the client-side of the app (see below).
+    partialsDir: [
+        'views/partials/'
+    ]
+});
+
+app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
+
+app.set('port', process.env.PORT || 3006);
 
 app.use(express.bodyParser());
 app.use(express.cookieParser('featuretoggle'));
@@ -30,6 +46,8 @@ app.get('/', authenticateroutes.authenticate);
 
 app.post('/', authenticateroutes.login);
 
-console.log('Starting up feature toggle dashboard');
+console.log('Starting up feature toggle dashboard on port ' + app.get('port'));
 
-app.listen(3006);
+app.listen(app.get('port'));
+
+
