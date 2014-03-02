@@ -1,7 +1,7 @@
 featuretoggle-frontend
 ======================
 
-![Dashboard Image](https://raw.github.com/opentable/featuretoggle-frontend/master/screenshots/dashboard.png?token=1033384__eyJzY29wZSI6IlJhd0Jsb2I6b3BlbnRhYmxlL2ZlYXR1cmV0b2dnbGUtZnJvbnRlbmQvbWFzdGVyL3NjcmVlbnNob3RzL2Rhc2hib2FyZC5wbmciLCJleHBpcmVzIjoxMzkzNzA5NTQ0fQ%3D%3D--c62040726360536c3a01a9b80caa42d7826d20a8 "Dashboard")
+![Dashboard Image](https://raw.github.com/opentable/featuretoggle-frontend/master/screenshots/dashboard-v2.png?token=1033384__eyJzY29wZSI6IlJhd0Jsb2I6b3BlbnRhYmxlL2ZlYXR1cmV0b2dnbGUtZnJvbnRlbmQvbWFzdGVyL3NjcmVlbnNob3RzL2Rhc2hib2FyZC12Mi5wbmciLCJleHBpcmVzIjoxMzk0Mzk5MTE0fQ%3D%3D--6e2b74cb02f67b7e6b5b1b78d59b1aa5d06e6ea6 "Dashboard")
 
 
 node/expressjs app to display feature toggles
