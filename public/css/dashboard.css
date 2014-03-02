@@ -23,6 +23,7 @@ body {
  */
 
 /* Hide for mobile, show later */
+/*
 .sidebar {
   display: none;
 }
@@ -36,25 +37,59 @@ body {
     display: block;
     padding: 20px;
     overflow-x: hidden;
-    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    overflow-y: auto;  Scrollable contents if viewport is shorter than content. 
     background-color: #f5f5f5;
     border-right: 1px solid #eee;
   }
 }
+*/
+
+/* Navigation Bar   */
+
+.navbar-default {
+  background-color: transparent;
+  border: none;
+}
 
 /* Sidebar navigation */
-.nav-sidebar {
-  margin-right: -21px; /* 20px padding + 1px border */
-  margin-bottom: 20px;
-  margin-left: -20px;
+#sidebar-menu {
+  width: 100%;
+  border-top: 1px solid #1F2429; 
 }
-.nav-sidebar > li > a {
-  padding-right: 20px;
-  padding-left: 20px;
+
+#sidebar-menu, #sidebar-menu ul, #sidebar-menu li, #sidebar-menu a {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  list-style: none;
+  font-weight: normal;
+  text-decoration: none;
+  line-height: 1;
+  font-size: 14px;
+  position: relative; 
 }
-.nav-sidebar > .active > a {
-  color: #fff;
-  background-color: #428bca;
+
+#sidebar-menu > ul > li > a {
+  font-size: 14px;
+  display: block;
+  color: #8B91A0;
+  border-left: 4px solid transparent;
+  padding: 10px 15px;
+  -webkit-transition: All 0.25s ease;
+  -moz-transition: All 0.25s ease;
+  -o-transition: All 0.25s ease;
+}
+
+#sidebar-menu > ul > li > a:hover{
+  color: #fff; 
+}
+
+#sidebar-menu > ul > li > a > span.glyphicon {
+  margin-right: 5px;
+}
+
+#sidebar-menu a {
+  line-height: 1.3;
 }
 
 
@@ -107,4 +142,100 @@ body {
 
 td.toggle-cell {
   vertical-align: middle;
+}
+
+
+
+.container {
+  min-height: 100%;
+  width: auto;
+}
+
+.left {
+  width: 225px;
+  background: #1B1E24;
+  margin-left: -15px;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  bottom: 0; 
+}
+
+.right {
+  left: 225px;
+  right: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  bottom: 0; 
+}
+
+.header.content {
+  background: #FFFFFF;
+  border-bottom: 1px solid #E5E9EC; 
+}
+
+.header.rows-content-header {
+  height: 50px; 
+}
+
+.rows-content-header {
+  left: 0;
+  right: 0;
+  position: absolute; 
+}
+
+
+.body.content.rows {
+  top: 50px;
+  bottom: 0px;
+  background: #F7F8F8;
+  padding: 20px;
+  font-size: 13px;
+} 
+
+.scroll-y {
+  overflow-y: auto; 
+}
+
+.rows {
+  left: 0;
+  right: 0;
+}
+
+.rows, .col, .page { 
+  overflow: hidden;
+  position: absolute; 
+}
+
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both; 
+}
+
+.page-heading {
+  margin: 0px 0 25px;
+  padding: 5px 0;
+}
+
+.page-heading h1 {
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+  font-size: 24px; 
+}
+
+.header.sidebar {
+  background: #000;
+}
+
+.header.rows {
+  height: 50px;
+}
+
+.body.rows {
+  top: 50px;
+  bottom: 50px;
 }

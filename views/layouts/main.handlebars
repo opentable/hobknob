@@ -11,7 +11,59 @@
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
-	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  
+  <div class="container">
+    <div class="left side-menu">
+      <div class="header sidebar rows">
+        <a class="navbar-brand logo" href="#"> 
+          <img src="/images/opentable-hr-mono.png" />
+        </a>
+      </div>
+      <div class="body rows scroll-y animated">       
+        <div class="profile">
+
+        </div>
+        <div id="sidebar-menu">
+          <ul>
+            <li class="active"><a href="#"><span class="glyphicon glyphicon-dashboard"></span>Dashboard</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-stats"></span>Reports</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-tower"></span>History</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-book"></span>Documentation</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="right content-page">
+      <div class="header content rows-content-header">
+        
+        <div class="navbar navbar-default" role="navigation">
+          <div class="container">
+            <div class="navbar-collapse collapse">
+              <form class="navbar-form navbar-right">
+                <input type="text" class="form-control" placeholder="Search...(coming soon)">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="body content rows scroll-y">
+        <div class="page-heading animated">
+          <h1>{{{pageHeader}}}</h1>
+        </div>
+        <div class="row">
+			  {{{body}}}
+          </div>
+      </div>
+    </div>
+  </div>
+	
+<!--
+  
+  
+  
+  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -53,6 +105,7 @@
       </div>
     </div>
 
+-->
     
     <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/javascript/jquery.toggleswitch.min.js"></script>
