@@ -12,7 +12,19 @@ exports.getAllFeatureToggles = function(callback) {
     if(err) { console.log(err); callback(); return; }
     callback(JSON.parse(body));
   });
-}
+};
+
+exports.getFeatureToggle = function(id, callback) {
+  if (environmentConfig.useMockData) {
+    return getMockFeatureToggles()[0];
+  }
+  
+  var url = config.connectionString + '/feature/' + id;
+  request(url, function (err, response, body) {
+    if(err) { console.log(err); callback(); return; }
+    callback(JSON.parse(body));
+  });
+};
 
 var getMockFeatureToggles = function (){
     var featureToggles = [{

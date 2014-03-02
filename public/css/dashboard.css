@@ -73,6 +73,7 @@ body {
 }
 .main .page-header {
   margin-top: 0;
+  border-bottom: none !important;
 }
 
 
@@ -93,4 +94,17 @@ body {
 .placeholder img {
   display: inline-block;
   border-radius: 50%;
+}
+
+.logo img{
+  height: 25px;
+  vertical-align: middle;
+}
+
+.toggle-container { 
+  padding-top: 7px; 
+}
+
+td.toggle-cell {
+  vertical-align: middle;
 }

@@ -2,7 +2,7 @@ var express = require('express'),
   exphbs  = require('express3-handlebars'),
   helpers = require('./src/helper'),
   app = express(),
-  dashboardroutes = require('./routes'),
+  dashboardroutes = require('./routes/dashboard'),
   authenticateroutes = require('./routes/authenticate'),
   path = require('path'),
   hbs;
@@ -20,8 +20,6 @@ hbs = exphbs.create({
     defaultLayout: 'main',
     helpers      : helpers,
 
-    // Uses multiple partials dirs, templates in "shared/templates/" are shared
-    // with the client-side of the app (see below).
     partialsDir: [
         'views/partials/'
     ]
@@ -43,6 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/dashboard', authenticationChecker, dashboardroutes.index);
 app.get('/', authenticateroutes.authenticate);
+app.get('/feature/:id', authenticationChecker, dashboardroutes.feature);
 
 app.post('/', authenticateroutes.login);
 

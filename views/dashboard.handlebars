@@ -1,0 +1,51 @@
+<table class="table">
+	<trhead>
+		<tr>
+			<td>Name</td>
+			<td>Description</td>
+            <td>.co.uk</td>
+            <td>.com</td>
+            <td>.de</td>
+            <td>.com.mx</td>
+            <td>.jp</td>
+            <td>Actions</td>
+		</tr>
+	</trhead>
+	<tbody>
+		{{#featuretoggles}}
+			<tr>
+				<td>{{Name}}</td>
+				<td>{{Description}}</td>
+                {{#DomainConfiguration}}
+                  <td class="toggle-cell">
+                      <input type='checkbox' name='op1' id='toggle' value='1' class='toggleswitch disabled' {{toggleslider FeaturedEnabled}} />
+                  </td>
+                {{/DomainConfiguration}}
+                <td>
+                  <a href="/feature/{{_id}}" class="btn" id="edit-toggle" data-toggle="modal" data-target="#editModal">edit</a>
+                </td>
+			</tr>
+		{{/featuretoggles}}
+	</tbody>
+</table>
+
+
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Edit</h4>
+      </div>
+      <div class="modal-body">
+        Something is wrong. I can't fetch the feature toggle you selected!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
