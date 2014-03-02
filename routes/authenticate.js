@@ -6,7 +6,6 @@ exports.authenticate = function(req, res) {
 
 exports.login = function(req, res) {
     authenticationService.login(req.body.username, req.body.password, function(result) {
-        console.log('Authenticated: ' + result);
         if (result) {
             req.session.user = { isAuthenticated: true, username: req.body.username };
             res.redirect('/dashboard');
@@ -14,7 +13,6 @@ exports.login = function(req, res) {
         else{
             res.redirect('/');
         }
-        
     });
     
 };

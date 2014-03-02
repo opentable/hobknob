@@ -17,33 +17,6 @@ body {
   border-bottom: 1px solid #eee;
 }
 
-
-/*
- * Sidebar
- */
-
-/* Hide for mobile, show later */
-/*
-.sidebar {
-  display: none;
-}
-@media (min-width: 768px) {
-  .sidebar {
-    position: fixed;
-    top: 51px;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
-    display: block;
-    padding: 20px;
-    overflow-x: hidden;
-    overflow-y: auto;  Scrollable contents if viewport is shorter than content. 
-    background-color: #f5f5f5;
-    border-right: 1px solid #eee;
-  }
-}
-*/
-
 /* Navigation Bar   */
 
 .navbar-default {
@@ -92,6 +65,20 @@ body {
   line-height: 1.3;
 }
 
+.profile-image {
+  margin: 3px 10px 0 3px; 
+}
+
+.side-menu .profile {
+  padding: 0px 30px 15px;
+  margin: 20px -15px 0 -15px;
+  border-bottom: 1px solid #1F2429;
+  color: #fff;
+}
+
+.side-menu .profile .media-object {
+  width: 57px;
+}
 
 /*
  * Main content
@@ -238,4 +225,8 @@ td.toggle-cell {
 .body.rows {
   top: 50px;
   bottom: 50px;
+}
+
+h4.media-heading {
+  word-wrap: break-word; 
 }

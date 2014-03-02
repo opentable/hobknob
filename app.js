@@ -1,6 +1,7 @@
 var express = require('express'),
   exphbs  = require('express3-handlebars'),
   helpers = require('./src/helper'),
+  authService = require("./src/services/authentication_service"),
   app = express(),
   dashboardroutes = require('./routes/dashboard'),
   authenticateroutes = require('./routes/authenticate'),
@@ -24,6 +25,8 @@ hbs = exphbs.create({
         'views/partials/'
     ]
 });
+
+authService.initLdap('ldap://10.20.41.90:389');
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');

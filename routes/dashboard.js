@@ -6,17 +6,15 @@ exports.index = function(req, res){
                {
                  title: 'Feature toggles', 
                  pageHeader: 'Dashboard',
-                 featuretoggles: data
+                 featuretoggles: data,
+                 user: req.session.user
                });
                
   });
 };
 
 exports.feature = function(req, res) {
-  console.log("ID sent is:" + req.params.id);
   featureToggleApi.getFeatureToggle(req.params.id, function(data) {
-    console.log("feature : " + data);
-    //res.send(data);
     res.render("feature", {
       featuretoggle: data,
       layout: !req.xhr
