@@ -1,34 +1,54 @@
-<table class="table">
-	<trhead>
-		<tr>
-			<td>Name</td>
-			<td>Description</td>
-            <td>.co.uk</td>
-            <td>.com</td>
-            <td>.de</td>
-            <td>.com.mx</td>
-            <td>.jp</td>
-            <td>Actions</td>
-		</tr>
-	</trhead>
-	<tbody>
-		{{#featuretoggles}}
-			<tr>
-				<td>{{Name}}</td>
-				<td>{{Description}}</td>
-                {{#DomainConfiguration}}
-                  <td class="toggle-cell">
-                      <input type='checkbox' name='op1' id='toggle' value='1' class='toggleswitch disabled' {{toggleslider FeaturedEnabled}} />
-                  </td>
-                {{/DomainConfiguration}}
-                <td>
-                  <a href="/feature/{{_id}}" class="btn" id="edit-toggle" data-toggle="modal" data-target="#editModal">edit</a>
-                </td>
-			</tr>
-		{{/featuretoggles}}
-	</tbody>
-</table>
 
+<div class="col-md-12">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Active Toggles</h3>
+    </div>
+    <div class="panel-body">
+      
+    </div>
+    
+    <table class="table table-hover">
+        <trhead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>.co.uk</th>
+                <th>.com</th>
+                <th>.de</th>
+                <th>.com.mx</th>
+                <th>.jp</th>
+                <th>Actions</th>
+            </tr>
+        </trhead>
+        <tbody>
+            {{#featuretoggles}}
+                <tr>
+                    <td>{{Name}}</td>
+                    <td>
+                      <p>
+                        {{Description}}
+                      </p>
+                      <div>
+                        <span class="label label-primary">restaurant-api</span>
+                        <span class="label label-primary">dazzling-beavers</span>
+                        <span class="label label-primary">api</span></span>
+                      </div>
+                    </td>
+                    {{#DomainConfiguration}}
+                      <td class="toggle-cell">
+                          <input type='checkbox' name='op1' id='toggle' value='1' class='toggleswitch disabled' {{toggleslider FeaturedEnabled}} />
+                      </td>
+                    {{/DomainConfiguration}}
+                    <td>
+                      <a href="/feature/{{_id}}" class="btn" id="edit-toggle" data-toggle="modal" data-target="#editModal">edit</a>
+                    </td>
+                </tr>
+            {{/featuretoggles}}
+        </tbody>
+      </table>
+  </div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
