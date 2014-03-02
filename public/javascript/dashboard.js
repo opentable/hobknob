@@ -11,6 +11,26 @@ var toggleSwitch = function() {
   });
 };
 
+//var editToggle = function() {
+//    $("#add-toggle").click(function () {
+//        var data = {};
+//        data.name = $("");
+//        
+//        $.ajax({ 
+//           url: '/feature/edit',
+//           type: 'POST',
+//           cache: false, 
+//           data: { field1: 1, field2: 2 }, 
+//           success: function(data){
+//              alert('Success!')
+//           }
+//           , error: function(jqXHR, textStatus, err){
+//               alert('text status '+textStatus+', err '+err)
+//           }
+//        })
+//    });
+//};
+
 
 $(document).ready(function() {
   
