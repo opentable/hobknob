@@ -5,14 +5,20 @@ exports.authenticate = function(req, res) {
 };
 
 exports.login = function(req, res) {
-    authenticationService.login(req.body.username, req.body.password, function(result) {
-        if (result) {
-            req.session.user = { isAuthenticated: true, username: req.body.username };
-            res.redirect('/dashboard');
-        }
-        else{
-            res.redirect('/');
-        }
-    });
-    
+  authenticationService.login(req.body.username, req.body.password, function(result) {
+    if (result) {
+      req.session.user = { isAuthenticated: true, username: req.body.username };
+      res.redirect('/dashboard');
+    }
+    else{
+      res.redirect('/');
+    }
+  });  
+};
+
+exports.logout = function(req, res) {
+  if (req.session.user) {
+    delete req.session.user;
+  }
+  res.redirect("/");
 };

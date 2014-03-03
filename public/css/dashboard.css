@@ -80,6 +80,13 @@ body {
   width: 57px;
 }
 
+.side-menu .profile a {
+  cursor: pointer;
+  font-size: 11px;
+  margin: 0 5px 0 0;
+  color: #8B91A0; 
+}
+
 /*
  * Main content
  */
@@ -97,7 +104,6 @@ body {
   margin-top: 0;
   border-bottom: none !important;
 }
-
 
 /*
  * Placeholder dashboard ideas
@@ -121,6 +127,7 @@ body {
 .logo img{
   height: 25px;
   vertical-align: middle;
+  padding-left: 24px;
 }
 
 .toggle-container { 
@@ -130,8 +137,6 @@ body {
 td.toggle-cell {
   vertical-align: middle;
 }
-
-
 
 .container {
   min-height: 100%;

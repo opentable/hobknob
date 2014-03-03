@@ -49,6 +49,7 @@ app.get("/", authenticateroutes.authenticate);
 app.get("/feature/:id", authenticationChecker, featureroutes.getById);
 
 app.post("/", authenticateroutes.login);
+app.get("/logout", authenticateroutes.logout);
 app.post("/feature/edit", authenticationChecker, featureroutes.edit);
 
 console.log("Starting up feature toggle dashboard on port " + app.get('port'));
