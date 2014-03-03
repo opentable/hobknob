@@ -32,6 +32,7 @@ var getMockFeatureToggles = function (){
 		"Name": "Reviews Api Caching",
         "ConfigString": "ReviewsApiCaching",
         "Description": "This is a toggle to look at whether the Reviews API has caching enabled or not. This will effectively decide if we make fresh calls to the reviews api or return stale data",
+        "Tags": [ "dazzling-beavers", "restaurant-api", "api" ],
         "DomainConfiguration": 
             [{
                 "DomainName": {
@@ -96,6 +97,7 @@ var getMockFeatureToggles = function (){
 		"Name": "Restaurant Profile Page SmartSEO",
         "ConfigString": "RestProfileSmartSEO",
         "Description": "This will control whether the smartseo feature for the restaurant profile page is enabled. We would only disable this if the site is under heavy load",
+        "Tags": [ "dazzling-beavers", "restaurant-api", "api" ],
         "DomainConfiguration": 
             [{
                 "DomainName": {
@@ -159,6 +161,7 @@ var getMockFeatureToggles = function (){
 		"Name": "Restaurant Profile Overview Tab Reviews",
         "ConfigString": "RestProfileOVReviews",
         "Description": "This will control the 3 reviews in the 'featured reviews' section on the restaurant profile overview tab",
+        "Tags": [ "dazzling-beavers", "restaurant-api", "api" ],
         "DomainConfiguration": 
             [{
                 "DomainName": {
