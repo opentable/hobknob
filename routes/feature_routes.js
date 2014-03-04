@@ -1,7 +1,8 @@
-var featureToggleApi = require('./../src/services/featuretoggle_service.js');
+var featureToggleService = require('./../src/services/featuretoggle_service.js'),
+    featureMapper = require("./../src/mappers/feature_mapper.js");
 
 exports.getById = function(req, res) {
-  featureToggleApi.getFeatureToggle(req.params.id, function(data) {
+  featureToggleService.getFeatureToggle(req.params.id, function(data) {
     res.render("feature", {
       featuretoggle: data,
       layout: !req.xhr
@@ -10,8 +11,10 @@ exports.getById = function(req, res) {
 };
 
 exports.edit = function(req, res) {
-  console.log(req.body);
-  console.log("body: " + JSON.stringify(req.body));
-  // Send this to alexs new edit api feature
-  res.redirect("/dashboard");
+  var domainConfigurationModel = featureMapper.map(req.body);
+
+  featureToggleService.updateFeatureToggle(domainConfigurationModel._id, domainConfigurationModel.domainConfiguration, function(result) {
+     res.redirect("/dashboard");
+  });
+  
 };

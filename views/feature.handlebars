@@ -1,17 +1,24 @@
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-  <h4 class="modal-title" id="myModalLabel">Edit - <span>{{{featuretoggle.Name}}}</span></h4>
+  <h4 class="modal-title" id="myModalLabel">Edit - <span>{{{featuretoggle.name}}}</span></h4>
 </div>
 <form id="edit-toggle-form" class="form-horizontal" role="form" method="post" action="/feature/edit">  
   <div class="modal-body"> 
-    {{#featuretoggle.DomainConfiguration}}
+    <input type="hidden" name="id" value="{{featuretoggle._id}}" />
+    {{#featuretoggle.domainConfiguration}}
       <div class="form-group">
-        <label for="{{DomainName.DomainName}}" class="col-sm-2 control-label">{{DomainName.DomainName}}</label>
+        <label for="{{domainName.domainName}}" class="col-sm-2 control-label">{{domainName.domainName}}</label>
         <div class="col-sm-10 toggle-container">
-          <input type="checkbox" id="toggle" name={{DomainName.DomainName}} value='1' class='{{DomainName.DomainName}} form-control toggleswitch' {{toggleslider FeaturedEnabled}} />
+          <input type="checkbox" id="toggle" name="featuredEnabled" value='{{domainName.domainName}}' class='{{domainName.domainName}} form-control toggleswitch' {{toggleslider featuredEnabled}} />
+          <input type="hidden" name="domainName" value="{{domainName.domainName}}" />
+          <input type="hidden" name="domainPrefix" value="{{domainName.domainPrefix}}" />
+          <input type="hidden" name="domainId" value="{{domainName.domainId}}" />
+          <input type="hidden" name="lastToggleActivity" value="{{lastToggleActivity}}" />
+          <input type="hidden" name="lastToggleUser" value="{{lastToggleUser}}" />
+          <input type="hidden" name="abRate" value="{{abRate}}" />
         </div>
       </div>
-    {{/featuretoggle.DomainConfiguration}}
+    {{/featuretoggle.domainConfiguration}}
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

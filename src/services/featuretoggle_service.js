@@ -26,6 +26,21 @@ exports.getFeatureToggle = function(id, callback) {
   });
 };
 
+exports.updateFeatureToggle = function(id, payload, callback) {
+  var url = config.connectionString + '/features/' + id;
+  request({
+    method: 'PATCH',
+    uri: url,
+    json: payload
+    }, function (error, response, body) {
+      if (error) {
+        console.log("Error: %j", error);
+      }
+      callback(response);
+  });
+};
+
+// Move this mock data to a mock data repo
 var getMockFeatureToggles = function (){
     var featureToggles = [{
 		"_id": 1,

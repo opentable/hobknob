@@ -23,22 +23,22 @@
         <tbody>
             {{#featuretoggles}}
                 <tr>
-                    <td>{{Name}}</td>
+                    <td>{{name}}</td>
                     <td>
                       <p>
-                        {{Description}}
+                        {{description}}
                       </p>
                       <div>
-                        {{#each Tags}}
+                        {{#each tags}}
                           <span class="label label-primary">{{this}}</span>
                         {{/each}}
                       </div>
                     </td>
-                    {{#DomainConfiguration}}
+                    {{#domainConfiguration}}
                       <td class="toggle-cell">
-                          <input type='checkbox' name='op1' id='toggle' value='1' class='toggleswitch disabled' {{toggleslider FeaturedEnabled}} />
+                          <input type='checkbox' name='op1' id='toggle' value='1' class='toggleswitch disabled' {{toggleslider featuredEnabled}} />
                       </td>
-                    {{/DomainConfiguration}}
+                    {{/domainConfiguration}}
                     <td>
                       <a href="/feature/{{_id}}" class="btn" id="edit-toggle" data-toggle="modal" data-target="#editModal">edit</a>
                     </td>
