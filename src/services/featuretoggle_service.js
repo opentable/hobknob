@@ -19,7 +19,7 @@ exports.getFeatureToggle = function(id, callback) {
     return getMockFeatureToggles()[0];
   }
   
-  var url = config.connectionString + '/feature/' + id;
+  var url = config.connectionString + '/features/' + id;
   request(url, function (err, response, body) {
     if(err) { console.log(err); callback(); return; }
     callback(JSON.parse(body));
