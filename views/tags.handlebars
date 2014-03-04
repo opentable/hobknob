@@ -1,7 +1,7 @@
 <div class="col-md-12">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Active Toggles</h3>
+      <h3 class="panel-title">Toggles by tag <span class="label label-primary">{{tag}}</span></h3>
     </div>
     <div class="panel-body">
       
@@ -30,7 +30,7 @@
                       </p>
                       <div>
                         {{#each Tags}}
-                          <a href="/tags/{{this}}"><span class="label label-primary">{{this}}</span></a>
+                          <span class="label label-primary">{{this}}</span>
                         {{/each}}
                       </div>
                     </td>
@@ -67,4 +67,3 @@
     </div>
   </div>
 </div>
-

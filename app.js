@@ -3,9 +3,10 @@ var express = require("express"),
   helpers = require("./src/helper"),
   authService = require("./src/services/authentication_service"),
   app = express(),
-  dashboardroutes = require("./routes/dashboard"),
-  authenticateroutes = require("./routes/authenticate"),
-  featureroutes = require("./routes/feature"),
+  dashboardroutes = require("./routes/dashboard_routes"),
+  authenticateroutes = require("./routes/authenticate_routes"),
+  featureroutes = require("./routes/feature_routes"),
+  tagroutes = require("./routes/tag_routes"),
   path = require("path"),
   hbs;
 
@@ -45,12 +46,15 @@ app.use(app.router);
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/dashboard", authenticationChecker, dashboardroutes.dashboard);
-app.get("/", authenticateroutes.authenticate);
-app.get("/feature/:id", authenticationChecker, featureroutes.getById);
 
+app.get("/", authenticateroutes.authenticate);
 app.post("/", authenticateroutes.login);
 app.get("/logout", authenticateroutes.logout);
+
+app.get("/feature/:id", authenticationChecker, featureroutes.getById);
 app.post("/feature/edit", authenticationChecker, featureroutes.edit);
+
+app.get("/tags/:name", authenticationChecker, tagroutes.getFeaturesByTag);
 
 console.log("Starting up feature toggle dashboard on port " + app.get('port'));
 
