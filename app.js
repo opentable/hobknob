@@ -51,8 +51,9 @@ app.get("/", authenticateroutes.authenticate);
 app.post("/", authenticateroutes.login);
 app.get("/logout", authenticateroutes.logout);
 
-app.get("/feature/:id", authenticationChecker, featureroutes.getById);
+app.get("/feature/add", authenticationChecker, featureroutes.add);
 app.post("/feature/edit", authenticationChecker, featureroutes.edit);
+app.get("/feature/:id", authenticationChecker, featureroutes.getById);
 
 app.get("/tags/:name", authenticationChecker, tagroutes.getFeaturesByTag);
 
