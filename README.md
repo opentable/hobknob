@@ -24,7 +24,7 @@ bower install
 
 To run a dev server that will automatically restart when file changes are detected:
 ```
-node dev-app.js
+node server/dev-app.js
 ```
 You can then access the site on http://127.0.0.1:3006
 
