@@ -1,6 +1,5 @@
 Endpoints:
-  featureToggleApi: 
-    connectionString: http://127.0.0.1:3000
+  featureToggleApi: http://127.0.0.1:3000
 
 Environment:
   useMockData: false

@@ -1,0 +1,74 @@
+doctype html
+html(lang='en')
+  head
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Opentable Feature Toggles - {{title}}
+    link(href='/public/bower_components/bootstrap/dist/css/bootstrap.min.css', media='all', rel='stylesheet')
+    link(href='/css/dashboard.css', media='all', rel='stylesheet')
+    link(href='/css/toggleswitch.css', media='all', rel='stylesheet')
+    script(src='/public/bower_components/jquery/dist/jquery.min.js')
+  body(ng-app='featureToggleFrontend')
+    .container
+      .left.side-menu
+        .header.sidebar.rows
+          a.navbar-brand.logo(href='#')
+            img(src='/img/opentable-hr-mono.png')
+        .body.rows.scroll-y.animated
+          .profile
+            .profile-image.pull-left
+              img.media-object.img-circle(src='/img/user-blue.jpeg', alt='avatar')
+              h4.media-heading
+                | Anonymous
+          //-     a(href='/logout') Logout
+          //- #sidebar-menu
+          //-   ul
+          //-     li.active
+          //-       a(href='/dashboard')
+          //-         span.glyphicon.glyphicon-dashboard
+          //-         | Dashboard
+          //-     li
+          //-       a(href='#')
+          //-         span.glyphicon.glyphicon-stats
+          //-         | Reports
+          //-     li
+          //-       a(href='#')
+          //-         span.glyphicon.glyphicon-tower
+          //-         | History
+          //-     li
+          //-       a(href='#')
+          //-         span.glyphicon.glyphicon-book
+          //-         | Documentation
+      .right.content-page
+        .header.content.rows-content-header
+          .navbar.navbar-default(role='navigation')
+            .container
+              .navbar-collapse.collapse
+                ul.nav.navbar-nav
+                  li
+                form.navbar-form.navbar-right
+                  //a#add-toggle.btn.btn-success(href='/feature/addfeature', data-toggle='modal', data-target='#addModal') New Feature Toggle
+        .body.content.rows.scroll-y
+          .page-heading.animated
+            h1 {{pageHeader}}
+          .row
+            div(ng-view='ng-view')
+    //Add Toggle Modal - should probably move to a partial 
+    #addModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='addModalLabel', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+            h4#addModalLabel.modal-title Add
+          .modal-body
+            | Something is wrong. I can't fetch the feature toggle you selected!
+          .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') Close
+            button.btn.btn-primary(type='button') Save changes
+    script(src='/public/bower_components/angular/angular.min.js')
+    script(src='/public/bower_components/angular-resource/angular-resource.min.js')
+    script(src='/public/bower_components/angular-route/angular-route.min.js')
+    script(src='/js/app.js')
+    script(src='/public/bower_components/bootstrap/dist/js/bootstrap.min.js')
+    script(src='/js/common/lib/jquery.toggleswitch.min.js')
+    script(src='/js/common/dashboard.js')
+    script(src='/js/controllers/dashboardController.js')

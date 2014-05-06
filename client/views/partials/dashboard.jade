@@ -1,0 +1,25 @@
+.col-md-12
+    input(type="search" ng-model="search.name" placeholder="Type here to filter...").form-control.dashboard-search-box
+    .panel.panel-default
+        .panel-heading
+          h3.panel-title All Feature Toggles
+        .panel-body
+          table.table
+            trhead
+              tr
+                th Name
+                th Description
+                th .co.uk
+                th .com
+                th .de
+                th .com.mx
+                th .jp
+            trbody
+              tr(ng-repeat="feature in featuretoggles | orderBy: 'name' | filter:search" ng-animate=" 'animate' ")
+                td {{feature.name}}
+                td {{feature.description}}
+                  div.tag-container
+                    a(href='/tags/{{tag}}' ng-repeat="tag in feature.tags")
+                      span.label.label-primary {{tag}}
+                td.toggle-cell(ng-repeat="domain in feature.domainConfiguration")
+                  input#toggle.toggleswitch.disabled(type='checkbox', name='op1', value='1')
