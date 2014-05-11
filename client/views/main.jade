@@ -45,8 +45,17 @@ html(lang='en')
               .navbar-collapse.collapse
                 ul.nav.navbar-nav
                   li
-                form.navbar-form.navbar-right
-                  //a#add-toggle.btn.btn-success(href='/feature/addfeature', data-toggle='modal', data-target='#addModal') New Feature Toggle
+                .navbar-form.navbar-right
+                  div(ng-controller="ToggleModalController")
+                    script(type="text/ng-template" id="createToggleContent.html")
+                      .modal-header
+                        h3.modal-title New Feature Toggle
+                        .modal-body
+                          | Stuff goes here
+                        .modal-footer
+                          button.btn.btn-primary(ng-click='ok()') Create
+                          button.btn.btn-warning(ng-click='cancel()') Cancel
+                    a(class="btn btn-default" ng-click="open()").btn.btn-success New Feature Toggle
         .body.content.rows.scroll-y
           .page-heading.animated
             h1 {{pageHeader}}
@@ -67,9 +76,11 @@ html(lang='en')
     script(src='/public/bower_components/angular/angular.min.js')
     script(src='/public/bower_components/angular-resource/angular-resource.min.js')
     script(src='/public/bower_components/angular-route/angular-route.min.js')
-    script(src='/public/bower_components/angular-bootstrap/ui-bootstrap.min.js')
+    script(src='/public/bower_components/angular-bootstrap/ui-bootstrap.js')
+    script(src='/public/bower_components/angular-bootstrap/ui-bootstrap-tpls.js')
     script(src='/js/app.js')
     script(src='/public/bower_components/bootstrap/dist/js/bootstrap.min.js')
     script(src='/js/common/lib/jquery.toggleswitch.min.js')
     script(src='/js/common/dashboard.js')
     script(src='/js/controllers/dashboardController.js')
+    script(src='/js/controllers/toggleModalController.js')
