@@ -22,4 +22,5 @@
                     a(href='/tags/{{tag}}' ng-repeat="tag in feature.tags")
                       span.label.label-primary {{tag}}
                 td.toggle-cell(ng-repeat="domain in feature.domainConfiguration")
-                  input#toggle.toggleswitch.disabled(type='checkbox', name='op1', value='1')
+                  span(ng-if="domain.featuredEnabled").glyphicon.glyphicon-ok-sign.green
+                  span(ng-if="!domain.featuredEnabled").glyphicon.glyphicon-remove-sign.red

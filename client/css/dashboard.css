@@ -246,3 +246,11 @@ h4.media-heading {
 .tag-container a {
   margin-right: 3px;
 }
+
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
+}
