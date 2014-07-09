@@ -15,12 +15,5 @@
                 th .com.mx
                 th .jp
             trbody
-              tr(ng-repeat="feature in featuretoggles | orderBy: 'name' | filter:search" ng-animate=" 'animate' ")
-                td {{feature.name}}
-                td {{feature.description}}
-                  div.tag-container
-                    a(href='/tags/{{tag}}' ng-repeat="tag in feature.tags")
-                      span.label.label-primary {{tag}}
-                td.toggle-cell(ng-repeat="domain in feature.domainConfiguration")
-                  span(ng-if="domain.featuredEnabled").glyphicon.glyphicon-ok-sign.green
-                  span(ng-if="!domain.featuredEnabled").glyphicon.glyphicon-remove-sign.red
+              tr(ng-repeat="node in applicationList.nodes" ng-animate=" 'animate' ")
+                td {{node.dir}}

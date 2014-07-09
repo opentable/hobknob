@@ -23,6 +23,29 @@ module.exports = function(grunt) {
 
     grunt.initConfig(taskObject);
 
+    // grunt.initConfig({
+    //   ngconstant: {
+    //     options: {
+    //       name: 'config',
+    //       dest: 'config.js',
+    //       constants: {
+    //         title: 'grunt-ng-constant',
+    //         debug: true
+    //       }
+    //     },
+    //     dev: {
+    //       constants: {
+    //         title: 'grunt-ng-constant-beta'
+    //       }
+    //     },
+    //     prod: {
+    //       constants: {
+    //         debug: false
+    //       }
+    //     }
+    //   }
+    // });
+
     // Automatically load in all Grunt npm tasks
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
     
