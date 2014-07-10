@@ -4,6 +4,8 @@ featureToggleFrontend.controller('DashboardController', function($scope, $http, 
     $scope.selectedApplication = {};
     $scope.featureToggles = {};
 
+    $scope.alerts = [];
+
     function getApplicationList() {
       etcdApiService.getApplications()
         .success(function (nodes) {
@@ -11,25 +13,21 @@ featureToggleFrontend.controller('DashboardController', function($scope, $http, 
           $scope.selectedApplication = nodes.node.nodes[0];
         })
         .error(function (error) {
-          console.log('error' + error);
-          alert(error.message);
+          $scope.alerts.push({type: "danger", msg: "Unable to retrieve application list from etcd"});
         });
     }
 
     $scope.getTogglesForApplication = function() {
       if ($scope.selectedApplication) {
-        console.log('selected app: ' + $scope.selectedApplication);
         etcdApiService.getToggles($scope.selectedApplication.key)
           .success(function (nodes) {
-            console.log('toggles: ' + JSON.stringify(nodes));
             $scope.featureToggles = nodes;
           })
           .error(function (error) {
-            console.log('error' + error);
-            alert(error.message);
+            $scope.alerts.push({type: "danger", msg: "Unable to retrieve toggles for application"});
           });
       }
     }
-    
+
     getApplicationList();
 });
