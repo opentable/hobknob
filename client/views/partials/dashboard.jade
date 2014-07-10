@@ -1,5 +1,7 @@
 .col-md-12
-    input(type="search" ng-model="search.name" placeholder="Type here to filter...").form-control.dashboard-search-box
+    select(ng-repeat="application in applicationList.node.nodes" ng-model="selectedApplication" ng-change="getTogglesForApplication()").form-control
+      option {{application.key}}
+    //input(type="search" ng-model="search.name" placeholder="Type here to filter...").form-control.dashboard-search-box
     .panel.panel-default
         .panel-heading
           h3.panel-title All Feature Toggles
@@ -8,12 +10,8 @@
             trhead
               tr
                 th Name
-                th Description
-                th .co.uk
-                th .com
-                th .de
-                th .com.mx
-                th .jp
+                th State
             trbody
-              tr(ng-repeat="node in applicationList.nodes" ng-animate=" 'animate' ")
-                td {{node.dir}}
+              tr(ng-repeat="toggle in featureToggles.node.nodes" ng-animate=" 'animate' ")
+                td {{toggle.key}}
+                td {{toggle.value}}

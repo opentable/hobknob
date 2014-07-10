@@ -3,11 +3,11 @@
 angular.module('featureToggleFrontend').factory('etcdApiService', function($http, etcdPathService) {
 	var etcdApiService = {}; 
 	etcdApiService.getApplications = function() {
-		console.log(etcdPathService.getFullKeyPath('featuretoggles'));
 	    return $http.get(etcdPathService.getFullKeyPath('featuretoggles'));
-	    // .then(function(resp) {
-	    // 	return resp.data.node;
-	    // });
+	};
+
+	etcdApiService.getToggles = function(key) {
+		return $http.get(etcdPathService.getFullKeyPath(key));
 	};
 
 	return etcdApiService;
