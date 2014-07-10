@@ -1,4 +1,6 @@
 .col-md-12
+    alert(ng-repeat="alert in alerts", type="{{alert.type}}", close="closeAlert($index)")
+      {{alert.msg}}
     select(ng-repeat="application in applicationList.node.nodes" ng-model="selectedApplication" ng-change="getTogglesForApplication()").form-control
       option {{application.key}}
     //input(type="search" ng-model="search.name" placeholder="Type here to filter...").form-control.dashboard-search-box

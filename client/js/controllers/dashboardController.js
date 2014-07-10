@@ -13,6 +13,7 @@ featureToggleFrontend.controller('DashboardController', function($scope, $http, 
           $scope.selectedApplication = nodes.node.nodes[0];
         })
         .error(function (error) {
+          console.log('error getting app');
           $scope.alerts.push({type: "danger", msg: "Unable to retrieve application list from etcd"});
         });
     }
