@@ -46,15 +46,20 @@ html(lang='en')
                 ul.nav.navbar-nav
                   li
                 .navbar-form.navbar-right
-                  div(ng-controller="ToggleModalController")
-                    script(type="text/ng-template" id="createToggleContent.html")
+                  div(ng-controller='NewFeatureToggleModalController')
+                    script(type='text/ng-template', id='createToggleContent.html')
                       .modal-header
                         h3.modal-title New Feature Toggle
-                        .modal-body
-                          | Stuff goes here
+                        alert(ng-repeat="alert in alerts", type="{{alert.type}}", close="closeAlert($index)")
+                          {{alert.msg}}
+                        .modal-body.input-group
+                          input.form-control(type='text', ng-model='form.applicationName', placeHolder='Application Name', ng-readonly='form.created')
+                          span.input-group-addon /
+                          input.form-control(type='text', ng-model='form.name', placeHolder='Feature Toggle Name', ng-readonly='form.created')
                         .modal-footer
-                          button.btn.btn-primary(ng-click='ok()') Create
-                          button.btn.btn-warning(ng-click='cancel()') Cancel
+                          button.btn.btn-primary(ng-click='close()', ng-show='form.created') Close
+                          button.btn.btn-primary(ng-click='ok()', ng-show='!form.created') Create
+                          button.btn.btn-warning(ng-click='cancel()', ng-show='!form.created') Cancel
                     a(class="btn btn-default" ng-click="open()").btn.btn-success New Feature Toggle
         .body.content.rows.scroll-y
           .page-heading.animated
@@ -83,7 +88,7 @@ html(lang='en')
     script(src='/js/common/lib/jquery.toggleswitch.min.js')
     script(src='/js/common/dashboard.js')
     script(src='/js/controllers/dashboardController.js')
-    script(src='/js/controllers/toggleModalController.js')
+    script(src='/js/controllers/newFeatureToggleModalController.js')
     script(src='/js/services/etcd-path-service.js')
     script(src='/js/services/etcd-service.js')
     script(src='/configuration/config.js')
