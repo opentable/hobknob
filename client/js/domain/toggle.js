@@ -7,12 +7,9 @@ angular.module('featureToggleFrontend')
   function Toggle(data){
     angular.extend(this, data);
     this.boolValue = this.value === "true";
-    console.log(this);
   }
 
   Toggle.create = function(data){
-    console.log(data);
-
     return new Toggle(data);
   };
 

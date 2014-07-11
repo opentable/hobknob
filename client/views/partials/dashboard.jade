@@ -15,5 +15,5 @@
               tr(ng-repeat="toggle in AppsService.selectedApp.toggles" ng-animate=" 'animate' ")
                 td {{toggle.key}}
                 td 
-                  toggle-switch(model="toggle.boolValue").switch-primary
+                  toggle-switch(model="toggle.boolValue" on-change="updateThisToggle(toggle)").switch-primary
 

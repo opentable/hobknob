@@ -20,9 +20,11 @@ angular.module('featureToggleFrontend')
       this.apps = response.node.nodes.map(App.create);
       this.selectedApp = this.apps[0];
       this.selectedApp.loadToggles();
-      console.log(this);
-    }
+    },
 
+    updateToggle: function(toggle) {
+      return etcdApiService.updateToggle(toggle);
+    }
 
   };
 
