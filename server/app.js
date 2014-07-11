@@ -2,7 +2,7 @@ var express = require("express"),
   exphbs  = require("express3-handlebars"),
   helpers = require("./src/helper"),
   app = express(),
-  dashboardroutes = require("./routes/dashboard_routes"),
+  dashboardroutes = require("./routes/dashboardRoutes"),
   path = require("path");
 
 app.set('views', __dirname + '/../client/views');
