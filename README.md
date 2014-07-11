@@ -1,4 +1,4 @@
-featuretoggle-frontend
+hobknob
 ======================
 
 node/expressjs/angularjs app to display feature toggles
