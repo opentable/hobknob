@@ -19,7 +19,12 @@ angular.module('featureToggleFrontend')
     setApps:function(response){
       this.apps = response.node.nodes.map(App.create);
       this.selectedApp = this.apps[0];
-      this.selectedApp.loadToggles();
+      //this.selectedApp.loadToggles();
+
+      //This may be mental. We're affectively loading ALL THE THINGS!!! Speak to etcd guys for stats count endpoint
+      for(var i = 0; i<this.apps.length; i++){
+        this.apps[i].loadToggles();
+      }
     },
 
     updateToggle: function(toggle) {

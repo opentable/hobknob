@@ -24,7 +24,7 @@ html(lang='en')
             ul.nav.nav-pills.nav-stacked
               li(ng-repeat="app in AppsService.apps" ng-click="console.log(app)")
                 a(href='#') {{app.appName}}
-                  span.badge.pull-right 42
+                  span.badge.pull-right {{app.toggles.length}}
       .right.content-page
         .header.content.rows-content-header
           .navbar.navbar-default(role='navigation')
