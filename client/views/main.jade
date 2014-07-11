@@ -6,6 +6,7 @@ html(lang='en')
     link(href='/public/bower_components/bootstrap/dist/css/bootstrap.min.css', media='all', rel='stylesheet')
     link(href='/css/dashboard.css', media='all', rel='stylesheet')
     link(href='/css/toggleswitch.css', media='all', rel='stylesheet')
+    link(href='/bower_components/angular-bootstrap-toggle-switch/style/bootstrap3/angular-toggle-switch-bootstrap-3.css', media='all', rel='stylesheet')
     script(src='/public/bower_components/jquery/dist/jquery.min.js')
   body(ng-app='featureToggleFrontend')
     .container
@@ -19,25 +20,20 @@ html(lang='en')
               img.media-object.img-circle(src='/img/user-blue.jpeg', alt='avatar')
               h4.media-heading
                 | Anonymous
-          //-     a(href='/logout') Logout
-          //- #sidebar-menu
-          //-   ul
-          //-     li.active
-          //-       a(href='/dashboard')
-          //-         span.glyphicon.glyphicon-dashboard
-          //-         | Dashboard
-          //-     li
-          //-       a(href='#')
-          //-         span.glyphicon.glyphicon-stats
-          //-         | Reports
-          //-     li
-          //-       a(href='#')
-          //-         span.glyphicon.glyphicon-tower
-          //-         | History
-          //-     li
-          //-       a(href='#')
-          //-         span.glyphicon.glyphicon-book
-          //-         | Documentation
+          #sidebar-menu
+            ul.nav.nav-pills.nav-stacked
+              li.active
+                a(href='/dashboard') restaurantapi
+                  span.badge.pull-right 42
+              li
+                a(href='#') locationapi
+                  span.badge.pull-right 2
+              li
+                a(href='#') promotedofferapi
+                  span.badge.pull-right 55
+              li
+                a(href='#') promoservice
+                  span.badge.pull-right 42
       .right.content-page
         .header.content.rows-content-header
           .navbar.navbar-default(role='navigation')
@@ -50,8 +46,7 @@ html(lang='en')
                     script(type='text/ng-template', id='createToggleContent.html')
                       .modal-header
                         h3.modal-title New Feature Toggle
-                        alert(ng-repeat="alert in alerts", type="{{alert.type}}", close="closeAlert($index)")
-                          {{alert.msg}}
+                        alert(ng-repeat="alert in alerts", type="{{alert.type}}", close="closeAlert($index)") {{alert.msg}}
                         .modal-body.input-group
                           input.form-control(type='text', ng-model='form.applicationName', placeHolder='Application Name', ng-readonly='form.created')
                           span.input-group-addon /
@@ -78,11 +73,12 @@ html(lang='en')
           .modal-footer
             button.btn.btn-default(type='button', data-dismiss='modal') Close
             button.btn.btn-primary(type='button') Save changes
-    script(src='/public/bower_components/angular/angular.min.js')
-    script(src='/public/bower_components/angular-resource/angular-resource.min.js')
-    script(src='/public/bower_components/angular-route/angular-route.min.js')
-    script(src='/public/bower_components/angular-bootstrap/ui-bootstrap.js')
-    script(src='/public/bower_components/angular-bootstrap/ui-bootstrap-tpls.js')
+    script(src='/bower_components/angular/angular.min.js')
+    script(src='/bower_components/angular-resource/angular-resource.min.js')
+    script(src='/bower_components/angular-route/angular-route.min.js')
+    script(src='/bower_components/angular-bootstrap/ui-bootstrap.js')
+    script(src='/bower_components/angular-bootstrap/ui-bootstrap-tpls.js')
+    script(src='/bower_components/angular-bootstrap-toggle-switch/angular-toggle-switch.js')
     script(src='/js/app.js')
     script(src='/public/bower_components/bootstrap/dist/js/bootstrap.min.js')
     script(src='/js/common/lib/jquery.toggleswitch.min.js')

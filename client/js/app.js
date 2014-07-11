@@ -1,6 +1,6 @@
 'use strict';
 
-var featureToggleFrontend = angular.module('featureToggleFrontend', ['ngResource', 'ngRoute', 'ui.bootstrap', 'config']);
+var featureToggleFrontend = angular.module('featureToggleFrontend', ['ngResource', 'ngRoute', 'ui.bootstrap', 'config', 'toggle-switch']);
 
 featureToggleFrontend.config(function($routeProvider) {
   $routeProvider.

@@ -57,6 +57,10 @@ body {
   color: #fff; 
 }
 
+#sidebar-menu > ul > li.active > a {
+  color: #fff;
+}
+
 #sidebar-menu > ul > li > a > span.glyphicon {
   margin-right: 5px;
 }
@@ -74,6 +78,7 @@ body {
   margin: 20px -15px 0 -15px;
   border-bottom: 1px solid #1F2429;
   color: #fff;
+  height: 80px;
 }
 
 .side-menu .profile .media-object {
