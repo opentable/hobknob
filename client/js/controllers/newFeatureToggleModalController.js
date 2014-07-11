@@ -1,13 +1,13 @@
-featureToggleFrontend.controller('NewFeatureToggleModalController', function($scope, $modal) {
+featureToggleFrontend.controller('NewFeatureToggleModalController', ['$scope', '$modal', function($scope, $modal) {
   $scope.open = function () {
     $modal.open({
       templateUrl: 'createToggleContent.html',
       controller: ModalInstanceCtrl
     });
   };
-});
+}]);
 
-var ModalInstanceCtrl = function ($scope, $modalInstance) {
+var ModalInstanceCtrl = ['$scope', '$modalInstance', 'etcdApiService', function ($scope, $modalInstance, etcdApiService) {
 
   $scope.alerts = [];
   $scope.form = {
@@ -27,8 +27,15 @@ var ModalInstanceCtrl = function ($scope, $modalInstance) {
     if (!$scope.form.applicationName || !$scope.form.name){
       $scope.alerts.push({type: "danger", msg: "Please enter the application name and the feature toggle name"});
     } else {
-      $scope.form.created = true;
-      $scope.alerts.push({type: "success", msg: "Successfully created feature toggle" });
+      etcdApiService.create($scope.form.applicationName, $scope.form.name, function(err){
+        if (err){
+          console.error("Error creating feature toggle", err); // todo: hook up angular logger
+          $scope.alerts.push({type: "danger", msg: "Error saving feature toggle: " + err.data + ". Status: " + err.status});
+          return;
+        }
+        $scope.form.created = true;
+        $scope.alerts.push({type: "success", msg: "Successfully created feature toggle" });
+      });
     }
   };
 
@@ -51,4 +58,4 @@ var ModalInstanceCtrl = function ($scope, $modalInstance) {
   $scope.closeAlert = function(index) {
     $scope.alerts.splice(index, 1);
   };
-};
+}];
