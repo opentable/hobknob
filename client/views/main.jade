@@ -10,7 +10,7 @@ html(lang='en')
     script(src='/public/bower_components/jquery/dist/jquery.min.js')
   body(ng-app='featureToggleFrontend')
     .container
-      .left.side-menu
+      div(ng-controller="SideBarController").left.side-menu
         .header.sidebar.rows
           a.navbar-brand.logo(href='#')
             img(src='/img/opentable-hr-mono.png')
@@ -22,17 +22,8 @@ html(lang='en')
                 | Anonymous
           #sidebar-menu
             ul.nav.nav-pills.nav-stacked
-              li.active
-                a(href='/dashboard') restaurantapi
-                  span.badge.pull-right 42
-              li
-                a(href='#') locationapi
-                  span.badge.pull-right 2
-              li
-                a(href='#') promotedofferapi
-                  span.badge.pull-right 55
-              li
-                a(href='#') promoservice
+              li(ng-repeat="app in AppsService.apps" ng-click="console.log(app)")
+                a(href='#') {{app.appName}}
                   span.badge.pull-right 42
       .right.content-page
         .header.content.rows-content-header
@@ -86,6 +77,7 @@ html(lang='en')
     script(src='/js/domain/app.js')
     script(src='/js/domain/toggle.js')
     script(src='/js/controllers/dashboardController.js')
+    script(src='/js/controllers/sideBarController.js')
     script(src='/js/controllers/newFeatureToggleModalController.js')
     script(src='/js/services/etcdPathService.js')
     script(src='/js/services/etcdService.js')
