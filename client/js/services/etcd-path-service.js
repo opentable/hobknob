@@ -61,6 +61,10 @@ angular.module('featureToggleFrontend')
       return path;
     },
 
+    getFeatureTogglePath: function(applicationName, toggleName) {
+      return this.getFullKeyPath('v1/toggles') + '/' + applicationName + '/' + toggleName;
+    },
+
     getStatFullKeyPath: function(name) {
       return '/' + this.clean(statsPrefix + name);
     },
