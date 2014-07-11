@@ -27,15 +27,16 @@ var ModalInstanceCtrl = ['$scope', '$modalInstance', 'etcdApiService', function 
     if (!$scope.form.applicationName || !$scope.form.name){
       $scope.alerts.push({type: "danger", msg: "Please enter the application name and the feature toggle name"});
     } else {
-      etcdApiService.create($scope.form.applicationName, $scope.form.name, function(err){
-        if (err){
+      etcdApiService
+        .create($scope.form.applicationName, $scope.form.name)
+        .success(function(){
+          $scope.form.created = true;
+          $scope.alerts.push({type: "success", msg: "Successfully created feature toggle" });
+        })
+        .error(function(){
           console.error("Error creating feature toggle", err); // todo: hook up angular logger
           $scope.alerts.push({type: "danger", msg: "Error saving feature toggle: " + err.data + ". Status: " + err.status});
-          return;
-        }
-        $scope.form.created = true;
-        $scope.alerts.push({type: "success", msg: "Successfully created feature toggle" });
-      });
+        });
     }
   };
 

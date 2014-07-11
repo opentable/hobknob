@@ -1,25 +1,23 @@
 'use strict';
 
-angular.module('featureToggleFrontend').factory('etcdApiService', function($http, etcdPathService) {
+angular.module('featureToggleFrontend').factory('etcdApiService', function($http, etcdPathService, ENV) {
 	var etcdApiService = {};
 
 	etcdApiService.getApplications = function() {
-		console.log(etcdPathService.getFullKeyPath('featuretoggles'));
-	    return $http.get(etcdPathService.getFullKeyPath('featuretoggles'));
-	    // .then(function(resp) {
-	    // 	return resp.data.node;
-	    // });
+	    return $http.get(etcdPathService.getFullKeyPath(ENV.etcdVersion + '/toggles'));
 	};
 
-  etcdApiService.create = function(applicationName, toggleName, callback) {
-    var featureTogglePath = etcdPathService.getFullKeyPath("featuretoggles/" + applicationName + "/" + toggleName);
+	etcdApiService.getToggles = function(key) {
+		return $http.get(etcdPathService.getFullKeyPath(key));
+	};
+
+  etcdApiService.create = function(applicationName, toggleName) {
+    var featureTogglePath = etcdPathService.getFullKeyPath(ENV.etcdVersion + '/toggles/' + applicationName + "/" + toggleName);
     console.log(featureTogglePath);
-    return $http.put(featureTogglePath, {value: "false"})
-      .success(function(){
-        callback();
-      })
-      .error(function(err){
-        callback(err);
+    return $http.put(featureTogglePath, "value=false", {
+      headers:{
+          "Content-Type": "application/x-www-form-urlencoded"
+        }
       });
   };
 
