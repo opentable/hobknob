@@ -3,7 +3,6 @@ var express = require("express"),
   helpers = require("./src/helper"),
   app = express(),
   dashboardroutes = require("./routes/dashboard_routes"),
-  featureroutes = require("./routes/feature_routes"),
   path = require("path");
 
 app.set('views', __dirname + '/../client/views');
@@ -24,7 +23,6 @@ app.use(express.static(path.join(__dirname, "/../client")));
 
 app.get("/", dashboardroutes.dashboard);
 app.get('/partials/:name', dashboardroutes.partials);
-app.get("/features", featureroutes.getAll);
 
 console.log("Starting up feature toggle dashboard on port " + app.get('port'));
 
