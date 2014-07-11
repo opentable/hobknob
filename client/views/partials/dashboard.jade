@@ -1,9 +1,7 @@
 .col-md-12
-    alert(ng-repeat="alert in alerts", type="{{alert.type}}", close="closeAlert($index)")
-      {{alert.msg}}
+    alert(ng-repeat="alert in alerts", type="{{alert.type}}", close="closeAlert($index)") {{alert.msg}}
     select(ng-repeat="application in applicationList.node.nodes" ng-model="selectedApplication" ng-change="getTogglesForApplication()").form-control
       option {{application.key}}
-    //input(type="search" ng-model="search.name" placeholder="Type here to filter...").form-control.dashboard-search-box
     .panel.panel-default
         .panel-heading
           h3.panel-title All Feature Toggles
@@ -16,4 +14,6 @@
             trbody
               tr(ng-repeat="toggle in featureToggles.node.nodes" ng-animate=" 'animate' ")
                 td {{toggle.key}}
-                td {{toggle.value}}
+                td 
+                  toggle-switch(model="toggle.value").switch-primary
+

@@ -19,6 +19,9 @@ app.use(express.favicon());
 app.use(express.logger("dev"));
 app.use(app.router);
 
+app.use(express.static(path.join(__dirname, '/../public')));
+app.use('/bower_components',  express.static(path.join(__dirname, '/../public/bower_components')));
+
 app.use(express.static(path.join(__dirname, "/../client")));
 
 app.get("/", dashboardroutes.dashboard);
