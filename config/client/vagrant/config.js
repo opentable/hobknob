@@ -4,7 +4,7 @@
 
 .constant("ENV", {
   "name": "development",
-  "etcdHost": "127.0.0.1",
+  "etcdHost": "coreos-etcd",
   "etcdPort": "4001",
   "etcdVersion": "v1"
 });

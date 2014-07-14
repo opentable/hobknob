@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ### BEGIN INIT INFO
-# Provides:          featuretoggle
+# Provides:          hobknob
 # Required-Start:    $remote_fs $syslog
 # Required-Stop:     $remote_fs $syslog
 # Default-Start:     2 3 4 5
@@ -13,14 +13,14 @@
 # Source function library.
 . /lib/lsb/init-functions
 
-appName=featuretoggle
-sourceDir=/var/www/featuretoggle/current/
-script=app.js
+appName=hobknob
+sourceDir=/var/www/hobknob/
+script=server/app.js
 
-pidFile=/var/www/featuretoggle/current/$appName.pid
-logFile=/var/www/featuretoggle/current/logs/forever.log
-outFile=/var/www/featuretoggle/current/logs/forever.out
-errFile=/var/www/featuretoggle/current/logs/forever.err
+pidFile=/var/www/hobknob/$appName.pid
+logFile=/var/www/hobknob/logs/forever.log
+outFile=/var/www/hobknob/logs/forever.out
+errFile=/var/www/hobknob/logs/forever.err
 
 daemon=/usr/bin/forever
 opts="start -l $logFile -o $outFile -e $errFile --pidFile $pidFile --sourceDir $sourceDir -a -d --minUptime 2000 --spinSleepTime 100 $script"

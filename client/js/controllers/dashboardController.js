@@ -1,10 +1,12 @@
-featureToggleFrontend.controller('DashboardController', function($scope, $http, etcdApiService, etcdPathService) {
+featureToggleFrontend.controller('DashboardController', function($scope, $http, etcdApiService, etcdPathService, $rootScope) {
 
     $scope.applicationList = {};
     $scope.selectedApplication = {};
     $scope.featureToggles = {};
 
-    $scope.alerts = [];
+    $scope.alerts = []
+
+
 
     function getApplicationList() {
       etcdApiService.getApplications()
@@ -20,6 +22,8 @@ featureToggleFrontend.controller('DashboardController', function($scope, $http, 
 
     $scope.getTogglesForApplication = function() {
       if ($scope.selectedApplication) {
+        var applicationName = etcdPathService.tail($scope.selectedApplication.key);
+        $scope.$emit('selected-application-changed', applicationName);
         etcdApiService.getToggles($scope.selectedApplication.key)
           .success(function (nodes) {
             $scope.featureToggles = nodes;
@@ -28,7 +32,11 @@ featureToggleFrontend.controller('DashboardController', function($scope, $http, 
             $scope.alerts.push({type: "danger", msg: "Unable to retrieve toggles for application"});
           });
       }
-    }
+    };
+
+    $rootScope.$on('toggle-added', function() {
+      $scope.getTogglesForApplication();
+    });
 
     getApplicationList();
 });

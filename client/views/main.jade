@@ -48,8 +48,8 @@ html(lang='en')
                         h3.modal-title New Feature Toggle
                         alert(ng-repeat="alert in alerts", type="{{alert.type}}", close="closeAlert($index)") {{alert.msg}}
                         .modal-body.input-group
-                          input.form-control(type='text', ng-model='form.applicationName', placeHolder='Application Name', ng-readonly='form.created')
-                          span.input-group-addon /
+                          input#application-name.form-control(type='text', ng-model='form.applicationName', placeHolder='Application Name', ng-readonly='form.created')
+                          span#toggle-name.input-group-addon /
                           input.form-control(type='text', ng-model='form.name', placeHolder='Feature Toggle Name', ng-readonly='form.created')
                         .modal-footer
                           button.btn.btn-primary(ng-click='close()', ng-show='form.created') Close
