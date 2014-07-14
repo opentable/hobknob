@@ -2,17 +2,17 @@
 
 angular.module('featureToggleFrontend')
 
-.factory('Toggle', function() {
+.factory('Toggle', function(etcdPathService) {
 
   function Toggle(data){
     angular.extend(this, data);
     this.boolValue = this.value === "true";
-    console.log(this);
+    var parts = etcdPathService.explode(data.key);
+    this.toggleName = parts[3];
+    this.fullPath = etcdPathService.getFullKeyPath(data.key);
   }
 
   Toggle.create = function(data){
-    console.log(data);
-
     return new Toggle(data);
   };
 

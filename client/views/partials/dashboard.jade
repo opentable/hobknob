@@ -10,10 +10,15 @@
             trhead
               tr
                 th Name
-                th State
+                th Full Path
+                th 
+                  .pull-right State
             trbody
               tr(ng-repeat="toggle in AppsService.selectedApp.toggles" ng-animate=" 'animate' ")
-                td {{toggle.key}}
+                td {{toggle.toggleName}}
                 td 
-                  toggle-switch(model="toggle.boolValue").switch-primary
+                  a(href="{{toggle.fullPath}}" target="_blank") {{toggle.fullPath}}
+                td 
+                  .pull-right
+                    toggle-switch(model="toggle.boolValue" on-change="updateThisToggle(toggle)").switch-primary
 
