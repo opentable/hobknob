@@ -14,6 +14,6 @@ Vagrant.configure("2") do |config|
 
     config.vm.provision "docker" do |d|
         d.build_image "/vagrant", args: '-t hobknob'
-        d.run "hobknob", args: "-p 3006:3006 --link", demonize: true
+        d.run "hobknob", args: "-p 3006:3006 --link coreos-etcd:coreos-etcd", demonize: true
     end
 end

@@ -1,8 +1,4 @@
-featureToggleFrontend.controller('NewFeatureToggleModalController', ['$scope', '$modal', '$rootScope', function($scope, $modal, $rootScope) {
-
-  $rootScope.$on('selected-application-changed', function(e, application) {
-    $scope.selectedApplication = application;
-  });
+featureToggleFrontend.controller('NewFeatureToggleModalController', ['$scope', '$modal', 'AppsService', function($scope, $modal, AppsService) {
 
   $scope.open = function () {
     $modal.open({
@@ -10,7 +6,7 @@ featureToggleFrontend.controller('NewFeatureToggleModalController', ['$scope', '
       controller: ModalInstanceCtrl,
       resolve: {
         applicationName: function () {
-          return $scope.selectedApplication;
+          return AppsService.appName;
         }
       }
     });
@@ -21,24 +17,18 @@ var ModalInstanceCtrl = ['$scope', '$modalInstance', 'etcdApiService', 'applicat
 
   $scope.alerts = [];
   $scope.form = {
-    name: null,
+    toggleName: null,
     applicationName: applicationName,
     created: false
   };
 
-  $scope._clearAlerts = function() {
-    if ($scope.alerts.length > 0){
-      $scope.alerts.splice(0, $scope.alerts.length);
-    }
-  };
-
   $scope.ok = function () {
     $scope._clearAlerts();
-    if (!$scope.form.applicationName || !$scope.form.name){
+    if (!$scope.form.applicationName || !$scope.form.toggleName){
       $scope.alerts.push({type: "danger", msg: "Please enter the application name and the feature toggle name"});
     } else {
       etcdApiService
-        .create($scope.form.applicationName, $scope.form.name)
+        .create($scope.form.applicationName, $scope.form.toggleName)
         .success(function(){
           $scope.form.created = true;
           $scope.alerts.push({type: "success", msg: "Successfully created feature toggle" });
@@ -51,7 +41,7 @@ var ModalInstanceCtrl = ['$scope', '$modalInstance', 'etcdApiService', 'applicat
     }
   };
 
-  $scope.$watch('form.name', function(){
+  $scope.$watch('form.toggleName', function(){
     $scope._clearAlerts();
   });
 
@@ -65,6 +55,12 @@ var ModalInstanceCtrl = ['$scope', '$modalInstance', 'etcdApiService', 'applicat
 
   $scope.close = function () {
     $modalInstance.close();
+  };
+
+  $scope._clearAlerts = function() {
+    if ($scope.alerts.length > 0){
+      $scope.alerts.splice(0, $scope.alerts.length);
+    }
   };
 
   $scope.closeAlert = function(index) {
