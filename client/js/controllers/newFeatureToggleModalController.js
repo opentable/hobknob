@@ -29,12 +29,12 @@ var ModalInstanceCtrl = ['$scope', '$modalInstance', 'etcdApiService', 'applicat
     } else {
       etcdApiService
         .create($scope.form.applicationName, $scope.form.toggleName)
-        .success(function(){
+        .then(function(){
           $scope.form.created = true;
           $scope.alerts.push({type: "success", msg: "Successfully created feature toggle" });
           $scope.$emit('toggle-added');
-        })
-        .error(function(){
+        },
+        function(){
           console.error("Error creating feature toggle", err); // todo: hook up angular logger
           $scope.alerts.push({type: "danger", msg: "Error saving feature toggle: " + err.data + ". Status: " + err.status});
         });

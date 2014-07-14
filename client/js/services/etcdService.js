@@ -8,7 +8,7 @@ angular.module('featureToggleFrontend').factory('etcdApiService', function($http
 	};
 
 	etcdApiService.getApplication = function(appName) {
-	    return $http.get(etcdPathService.getFullKeyPath(ENV.etcdVersion + '/toggles/' + appName));
+	    return $http.get(etcdPathService.getFullKeyPath('/v1/toggles/' + appName));
 	};
 
 	etcdApiService.getToggles = function(key) {

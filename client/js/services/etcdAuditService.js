@@ -5,16 +5,16 @@ angular.module('featureToggleFrontend').factory('etcdAuditService', ['$http', 'e
 
   etcdAuditService.audit = function(applicationName, toggleName, action, value, user) {
 
-    var auditKey = etcdPathService.make(['v1', 'toggles', 'audit', applicationName, toggleName]);
+    var auditKey = etcdPathService.make(['v1', 'toggleAudit', applicationName, toggleName]);
     var auditUrl = etcdPathService.getFullKeyPath(auditKey);
     var data = {
       value: value,
       user: user,
-      dateModified: new Date().getUTCDate()
+      dateModified: new Date().toString()
     };
-    var value = JSON.stringify(data);
+    var dataString = JSON.stringify(data);
 		return $http
-      .post(auditUrl, "value=" + value, {
+      .post(auditUrl, "value=" + dataString, {
       		headers:{
           		"Content-Type": "application/x-www-form-urlencoded"
         	}
