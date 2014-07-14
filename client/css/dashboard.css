@@ -45,7 +45,7 @@ body {
 #sidebar-menu > ul > li > a {
   font-size: 14px;
   display: block;
-  color: #8B91A0;
+  color: #fff;
   border-left: 4px solid transparent;
   padding: 10px 15px;
   -webkit-transition: All 0.25s ease;
@@ -54,11 +54,12 @@ body {
 }
 
 #sidebar-menu > ul > li > a:hover{
-  color: #fff; 
+  color: #2a6496; 
 }
 
-#sidebar-menu > ul > li.active > a {
+#sidebar-menu > ul > li > a.active {
   color: #fff;
+  background-color: #2a6496;
 }
 
 #sidebar-menu > ul > li > a > span.glyphicon {
@@ -258,4 +259,8 @@ h4.media-heading {
 
 .red {
   color: red;
+}
+
+.nav-pills>li>a{
+  border-radius: 0px !important;
 }

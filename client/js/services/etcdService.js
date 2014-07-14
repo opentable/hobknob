@@ -7,6 +7,10 @@ angular.module('featureToggleFrontend').factory('etcdApiService', function($http
 	    return $http.get(etcdPathService.getFullKeyPath('/v1/toggles'));
 	};
 
+	etcdApiService.getApplication = function(appName) {
+	    return $http.get(etcdPathService.getFullKeyPath(ENV.etcdVersion + '/toggles/' + appName));
+	};
+
 	etcdApiService.getToggles = function(key) {
 		return $http.get(etcdPathService.getFullKeyPath(key));
 	};

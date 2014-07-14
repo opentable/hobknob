@@ -12,7 +12,7 @@ html(lang='en')
     .container
       div(ng-controller="SideBarController").left.side-menu
         .header.sidebar.rows
-          a.navbar-brand.logo(href='#')
+          a.navbar-brand.logo(href='/')
             img(src='/img/opentable-hr-mono.png')
         .body.rows.scroll-y.animated
           .profile
@@ -22,9 +22,9 @@ html(lang='en')
                 | Anonymous
           #sidebar-menu
             ul.nav.nav-pills.nav-stacked
-              li(ng-repeat="app in AppsService.apps" ng-click="console.log(app)" ng-model="AppsService.selectedApp" ng-change="AppsService.selectedApp.loadToggles()")
-                a {{app.appName}}
-                  span.badge.pull-right {{app.toggles.length}}
+              li(ng-repeat="app in AppsService.apps" ng-click="console.log(app)" ng-model="AppsService.selectedApp")
+                a(ng-href="/#!/applications/{{app.appName}}" ng-class="{ active: isActive(app.appName) }") {{app.appName}}
+                
       .right.content-page
         .header.content.rows-content-header
           .navbar.navbar-default(role='navigation')
@@ -78,6 +78,7 @@ html(lang='en')
     script(src='/js/domain/toggle.js')
     script(src='/js/controllers/dashboardController.js')
     script(src='/js/controllers/sideBarController.js')
+    script(src='/js/controllers/applicationController.js')
     script(src='/js/controllers/newFeatureToggleModalController.js')
     script(src='/js/services/etcdPathService.js')
     script(src='/js/services/etcdAuditService.js')
