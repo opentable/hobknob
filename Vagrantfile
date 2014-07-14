@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
 
     config.vm.provision "docker" do |d|
         d.pull_images "coreos/etcd"
-        d.run "coreos/etcd", demonize: true
+        d.run "coreos/etcd", cmd: "/opt/etcd/bin/etcd -cors *", demonize: true
     end
 
     config.vm.provision "docker" do |d|

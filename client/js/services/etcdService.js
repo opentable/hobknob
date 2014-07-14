@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('featureToggleFrontend').factory('etcdApiService', function($http, etcdPathService, ENV) {
+angular.module('featureToggleFrontend').factory('etcdApiService', function($http, etcdPathService, ENV, etcdAuditService, $q) {
 	var etcdApiService = {};
 
 	etcdApiService.getApplications = function() {
@@ -11,23 +11,53 @@ angular.module('featureToggleFrontend').factory('etcdApiService', function($http
 		return $http.get(etcdPathService.getFullKeyPath(key));
 	};
 
+  var auditAndResolvePromise = function(deferred, applicationName, toggleName, action, value, user){
+    etcdAuditService
+      .audit(applicationName, toggleName, action, value, user)
+      .success(function(){
+        deferred.resolve();
+      })
+      .error(function(){
+        console.log("Auditing failed for action: " + action + " on " + applicationName + "/" + toggleName);
+        deferred.resolve();
+      });
+  }
+
 	etcdApiService.updateToggle = function(toggle) {
-		return $http.put(etcdPathService.getFullKeyPath(toggle.key), "value=" + toggle.boolValue, {
-      		headers:{
-          		"Content-Type": "application/x-www-form-urlencoded"
-        	}
-     	});
+    var deferred = $q.defer(),
+        toggleUrl = etcdPathService.getFullKeyPath(toggle.key);
+
+		$http
+      .put(toggleUrl,
+        "value=" + toggle.boolValue,
+        { headers:{ "Content-Type": "application/x-www-form-urlencoded" } })
+      .success(function(){
+        auditAndResolvePromise(deferred, toggle.applicationName, toggle.toggleName, "update", toggle.value, "AUser");
+      })
+      .error(function(err){
+        deferred.reject(err);
+      });
+
+    return deferred.promise;
 	};
 
   etcdApiService.create = function(applicationName, toggleName) {
-    var toggleKey = etcdPathService.make(["v1", "toggles", applicationName, toggleName]);
-    var toggleUrl = etcdPathService.getFullKeyPath(toggleKey);
+    var deferred = $q.defer(),
+        toggleKey = etcdPathService.make(["v1", "toggles", applicationName, toggleName]),
+        toggleUrl = etcdPathService.getFullKeyPath(toggleKey);
 
-    return $http.put(toggleUrl, "value=false", {
-        headers:{
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
-    });
+    $http
+      .put(toggleUrl,
+        "value=false",
+        { headers:{ "Content-Type": "application/x-www-form-urlencoded" } })
+      .success(function(){
+        auditAndResolvePromise(deferred, applicationName, toggleName, "create", "false", "AUser");
+      })
+      .error(function(err){
+        deferred.reject(err);
+      });
+
+    return deferred.promise;
   };
 
 	return etcdApiService;
