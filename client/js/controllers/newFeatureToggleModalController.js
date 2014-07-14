@@ -41,14 +41,6 @@ var ModalInstanceCtrl = ['$scope', '$modalInstance', 'etcdApiService', 'applicat
     }
   };
 
-  $scope.$watch('form.toggleName', function(){
-    $scope._clearAlerts();
-  });
-
-  $scope.$watch('form.applicationName', function(){
-    $scope._clearAlerts();
-  });
-
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
   };
@@ -66,4 +58,13 @@ var ModalInstanceCtrl = ['$scope', '$modalInstance', 'etcdApiService', 'applicat
   $scope.closeAlert = function(index) {
     $scope.alerts.splice(index, 1);
   };
+
+  $scope.$watch('form.toggleName', function(){
+    $scope._clearAlerts();
+  });
+
+  $scope.$watch('form.applicationName', function(){
+    $scope._clearAlerts();
+  });
+
 }];

@@ -41,7 +41,7 @@ html(lang='en')
                         .modal-body.input-group
                           input#application-name.form-control(type='text', ng-model='form.applicationName', placeHolder='Application Name', ng-readonly='form.created')
                           span#toggle-name.input-group-addon /
-                          input.form-control(type='text', ng-model='form.name', placeHolder='Feature Toggle Name', ng-readonly='form.created')
+                          input.form-control(type='text', ng-model='form.toggleName', placeHolder='Feature Toggle Name', ng-readonly='form.created')
                         .modal-footer
                           button.btn.btn-primary(ng-click='close()', ng-show='form.created') Close
                           button.btn.btn-primary(ng-click='ok()', ng-show='!form.created') Create
