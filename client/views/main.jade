@@ -22,8 +22,8 @@ html(lang='en')
                 | Anonymous
           #sidebar-menu
             ul.nav.nav-pills.nav-stacked
-              li(ng-repeat="app in AppsService.apps" ng-click="console.log(app)")
-                a(href='#') {{app.appName}}
+              li(ng-repeat="app in AppsService.apps" ng-click="console.log(app)" ng-model="AppsService.selectedApp" ng-change="AppsService.selectedApp.loadToggles()")
+                a {{app.appName}}
                   span.badge.pull-right {{app.toggles.length}}
       .right.content-page
         .header.content.rows-content-header
