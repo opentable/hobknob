@@ -16,15 +16,21 @@ angular.module('featureToggleFrontend')
         .success(this.setApps.bind(this));
     },
 
+    loadApp:function(appName){
+      return etcdApiService.getApplication(appName)
+        .success(this.setSelectedApp.bind(this));
+    },
+
+    setSelectedApp: function(response) {
+      var app = App.create(response.node);
+      this.selectedApp = app;
+      this.selectedApp.loadToggles();
+    },
+
     setApps:function(response){
       this.apps = response.node.nodes.map(App.create);
       this.selectedApp = this.apps[0];
-      //this.selectedApp.loadToggles();
-
-      //This may be mental. We're affectively loading ALL THE THINGS!!! Speak to etcd guys for stats count endpoint
-      for(var i = 0; i<this.apps.length; i++){
-        this.apps[i].loadToggles();
-      }
+      this.selectedApp.loadToggles();
     },
 
     updateToggle: function(toggle) {

@@ -1,0 +1,22 @@
+.col-md-12
+    alert(ng-repeat="alert in alerts", type="{{alert.type}}", close="closeAlert($index)") {{alert.msg}}
+    .panel.panel-default
+        .panel-heading
+          h3.panel-title Feature toggles for {{AppsService.selectedApp.appName}}
+        .panel-body
+          table.table
+            trhead
+              tr
+                th Name
+                th Full Path
+                th 
+                  .pull-right State
+            trbody
+              tr(ng-repeat="toggle in AppsService.selectedApp.toggles" ng-animate=" 'animate' ")
+                td {{toggle.toggleName}}
+                td 
+                  a(href="{{toggle.fullPath}}" target="_blank") {{toggle.fullPath}}
+                td 
+                  .pull-right
+                    toggle-switch(model="toggle.boolValue" on-change="updateThisToggle(toggle)").switch-primary
+
