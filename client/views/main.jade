@@ -39,9 +39,9 @@ html(lang='en')
                         h3.modal-title New Feature Toggle
                         alert(ng-repeat="alert in alerts", type="{{alert.type}}", close="closeAlert($index)") {{alert.msg}}
                         .modal-body.input-group
-                          input.form-control(type='text', ng-model='form.applicationName', placeHolder='Application Name', ng-readonly='form.created')
-                          span.input-group-addon /
-                          input.form-control(type='text', ng-model='form.name', placeHolder='Feature Toggle Name', ng-readonly='form.created')
+                          input#application-name.form-control(type='text', ng-model='form.applicationName', placeHolder='Application Name', ng-readonly='form.created')
+                          span#toggle-name.input-group-addon /
+                          input.form-control(type='text', ng-model='form.toggleName', placeHolder='Feature Toggle Name', ng-readonly='form.created')
                         .modal-footer
                           button.btn.btn-primary(ng-click='close()', ng-show='form.created') Close
                           button.btn.btn-primary(ng-click='ok()', ng-show='!form.created') Create
@@ -81,6 +81,7 @@ html(lang='en')
     script(src='/js/controllers/applicationController.js')
     script(src='/js/controllers/newFeatureToggleModalController.js')
     script(src='/js/services/etcdPathService.js')
+    script(src='/js/services/etcdAuditService.js')
     script(src='/js/services/etcdService.js')
     script(src='/js/services/appsService.js')
     script(src='/configuration/config.js')

@@ -8,6 +8,7 @@ angular.module('featureToggleFrontend')
     angular.extend(this, data);
     this.boolValue = this.value === "true";
     var parts = etcdPathService.explode(data.key);
+    this.applicationName = parts[2];
     this.toggleName = parts[3];
     this.fullPath = etcdPathService.getFullKeyPath(data.key);
   }

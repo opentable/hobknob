@@ -1,5 +1,5 @@
 {
-  "name": "featuretoggle-frontend",
+  "name": "hobknob",
   "version": "0.0.0",
   "description": "feature toggle front end",
   "main": "app.js",
@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/ryantomlinson/featuretoggle-frontend.git"
+    "url": "git://github.com/opentable/hobknob.git"
   },
   "author": "Ryan Tomlinson <tomlinsonryan@gmail.com>",
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/ryantomlinson/featuretoggle-frontend/issues"
+    "url": "https://github.com/opentable/hobknob/issues"
   },
   "dependencies": {
     "express": "~3.4.8",
