@@ -57,7 +57,7 @@ angular.module('featureToggleFrontend')
     },
 
     getFullKeyPath: function(key) {
-      var path = keyPrefix + key;
+      var path = keyPrefix + this.clean(key);
       
       if (path === keyPrefix.substring(0, keyPrefix.length - 1)) {
         return keyPrefix;
