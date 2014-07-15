@@ -2,7 +2,7 @@ doctype html
 html(lang='en')
   head
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    title Opentable Feature Toggles - {{title}}
+    title Opentable Feature Toggles
     link(href='/public/bower_components/bootstrap/dist/css/bootstrap.min.css', media='all', rel='stylesheet')
     link(href='/css/dashboard.css', media='all', rel='stylesheet')
     link(href='/css/toggleswitch.css', media='all', rel='stylesheet')
@@ -44,12 +44,12 @@ html(lang='en')
                           input.form-control(type='text', ng-model='form.toggleName', placeHolder='Feature Toggle Name', ng-readonly='form.created')
                         .modal-footer
                           button.btn.btn-primary(ng-click='close()', ng-show='form.created') Close
-                          button.btn.btn-primary(ng-click='ok()', ng-show='!form.created') Create
+                          button.btn.btn-primary(ng-click='ok()', ng-show='!form.created').create-toggle-btn Create
                           button.btn.btn-warning(ng-click='cancel()', ng-show='!form.created') Cancel
-                    a(class="btn btn-default" ng-click="open()").btn.btn-success New Feature Toggle
+                    a(class="btn btn-default" ng-click="open()").btn.btn-success.new-toggle New Feature Toggle
         .body.content.rows.scroll-y
           .page-heading.animated
-            h1 {{pageHeader}}
+            
           .row
             div(ng-view='ng-view')
     //Add Toggle Modal - should probably move to a partial 
