@@ -7,8 +7,9 @@ angular.module('featureToggleFrontend').factory('etcdApiService', function($http
 	    return $http.get(etcdPathService.getFullKeyPath('/v1/toggles'));
 	};
 
-	etcdApiService.getApplication = function(appName) {
-	    return $http.get(etcdPathService.getFullKeyPath('/v1/toggles/' + appName));
+	etcdApiService.getApplication = function(applicationName) {
+    var applicationKey = etcdPathService.make(["v1", "toggles", applicationName]);
+    return $http.get(etcdPathService.getFullKeyPath(applicationKey));
 	};
 
 	etcdApiService.getToggles = function(key) {
@@ -25,16 +26,14 @@ angular.module('featureToggleFrontend').factory('etcdApiService', function($http
         console.log("Auditing failed for action: " + action + " on " + applicationName + "/" + toggleName);
         deferred.resolve();
       });
-  }
+  };
 
 	etcdApiService.updateToggle = function(toggle) {
     var deferred = $q.defer(),
         toggleUrl = etcdPathService.getFullKeyPath(toggle.key);
 
-		$http
-      .put(toggleUrl,
-        "value=" + toggle.boolValue,
-        { headers:{ "Content-Type": "application/x-www-form-urlencoded" } })
+    $http
+      .put(toggleUrl, "value=" + toggle.boolValue)
       .success(function(){
         auditAndResolvePromise(deferred, toggle.applicationName, toggle.toggleName, "update", toggle.value, "AUser");
       })
@@ -51,9 +50,7 @@ angular.module('featureToggleFrontend').factory('etcdApiService', function($http
         toggleUrl = etcdPathService.getFullKeyPath(toggleKey);
 
     $http
-      .put(toggleUrl,
-        "value=false",
-        { headers:{ "Content-Type": "application/x-www-form-urlencoded" } })
+      .put(toggleUrl, "value=false")
       .success(function(){
         auditAndResolvePromise(deferred, applicationName, toggleName, "create", "false", "AUser");
       })
