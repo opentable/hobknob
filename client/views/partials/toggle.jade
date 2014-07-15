@@ -1,0 +1,10 @@
+.col-md-12
+    alert(ng-repeat="alert in alerts", type="{{alert.type}}") {{alert.msg}}
+    .panel.panel-default
+        .panel-heading
+          h3.panel-title
+            a(ng-href="/#!/applications/{{AppsService.selectedToggle.applicationName}}") {{AppsService.selectedToggle.applicationName}}
+            |  >
+            {{AppsService.selectedToggle.toggleName}}
+        .panel-body
+          p TODO

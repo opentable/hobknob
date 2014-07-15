@@ -2,7 +2,7 @@
     alert(ng-repeat="alert in alerts", type="{{alert.type}}", close="closeAlert($index)") {{alert.msg}}
     .panel.panel-default
         .panel-heading
-          h3.panel-title Feature toggles for {{AppsService.selectedApp.appName}}
+          h3.panel-title {{AppsService.selectedApp.appName}}
         .panel-body
           table.table
             trhead
@@ -13,7 +13,8 @@
                   .pull-right State
             trbody
               tr(ng-repeat="toggle in AppsService.selectedApp.toggles" ng-animate=" 'animate' ")
-                td {{toggle.toggleName}}
+                td
+                  a(ng-href="/#!/applications/{{toggle.applicationName}}/{{toggle.toggleName}}") {{toggle.toggleName}}
                 td 
                   a(href="{{toggle.fullPath}}" target="_blank") {{toggle.fullPath}}
                 td 
