@@ -16,6 +16,16 @@ angular.module('featureToggleFrontend').factory('etcdApiService', function($http
 		return $http.get(etcdPathService.getFullKeyPath(key));
 	};
 
+  etcdApiService.getToggle = function(applicationName, toggleName) {
+    var togglePath = etcdPathService.make(["v1", "toggles", applicationName, toggleName]);
+    return $http.get(etcdPathService.getFullKeyPath(togglePath));
+  };
+
+  etcdApiService.getToggleAudit = function(applicationName, toggleName) {
+    var togglePath = etcdPathService.make(["v1", "toggleAudit", applicationName, toggleName]);
+    return $http.get(etcdPathService.getFullKeyPath(togglePath) + "?recursive=true");
+  };
+
   var auditAndResolvePromise = function(deferred, applicationName, toggleName, action, value, user){
     etcdAuditService
       .audit(applicationName, toggleName, action, value, user)

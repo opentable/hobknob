@@ -12,5 +12,9 @@ featureToggleFrontend.config(function($routeProvider, $locationProvider) {
 	    when('/applications/:appName', {
 	    	controller: 'ApplicationController',
 	    	templateUrl: 'partials/application'
-	    });
+	    }).
+      when('/applications/:appName/:toggleName', {
+        controller: 'ToggleController',
+        templateUrl: 'partials/toggle'
+      });
 });
