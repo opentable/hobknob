@@ -10,13 +10,13 @@ exports.config = {
 	    'browserName': 'chrome'
 	  },
 	 
-	  baseUrl: 'http://localhost:3006/',
+	  baseUrl: 'http://127.0.0.1:3006/',
 	 
 	  framework: 'jasmine',
 	 
 	  // Spec patterns are relative to the current working directly when
 	  // protractor is called.
-	  specs: ['client/tests/e2e/dashboard/dashboard.spec.js'],
+	  specs: ['**/*.spec.js'],
 	 
 	  // Options to be passed to Jasmine-node.
 	  jasmineNodeOpts: {
