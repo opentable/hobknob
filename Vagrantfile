@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
 
     config.vm.provision "docker" do |d|
         d.pull_images "coreos/etcd"
-        d.run "coreos/etcd", cmd: "-cors http://localhost:3006", args: "-p 4001:4001", demonize: true
+        d.run "coreos/etcd", cmd: "-cors http://127.0.0.1:3006", args: "-p 4001:4001", demonize: true
     end
 
     config.vm.provision "docker" do |d|
