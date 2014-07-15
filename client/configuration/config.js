@@ -9,4 +9,6 @@
   "etcdCoreVersion": "v2",
   "etcdHost": "127.0.0.1",
   "etcdPort": "4001"
-});
+})
+
+;

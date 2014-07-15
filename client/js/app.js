@@ -2,7 +2,7 @@
 
 var featureToggleFrontend = angular.module('featureToggleFrontend', ['ngResource', 'ngRoute', 'ui.bootstrap', 'config', 'toggle-switch']);
 
-featureToggleFrontend.config(function($routeProvider, $locationProvider) {
+featureToggleFrontend.config(function($routeProvider, $locationProvider, $httpProvider) {
 	$locationProvider.hashPrefix('!');
   	$routeProvider.
 	    when('/', {
@@ -17,4 +17,7 @@ featureToggleFrontend.config(function($routeProvider, $locationProvider) {
         controller: 'ToggleController',
         templateUrl: 'partials/toggle'
       });
+
+    $httpProvider.defaults.headers.put = { "Content-Type": "application/x-www-form-urlencoded" };
+    $httpProvider.defaults.headers.post = { "Content-Type": "application/x-www-form-urlencoded" };
 });
