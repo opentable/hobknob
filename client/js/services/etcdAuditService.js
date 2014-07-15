@@ -13,12 +13,7 @@ angular.module('featureToggleFrontend').factory('etcdAuditService', ['$http', 'e
       dateModified: new Date().toString()
     };
     var dataString = JSON.stringify(data);
-    return $http
-      .post(auditUrl, "value=" + dataString, {
-        headers:{
-          "Content-Type": "application/x-www-form-urlencoded"
-        }
-      });
+    return $http.post(auditUrl, "value=" + dataString);
 	};
 
 	return etcdAuditService;
