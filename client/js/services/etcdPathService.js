@@ -3,7 +3,7 @@
 angular.module('featureToggleFrontend')
 .factory('etcdPathService', function(ENV) {
 
-  var etcdUrl = "http://" + ENV.etcdHost + ":" + ENV.etcdPort + '/' + ENV.etcdVersion,
+  var etcdUrl = "http://" + ENV.etcdHost + ":" + ENV.etcdPort + '/' + ENV.etcdCoreVersion,
       keyPrefix = etcdUrl + '/keys/';
 
   return {

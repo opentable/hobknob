@@ -4,6 +4,7 @@ angular.module('featureToggleFrontend').factory('etcdApiService', function($http
 	var etcdApiService = {};
 
 	etcdApiService.getApplications = function() {
+      console.log(etcdPathService.getFullKeyPath('/v1/toggles'));
 	    return $http.get(etcdPathService.getFullKeyPath('/v1/toggles'));
 	};
 
