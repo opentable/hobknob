@@ -1,9 +1,10 @@
 'use strict';
 
-angular.module('featureToggleFrontend').factory('etcdApiService', function($http, etcdPathService, ENV, etcdAuditService, $q) {
+angular.module('featureToggleFrontend').factory('etcdApiService', function($http, etcdPathService, ENV, etcdAuditService, $q, Audit) {
 	var etcdApiService = {};
 
 	etcdApiService.getApplications = function() {
+      //console.log(etcdPathService.getFullKeyPath('/v1/toggles'));
 	    return $http.get(etcdPathService.getFullKeyPath('/v1/toggles'));
 	};
 
@@ -26,49 +27,33 @@ angular.module('featureToggleFrontend').factory('etcdApiService', function($http
     return $http.get(etcdPathService.getFullKeyPath(togglePath) + "?recursive=true");
   };
 
-  var auditAndResolvePromise = function(deferred, applicationName, toggleName, action, value, user){
+  var createAudit = function(audit){
     etcdAuditService
-      .audit(applicationName, toggleName, action, value, user)
-      .success(function(){
-        deferred.resolve();
-      })
-      .error(function(){
+      .audit(audit)
+      .catch(function(){
         console.log("Auditing failed for action: " + action + " on " + applicationName + "/" + toggleName);
-        deferred.resolve();
-      });
+        return
+      })
   };
 
 	etcdApiService.updateToggle = function(toggle) {
-    var deferred = $q.defer(),
-        toggleUrl = etcdPathService.getFullKeyPath(toggle.key);
-
-    $http
+    var toggleUrl = etcdPathService.getFullKeyPath(toggle.key);
+    return $http
       .put(toggleUrl, "value=" + toggle.boolValue)
       .success(function(){
-        auditAndResolvePromise(deferred, toggle.applicationName, toggle.toggleName, "update", toggle.value, "AUser");
+        createAudit(Audit.updateAction(toggle, "AUser"))
       })
-      .error(function(err){
-        deferred.reject(err);
-      });
-
-    return deferred.promise;
 	};
 
   etcdApiService.create = function(applicationName, toggleName) {
-    var deferred = $q.defer(),
-        toggleKey = etcdPathService.make(["v1", "toggles", applicationName, toggleName]),
+    var toggleKey = etcdPathService.make(["v1", "toggles", applicationName, toggleName]),
         toggleUrl = etcdPathService.getFullKeyPath(toggleKey);
 
-    $http
+    return $http
       .put(toggleUrl, "value=false")
       .success(function(){
-        auditAndResolvePromise(deferred, applicationName, toggleName, "create", "false", "AUser");
+        createAudit(Audit.createAction(applicationName,toggleName,"AUser"))
       })
-      .error(function(err){
-        deferred.reject(err);
-      });
-
-    return deferred.promise;
   };
 
 	return etcdApiService;
