@@ -49,4 +49,13 @@ $ node server/dev-app.js
 
 You can then access the site on http://127.0.0.1:3006
 
+###Testing with Protractor
+We've integrated protractor for end-to-end testing. To start these tests run:
+
+```sh
+# Make sure you have the app running first
+$ grunt test
+```
+
+
 

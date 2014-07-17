@@ -26,7 +26,10 @@ module.exports = function(grunt) {
     // Automatically load in all Grunt npm tasks
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
     
-    grunt.registerTask('default', 'build');
-    grunt.registerTask('build', ['ngconstant:development']);
+    grunt.registerTask('default', 'dev');
+
+    grunt.registerTask('dev', ['ngconstant:development']);
+    grunt.registerTask('prod', ['ngconstant:production']);
+    grunt.registerTask('test', ['protractor:run']);
 
 };

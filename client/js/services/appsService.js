@@ -29,9 +29,7 @@ angular.module('featureToggleFrontend')
 
     setApps:function(response){
       this.apps = response.node.nodes.map(App.create);
-      if (this.selectedApp === undefined || this.selectedApp === null){
-        this.selectedApp = this.apps[0];  
-      }
+      this.selectedApp = this.selectedApp || this.apps[0];
       this.selectedApp.loadToggles();
     },
 
