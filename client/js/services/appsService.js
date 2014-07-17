@@ -2,11 +2,12 @@
 
 angular.module('featureToggleFrontend')
 
-.factory('AppsService', function(ENV, $http, etcdApiService, App, Toggle) {
+.factory('AppsService', function(ENV, $http, etcdApiService, App, Toggle, ToggleService) {
 
   function AppsService(){
     this.apps = [];
     this.selectedApp = null;
+    this.selectedToggle = null;
   }
 
   AppsService.prototype = {
@@ -33,8 +34,13 @@ angular.module('featureToggleFrontend')
       this.selectedApp.loadToggles();
     },
 
+    // loadToggle:function(appName, toggleName){
+    //   return etcdApiService.getToggle(appName, toggleName)
+    //     .success(this.setSelectedToggle.bind(this));
+    // },
+
     loadToggle:function(appName, toggleName){
-      return etcdApiService.getToggle(appName, toggleName)
+      return ToggleService.loadToggle(appName, toggleName)
         .success(this.setSelectedToggle.bind(this));
     },
 

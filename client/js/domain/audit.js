@@ -7,6 +7,7 @@ angular.module('featureToggleFrontend')
   function Audit(data){
     angular.extend(this, data);
     this.dateModified = new Date().toString()
+
   };
 
   Audit.createAction = function(applicationName, toggleName, user){
@@ -27,6 +28,10 @@ angular.module('featureToggleFrontend')
       action:"update",
       user:user
     })
+  }
+
+  Audit.fromJSONString = function(json){
+    return new Audit(angular.fromJson(json.value));
   }
 
 
