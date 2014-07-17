@@ -24,7 +24,7 @@ html(lang='en')
             ul.nav.nav-pills.nav-stacked
               li(ng-repeat="app in AppsService.apps" ng-click="console.log(app)" ng-model="AppsService.selectedApp")
                 a(ng-href="/#!/applications/{{app.appName}}" ng-class="{ active: isActive(app.appName) }") {{app.appName}}
-                
+
       .right.content-page
         .header.content.rows-content-header
           .navbar.navbar-default(role='navigation')
@@ -49,10 +49,10 @@ html(lang='en')
                     a(class="btn btn-default" ng-click="open()").btn.btn-success.new-toggle New Feature Toggle
         .body.content.rows.scroll-y
           .page-heading.animated
-            
+
           .row
             div(ng-view='ng-view')
-    //Add Toggle Modal - should probably move to a partial 
+    //Add Toggle Modal - should probably move to a partial
     #addModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='addModalLabel', aria-hidden='true')
       .modal-dialog
         .modal-content
@@ -75,6 +75,7 @@ html(lang='en')
     script(src='/js/common/lib/jquery.toggleswitch.min.js')
     script(src='/js/common/dashboard.js')
     script(src='/js/domain/app.js')
+    script(src='/js/domain/audit.js')
     script(src='/js/domain/toggle.js')
     script(src='/js/controllers/dashboardController.js')
     script(src='/js/controllers/sideBarController.js')
@@ -86,5 +87,5 @@ html(lang='en')
     script(src='/js/services/etcdService.js')
     script(src='/js/services/appsService.js')
     script(src='/configuration/config.js')
-    
+
 
