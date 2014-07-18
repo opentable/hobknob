@@ -2,7 +2,7 @@
 
 angular.module('featureToggleFrontend')
 
-.factory('Toggle', function(etcdPathService, etcdApiService) {
+.factory('Toggle', function(etcdPathService, etcdApiService, Audit) {
 
   function Toggle(data){
     angular.extend(this, data);
@@ -25,7 +25,7 @@ angular.module('featureToggleFrontend')
     },
 
     setAudit:function(response){
-      //this.audit = response.node.nodes.map(Toggle.create);
+      this.audit = response.node.nodes.map(Audit.fromJSONString);
     }
 
   };
