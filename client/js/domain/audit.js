@@ -6,8 +6,6 @@ angular.module('featureToggleFrontend')
 
   function Audit(data){
     angular.extend(this, data);
-    this.dateModified = new Date().toString()
-
   };
 
   Audit.createAction = function(applicationName, toggleName, user){
@@ -16,7 +14,8 @@ angular.module('featureToggleFrontend')
       toggleName:toggleName,
       value:"false",
       action:"create",
-      user:user
+      user:user,
+      dateModified: new Date().toString()
     })
   }
 
@@ -24,10 +23,12 @@ angular.module('featureToggleFrontend')
     return new Audit({
       applicationName:toggle.applicationName,
       toggleName:toggle.toggleName,
-      value:toggle.value,
+      value:toggle.boolValue,
+      boolValue: toggle.boolValue,
       action:"update",
-      user:user
-    })
+      user:user,
+      dateModified: new Date().toString()
+    });
   }
 
   Audit.fromJSONString = function(json){

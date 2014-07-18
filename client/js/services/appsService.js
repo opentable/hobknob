@@ -33,12 +33,7 @@ angular.module('featureToggleFrontend')
       this.selectedApp = this.selectedApp || this.apps[0];
       this.selectedApp.loadToggles();
     },
-
-    // loadToggle:function(appName, toggleName){
-    //   return etcdApiService.getToggle(appName, toggleName)
-    //     .success(this.setSelectedToggle.bind(this));
-    // },
-
+    
     loadToggle:function(appName, toggleName){
       return ToggleService.loadToggle(appName, toggleName)
         .success(this.setSelectedToggle.bind(this));

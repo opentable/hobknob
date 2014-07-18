@@ -25,10 +25,7 @@ angular.module('featureToggleFrontend')
     },
 
     setAudit:function(response){
-      console.log('got audit'); 
-      //console.log(response);
       this.audit = response.node.nodes.map(Audit.fromJSONString);
-      console.log(this);
     }
 
   };

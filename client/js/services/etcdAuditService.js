@@ -7,6 +7,7 @@ angular.module('featureToggleFrontend').factory('etcdAuditService', ['$http', 'e
 
     	var auditKey = etcdPathService.make(['v1', 'toggleAudit', audit.applicationName, audit.toggleName]);
     	var auditUrl = etcdPathService.getFullKeyPath(auditKey);
+    	audit.value = this.boolValue === true;
     	return $http.post(auditUrl, "value=" + audit.toJSONString());
 	};
 
