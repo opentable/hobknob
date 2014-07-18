@@ -154,7 +154,6 @@ td.toggle-cell {
   width: 225px;
   background: #1B1E24;
   margin-left: -15px;
-  overflow: hidden;
   position: absolute;
   top: 0;
   bottom: 0; 
@@ -163,7 +162,6 @@ td.toggle-cell {
 .right {
   left: 225px;
   right: 0;
-  overflow: hidden;
   position: absolute;
   top: 0;
   bottom: 0; 
@@ -202,8 +200,7 @@ td.toggle-cell {
   right: 0;
 }
 
-.rows, .col, .page { 
-  overflow: hidden;
+.rows, .col, .page {
   position: absolute; 
 }
 
