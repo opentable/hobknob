@@ -19,17 +19,4 @@ describe("Dashboard", function () {
     it('should have a title', function() {
 	    expect(browser.getTitle()).toEqual('Opentable Feature Toggles');
 	});
-
-	it('should open new toggle dialog when new toggle button clicked', function() {
-		newToggleBtn.click();
-		browser.waitForAngular();
-		newToggleApplicationTextBox.sendKeys('protractor');
-		newToggleToggleTextBox.sendKeys('toggle');
-		newToggleCreateBtn.click();
-		browser.waitForAngular();
-
-		var successAlert = element(by.repeater('alert in alerts').row(0));
-
-		expect(successAlert.getText()).toEqual('×\nClose\nSuccessfully created feature toggle');
-	});
 });
