@@ -67,18 +67,19 @@ app.get("/", ensureAuthenticated, dashboardroutes.dashboard);
 app.get('/partials/:name', dashboardroutes.partials);
 
 app.get('/auth/google',
-  			passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',
-                                            'https://www.googleapis.com/auth/userinfo.email'] }),
-	  		function(req, res){
-	    		// The request will be redirected to Google for authentication, so this
-	    		// function will not be called.
-	  		});
+	passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',
+                                'https://www.googleapis.com/auth/userinfo.email'] }),
+	function(req, res){
+	// The request will be redirected to Google for authentication, so this
+	// function will not be called.
+	}
+);
 
-		app.get('/auth/google/callback',
-  			passport.authenticate('google', { failureRedirect: '/oops' }),
-  			function(req, res) {
-    			res.redirect('/');
-  		});
+app.get('/auth/google/callback',
+	passport.authenticate('google', { failureRedirect: '/oops' }),
+	function(req, res) {
+	res.redirect('/');
+});
 
 console.log("Starting up feature toggle dashboard on port " + app.get('port'));
 
