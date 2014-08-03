@@ -8,6 +8,8 @@ html(lang='en')
     link(href='/css/toggleswitch.css', media='all', rel='stylesheet')
     link(href='/bower_components/angular-bootstrap-toggle-switch/style/bootstrap3/angular-toggle-switch-bootstrap-3.css', media='all', rel='stylesheet')
     script(src='/public/bower_components/jquery/dist/jquery.min.js')
+    script(type="text/javascript").
+      window.user = !{JSON.stringify(user, null,2)}
   body(ng-app='featureToggleFrontend')
     .container
       div(ng-controller="SideBarController").left.side-menu
@@ -17,9 +19,9 @@ html(lang='en')
         .body.rows.scroll-y.animated
           .profile
             .profile-image.pull-left
-              img.media-object.img-circle(src='/img/user-blue.jpeg', alt='avatar')
+              img.media-object.img-circle(ng-src='{{CurrentUser.getPicture()}}', alt='avatar')
               h4.media-heading
-                | Anonymous
+                | {{CurrentUser.getFullName()}}
           #sidebar-menu
             ul.nav.nav-pills.nav-stacked
               li(ng-repeat="app in AppsService.apps" ng-click="console.log(app)" ng-model="AppsService.selectedApp")
@@ -77,6 +79,7 @@ html(lang='en')
     script(src='/js/domain/app.js')
     script(src='/js/domain/audit.js')
     script(src='/js/domain/toggle.js')
+    script(src='/js/domain/user.js')
     script(src='/js/controllers/dashboardController.js')
     script(src='/js/controllers/sideBarController.js')
     script(src='/js/controllers/applicationController.js')

@@ -4,12 +4,6 @@
 
 .constant("ENV", {
   "RequiresAuth": false,
-  "AuthProviders": {
-    "GoogleAuth": {
-      "GoogleClientId": "50690959862-gehe3hl63oqvdh7moa0ert7rn45pd8q1.apps.googleusercontent.com",
-      "GoogleClientSecret": "2n5knmIAIHKe59eQsIU0B6cw"
-    }
-  },
   "name": "development",
   "etcdUri": "http://127.0.0.1:4001",
   "etcdVersion": "v1",
