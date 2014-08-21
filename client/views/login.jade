@@ -6,10 +6,15 @@ html(lang='en')
     link(href='/public/bower_components/bootstrap/dist/css/bootstrap.min.css', media='all', rel='stylesheet')
     link(href='/css/dashboard.css', media='all', rel='stylesheet')
     link(href='/css/toggleswitch.css', media='all', rel='stylesheet')
+    link(href='/bower_components/bootstrap-social/bootstrap-social.css', media='all', rel='stylesheet')
+    link(href='/bower_components/font-awesome/css/font-awesome.css', media='all', rel='stylesheet')
     link(href='/bower_components/angular-bootstrap-toggle-switch/style/bootstrap3/angular-toggle-switch-bootstrap-3.css', media='all', rel='stylesheet')
     script(src='/public/bower_components/jquery/dist/jquery.min.js')
   body(ng-app='featureToggleFrontend')
     .container
-      a(href='/auth/google').btn
-        | Sign in with Google
+      .row
+        .col-sm-2.col-md-offset-5
+          a(href='/auth/google').btn.btn-block.btn-social.btn-google-plus
+            i.fa.fa-google-plus
+            | Sign in with Google
     script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')

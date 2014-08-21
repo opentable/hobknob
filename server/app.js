@@ -17,11 +17,11 @@ if (config.RequiresAuth) {
 		passport.use(new googleStrategy({
 			clientID: GOOGLE_CLIENT_ID,
 			clientSecret: GOOGLE_CLIENT_SECRET,
-			callbackURL: "http://localhost:3006/auth/google/callback"
+			callbackURL: "http://" + config.hobknobHost + ":" + config.hobknobPort + "/auth/google/callback"
 		},
 		function(accessToken, refreshToken, profile, done){
 			profile.accessToken = accessToken;
-			console.log(profile);
+			//console.log(profile);
 			process.nextTick(function(){
 				return done(null, profile);
 			});
