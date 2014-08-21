@@ -84,7 +84,8 @@ body {
 
 .side-menu .profile .media-object {
   width: 57px;
-  float: left;
+  position: fixed;
+  left: 10px;
 }
 
 .side-menu .profile a {
@@ -238,8 +239,8 @@ td.toggle-cell {
 
 h4.media-heading {
   word-wrap: break-word; 
-  float: left;
-  margin-left: 10px;
+  position: fixed;
+  left: 70px;
 }
 
 .dashboard-search-box {

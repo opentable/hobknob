@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('featureToggleFrontend').factory('etcdApiService', function($http, etcdPathService, ENV, etcdAuditService, $q, Audit) {
+angular.module('featureToggleFrontend').factory('etcdApiService', function($http, etcdPathService, ENV, etcdAuditService, $q, Audit, CurrentUser) {
 	var etcdApiService = {};
 
 	etcdApiService.getApplications = function() {
@@ -40,7 +40,7 @@ angular.module('featureToggleFrontend').factory('etcdApiService', function($http
     return $http
       .put(toggleUrl, "value=" + toggle.boolValue)
       .success(function(){
-        createAudit(Audit.updateAction(toggle, "AUser"))
+        createAudit(Audit.updateAction(toggle, CurrentUser.getFullName()))
       })
 	};
 
@@ -51,7 +51,7 @@ angular.module('featureToggleFrontend').factory('etcdApiService', function($http
     return $http
       .put(toggleUrl, "value=false")
       .success(function(){
-        createAudit(Audit.createAction(applicationName,toggleName,"AUser"))
+        createAudit(Audit.createAction(applicationName,toggleName,CurrentUser.getFullName()))
       })
   };
 

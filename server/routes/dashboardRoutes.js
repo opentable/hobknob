@@ -3,7 +3,7 @@ exports.dashboard = function(req, res){
                {
                  title: 'Dashboard', 
                  pageHeader: 'Dashboard',
-                 user: req.session.user
+                 user: req.user
                });
 };
 
