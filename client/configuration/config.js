@@ -3,7 +3,7 @@
  angular.module("config", [])
 
 .constant("ENV", {
-  "RequiresAuth": true,
+  "RequiresAuth": false,
   "name": "development",
   "etcdUri": "http://127.0.0.1:4001",
   "etcdVersion": "v1",
@@ -11,13 +11,7 @@
   "etcdHost": "127.0.0.1",
   "etcdPort": "4001",
   "hobknobHost": "localhost",
-  "hobknobPort": "3006",
-  "AuthProviders": {
-    "GoogleAuth": {
-      "GoogleClientId": "50690959862-gehe3hl63oqvdh7moa0ert7rn45pd8q1.apps.googleusercontent.com",
-      "GoogleClientSecret": "2n5knmIAIHKe59eQsIU0B6cw"
-    }
-  }
+  "hobknobPort": "3006"
 })
 
 ;
