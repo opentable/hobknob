@@ -3,6 +3,7 @@ var express = require("express"),
   helpers = require("./src/helper"),
   app = express(),
   dashboardroutes = require("./routes/dashboardRoutes"),
+  loadbalancerRoutes = require("./routes/loadbalancerRoutes"),
   authenticateroutes = require("./routes/authenticateRoutes"),
   path = require("path"),
   passport = require("passport"),
@@ -65,6 +66,8 @@ app.use(express.static(path.join(__dirname, "/../client")));
 app.get('/login', authenticateroutes.login);
 app.get("/", ensureAuthenticated, dashboardroutes.dashboard);
 app.get('/partials/:name', dashboardroutes.partials);
+
+app.get('/_lbstatus', loadbalancerRoutes.lbstatus);
 
 app.get('/auth/google',
 	passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',
