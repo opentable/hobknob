@@ -1,11 +1,8 @@
 {
   "name": "hobknob",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "feature toggle client app over etcd",
   "main": "server/app.js",
-  "scripts": {
-    "install": "node node_modules/protractor/bin/webdriver-manager update"
-  },
   "repository": {
     "type": "git",
     "url": "git://github.com/opentable/hobknob.git"
@@ -22,7 +19,9 @@
     "config": "^0.4.37",
     "ldapjs": "~0.7.0",
     "request": "~2.34.0",
-    "jade": "^1.3.1"
+    "jade": "^1.3.1",
+    "passport": "^0.2.0",
+    "passport-google-oauth": "^0.1.5"
   },
   "devDependencies": {
     "forever-monitor": "~1.2.3",
