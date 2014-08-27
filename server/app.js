@@ -84,6 +84,10 @@ app.get('/auth/google/callback',
 	res.redirect('/');
 });
 
+app.get('/service-status', function(req, res) {
+    res.status(200).end();
+});
+
 console.log("Starting up feature toggle dashboard on port " + app.get('port'));
 
 app.listen(app.get("port"));
