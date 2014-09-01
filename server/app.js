@@ -8,7 +8,7 @@ var express = require("express"),
   path = require("path"),
   passport = require("passport"),
   googleStrategy = require('passport-google-oauth').OAuth2Strategy,
-  config = require('config');
+  config = require('./../config/default.json');
 
 if (config.RequiresAuth) {
 	if (config.AuthProviders.GoogleAuth) {
