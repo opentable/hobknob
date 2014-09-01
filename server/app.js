@@ -14,11 +14,12 @@ if (config.RequiresAuth) {
 	if (config.AuthProviders.GoogleAuth) {
 		var GOOGLE_CLIENT_ID = config.AuthProviders.GoogleAuth.GoogleClientId;
 		var GOOGLE_CLIENT_SECRET = config.AuthProviders.GoogleAuth.GoogleClientSecret;
+		var googleCallbackURL = (config.hobknobPort) ? "http://" + config.hobknobHost + ":" + config.hobknobPort + "/auth/google/callback" : "http://" + config.hobknobHost + "/auth/google/callback";
 
 		passport.use(new googleStrategy({
 			clientID: GOOGLE_CLIENT_ID,
 			clientSecret: GOOGLE_CLIENT_SECRET,
-			callbackURL: "http://" + config.hobknobHost + ":" + config.hobknobPort + "/auth/google/callback"
+			callbackURL: googleCallbackURL
 		},
 		function(accessToken, refreshToken, profile, done){
 			profile.accessToken = accessToken;
