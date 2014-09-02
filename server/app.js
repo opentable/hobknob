@@ -50,7 +50,40 @@ app.set("view engine", "jade");
 app.set("port", process.env.PORT || 3006);
 
 app.use(express.cookieParser("featuretoggle"));
-app.use(express.session());
+
+var useConnectEtcdSession, useConnectRedisSession;
+try {
+    useConnectEtcdSession = require.resolve("connect-etcd");
+} catch(e) {
+}
+
+try {
+    useConnectRedisSession = require.resolve("connect-redis");
+} catch(e) {
+}
+
+if (useConnectEtcdSession) {
+	var session = require('express-session');
+	var EtcdStore = require('connect-etcd')(session);
+
+	app.use(session({
+	    store: new EtcdStore({url: config.etcdHost, port: config.etcdPort}),
+	    secret: 'hobknob'
+	}));
+} 
+else if (useConnectRedisSession) {
+	var session = require('express-session');
+	var RedisStore = require('connect-redis')(session);
+
+	app.use(session({
+	    store: new RedisStore({host: config.redisHost, port: config.redisPort}),
+	    secret: 'hobknob'
+	}));
+}
+else {
+	app.use(express.session());
+}
+
 app.use(express.json());       // to support JSON-encoded bodies
 app.use(express.urlencoded()); // to support URL-encoded bodies
 
