@@ -1,6 +1,6 @@
 {
   "name": "hobknob",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "feature toggle client app over etcd",
   "main": "server/app.js",
   "scripts": {
