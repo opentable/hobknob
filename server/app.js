@@ -6,43 +6,9 @@ var express = require("express"),
   loadbalancerRoutes = require("./routes/loadbalancerRoutes"),
   authenticateroutes = require("./routes/authenticateRoutes"),
   path = require("path"),
-  passport = require("passport"),
-  googleStrategy = require('passport-google-oauth').OAuth2Strategy,
   config = require('./../config/default.json');
 
-if (config.RequiresAuth) {
-	if (config.AuthProviders.GoogleAuth) {
-		var GOOGLE_CLIENT_ID = config.AuthProviders.GoogleAuth.GoogleClientId;
-		var GOOGLE_CLIENT_SECRET = config.AuthProviders.GoogleAuth.GoogleClientSecret;
-		var googleCallbackURL = (config.hobknobPort) ? "http://" + config.hobknobHost + ":" + config.hobknobPort + "/auth/google/callback" : "http://" + config.hobknobHost + "/auth/google/callback";
-
-		passport.use(new googleStrategy({
-			clientID: GOOGLE_CLIENT_ID,
-			clientSecret: GOOGLE_CLIENT_SECRET,
-			callbackURL: googleCallbackURL
-		},
-		function(accessToken, refreshToken, profile, done){
-			profile.accessToken = accessToken;
-			//console.log(profile);
-			process.nextTick(function(){
-				return done(null, profile);
-			});
-		}));
-	}
-}
-
-function ensureAuthenticated(req, res, next) {
-	if (req.isAuthenticated() || !config.RequiresAuth) { return next(); }
-	res.redirect('/login');
-}
-
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
-});
+var passport = require("./auth").init(config);
 
 app.set('views', __dirname + '/../client/views');
 app.set("view engine", "jade");
@@ -51,38 +17,7 @@ app.set("port", process.env.PORT || 3006);
 
 app.use(express.cookieParser("featuretoggle"));
 
-var sessionMiddleware, useConnectEtcdSession, useConnectRedisSession;
-try {
-    useConnectEtcdSession = require.resolve("connect-etcd");
-} catch(e) {
-}
-
-try {
-    useConnectRedisSession = require.resolve("connect-redis");
-} catch(e) {
-}
-
-if (useConnectEtcdSession) {
-	var session = require('express-session');
-	var EtcdStore = require('connect-etcd')(session);
-
-	sessionMiddleware = session({
-	    store: new EtcdStore({url: config.etcdHost, port: config.etcdPort}),
-	    secret: 'hobknob'
-	});
-}
-else if (useConnectRedisSession) {
-	var session = require('express-session');
-	var RedisStore = require('connect-redis')(session);
-
-	sessionMiddleware = session({
-	    store: new RedisStore({host: config.redisHost, port: config.redisPort}),
-	    secret: 'hobknob'
-	});
-}
-else {
-	sessionMiddleware = express.session();
-}
+var sessionMiddleware = require("./session").init(config);
 
 app.use(express.json());       // to support JSON-encoded bodies
 app.use(express.urlencoded()); // to support URL-encoded bodies
@@ -96,9 +31,14 @@ app.use(app.router);
 app.use(express.static(path.join(__dirname, '/../public')));
 app.use('/bower_components',  express.static(path.join(__dirname, '/../public/bower_components')));
 
+var ensureAuthenticated = function(req, res, next) {
+  if (req.isAuthenticated() || !config.RequiresAuth) { return next(); }
+  res.redirect('/login');
+}
+
 app.use(express.static(path.join(__dirname, "/../client")));
 app.get('/login', sessionMiddleware, authenticateroutes.login);
-app.get("/", [ensureAuthenticated, sessionMiddleware ], dashboardroutes.dashboard);
+app.get("/", [ ensureAuthenticated, sessionMiddleware ], dashboardroutes.dashboard);
 app.get('/partials/:name', sessionMiddleware, dashboardroutes.partials);
 
 app.get('/_lbstatus', loadbalancerRoutes.lbstatus);
