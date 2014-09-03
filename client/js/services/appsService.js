@@ -53,5 +53,4 @@ angular.module('featureToggleFrontend')
 
   return new AppsService();
 
-
 });

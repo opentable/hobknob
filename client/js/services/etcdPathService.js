@@ -4,7 +4,8 @@ angular.module('featureToggleFrontend')
 .factory('etcdPathService', function(ENV) {
 
   var etcdUrl = "http://" + ENV.etcdHost + ":" + ENV.etcdPort + '/' + ENV.etcdCoreVersion,
-      keyPrefix = etcdUrl + '/keys/';
+      keyPrefix = etcdUrl + '/keys/',
+      leader = etcdUrl + '/leader';
 
   return {
 
@@ -26,6 +27,16 @@ angular.module('featureToggleFrontend')
         return v !== '';
       });
       return parts;
+    },
+
+    getLeaderPath: function() {
+      return leader;
+    },
+
+    makeLeaderPath: function(leader, toggleKey) {
+      var hostname = leader.substring(0, leader.lastIndexOf(':'));
+      var path = hostname + ':' + ENV.etcdPort + '/' + ENV.etcdCoreVersion + '/keys/' + this.clean(toggleKey);
+      return path;     
     },
 
     getFullKeyPath: function(key) {

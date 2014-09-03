@@ -4,8 +4,7 @@
         .panel-heading
           h3.panel-title
             a(ng-href="/#!/applications/{{AppsService.selectedToggle.applicationName}}") Audit for {{AppsService.selectedToggle.applicationName}}
-            |  >
-            {{AppsService.selectedToggle.toggleName}}
+            |  > {{AppsService.selectedToggle.toggleName}}
         .panel-body
           table.table
             trhead
@@ -17,12 +16,9 @@
                   .pull-right State
             trbody
               tr(ng-repeat="audit in AppsService.selectedToggle.audit" ng-animate=" 'animate' ")
-                td
-                  {{audit.user}}
-                td
-                  {{audit.action}}
-                td 
-                  {{audit.dateModified}}
+                td {{audit.user}}
+                td {{audit.action}}
+                td {{audit.dateModified}}
                 td 
                   .pull-right
                     toggle-switch(model="audit.boolValue").switch-primary

@@ -1,15 +1,17 @@
 'use strict';
 
-angular.module('featureToggleFrontend').factory('etcdAuditService', ['$http', 'etcdPathService', function($http, etcdPathService) {
+angular.module('featureToggleFrontend').factory('etcdAuditService', function($http, etcdPathService, etcdLeaderService) {
 	var etcdAuditService = {};
 
   	etcdAuditService.audit = function(audit) {
+  		audit.value = this.boolValue === true;
+  		return etcdLeaderService.getLeader().success(function(leaderUri) {
+  			var auditKey = etcdPathService.make(['v1', 'toggleAudit', audit.applicationName, audit.toggleName]);
+  			var auditUrl = etcdPathService.makeLeaderPath(leaderUri, auditKey);
 
-    	var auditKey = etcdPathService.make(['v1', 'toggleAudit', audit.applicationName, audit.toggleName]);
-    	var auditUrl = etcdPathService.getFullKeyPath(auditKey);
-    	audit.value = this.boolValue === true;
-    	return $http.post(auditUrl, "value=" + audit.toJSONString());
+    		return $http.post(auditUrl, "value=" + audit.toJSONString());
+  		});
 	};
 
 	return etcdAuditService;
-}]);
+});
