@@ -51,7 +51,7 @@ app.set("port", process.env.PORT || 3006);
 
 app.use(express.cookieParser("featuretoggle"));
 
-var useConnectEtcdSession, useConnectRedisSession;
+var sessionMiddleware, useConnectEtcdSession, useConnectRedisSession;
 try {
     useConnectEtcdSession = require.resolve("connect-etcd");
 } catch(e) {
@@ -66,22 +66,22 @@ if (useConnectEtcdSession) {
 	var session = require('express-session');
 	var EtcdStore = require('connect-etcd')(session);
 
-	app.use(session({
+	sessionMiddleware = session({
 	    store: new EtcdStore({url: config.etcdHost, port: config.etcdPort}),
 	    secret: 'hobknob'
-	}));
-} 
+	});
+}
 else if (useConnectRedisSession) {
 	var session = require('express-session');
 	var RedisStore = require('connect-redis')(session);
 
-	app.use(session({
+	sessionMiddleware = session({
 	    store: new RedisStore({host: config.redisHost, port: config.redisPort}),
 	    secret: 'hobknob'
-	}));
+	});
 }
 else {
-	app.use(express.session());
+	sessionMiddleware = express.session();
 }
 
 app.use(express.json());       // to support JSON-encoded bodies
@@ -97,15 +97,15 @@ app.use(express.static(path.join(__dirname, '/../public')));
 app.use('/bower_components',  express.static(path.join(__dirname, '/../public/bower_components')));
 
 app.use(express.static(path.join(__dirname, "/../client")));
-app.get('/login', authenticateroutes.login);
-app.get("/", ensureAuthenticated, dashboardroutes.dashboard);
-app.get('/partials/:name', dashboardroutes.partials);
+app.get('/login', sessionMiddleware, authenticateroutes.login);
+app.get("/", [ensureAuthenticated, sessionMiddleware ], dashboardroutes.dashboard);
+app.get('/partials/:name', sessionMiddleware, dashboardroutes.partials);
 
 app.get('/_lbstatus', loadbalancerRoutes.lbstatus);
 
 app.get('/auth/google',
-	passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',
-                                'https://www.googleapis.com/auth/userinfo.email'] }),
+	[ passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',
+                                'https://www.googleapis.com/auth/userinfo.email'] }), sessionMiddleware ],
 	function(req, res){
 	// The request will be redirected to Google for authentication, so this
 	// function will not be called.
@@ -113,7 +113,7 @@ app.get('/auth/google',
 );
 
 app.get('/auth/google/callback',
-	passport.authenticate('google', { failureRedirect: '/oops' }),
+	[ passport.authenticate('google', { failureRedirect: '/oops' }), sessionMiddleware ],
 	function(req, res) {
 	res.redirect('/');
 });
