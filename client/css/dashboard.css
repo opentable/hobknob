@@ -91,7 +91,6 @@ body {
 .side-menu .profile a {
   cursor: pointer;
   font-size: 11px;
-  margin: 0 5px 0 0;
   color: #8B91A0; 
 }
 
@@ -239,8 +238,11 @@ td.toggle-cell {
 
 h4.media-heading {
   word-wrap: break-word; 
-  position: fixed;
-  left: 70px;
+  margin-left: 60px;
+}
+
+a.logout {
+  margin-left: 60px;
 }
 
 .dashboard-search-box {
