@@ -24,7 +24,12 @@ angular.module('featureToggleFrontend')
     },
 
     setToggles:function(response){
-      this.toggles = response.node.nodes.map(Toggle.create);
+      this.toggles = response.node.nodes.map(Toggle.create)
+                        .sort(function(a, b){
+                          if(a.toggleName < b.toggleName) return -1;
+                          if(a.toggleName > b.toggleName) return 1;
+                          return 0;
+                        });
     }
 
   };

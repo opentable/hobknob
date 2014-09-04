@@ -29,11 +29,16 @@ angular.module('featureToggleFrontend')
     },
 
     setApps:function(response){
-      this.apps = response.node.nodes.map(App.create);
+      this.apps = response.node.nodes.map(App.create)
+                    .sort(function(a, b){
+                      if(a.appName < b.appName) return -1;
+                      if(a.appName > b.appName) return 1;
+                      return 0;
+                    });
       this.selectedApp = this.selectedApp || this.apps[0];
       this.selectedApp.loadToggles();
     },
-    
+
     loadToggle:function(appName, toggleName){
       return ToggleService.loadToggle(appName, toggleName)
         .success(this.setSelectedToggle.bind(this));
