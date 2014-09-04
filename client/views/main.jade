@@ -26,7 +26,6 @@ html(lang='en')
             ul.nav.nav-pills.nav-stacked
               li(ng-repeat="app in AppsService.apps" ng-click="console.log(app)" ng-model="AppsService.selectedApp")
                 a(ng-href="/#!/applications/{{app.appName}}" ng-class="{ active: isActive(app.appName) }") {{app.appName}}
-
       .right.content-page
         .header.content.rows-content-header
           .navbar.navbar-default(role='navigation')
@@ -50,8 +49,6 @@ html(lang='en')
                           button.btn.btn-warning(ng-click='cancel()', ng-show='!form.created') Cancel
                     a(class="btn btn-default" ng-click="open()").btn.btn-success.new-toggle New Feature Toggle
         .body.content.rows.scroll-y
-          .page-heading.animated
-
           .row
             div(ng-view='ng-view')
     //Add Toggle Modal - should probably move to a partial
@@ -87,9 +84,8 @@ html(lang='en')
     script(src='/js/controllers/newFeatureToggleModalController.js')
     script(src='/js/services/etcdPathService.js')
     script(src='/js/services/etcdAuditService.js')
+    script(src='/js/services/etcdLeaderService.js')
     script(src='/js/services/etcdService.js')
     script(src='/js/services/appsService.js')
     script(src='/js/services/toggleService.js')
     script(src='/configuration/config.js')
-
-

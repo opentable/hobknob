@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('featureToggleFrontend').factory('etcdApiService', function($http, etcdPathService, ENV, etcdAuditService, $q, Audit, CurrentUser) {
+angular.module('featureToggleFrontend').factory('etcdApiService', function($http, etcdPathService, ENV, etcdLeaderService, etcdAuditService, $q, Audit, CurrentUser) {
 	var etcdApiService = {};
 
 	etcdApiService.getApplications = function() {
@@ -36,23 +36,27 @@ angular.module('featureToggleFrontend').factory('etcdApiService', function($http
   };
 
 	etcdApiService.updateToggle = function(toggle) {
-    var toggleUrl = etcdPathService.getFullKeyPath(toggle.key);
-    return $http
-      .put(toggleUrl, "value=" + toggle.boolValue)
-      .success(function(){
-        createAudit(Audit.updateAction(toggle, CurrentUser.getFullName()))
-      })
+    return etcdLeaderService.getLeader().success(function(leaderUri){
+        var leaderPath = etcdPathService.makeLeaderPath(leaderUri, toggle.key);
+        return $http
+              .put(leaderPath, "value=" + toggle.boolValue)
+              .success(function(){
+                createAudit(Audit.updateAction(toggle, CurrentUser.getFullName()))
+              });
+    });
 	};
 
   etcdApiService.create = function(applicationName, toggleName) {
-    var toggleKey = etcdPathService.make(["v1", "toggles", applicationName, toggleName]),
-        toggleUrl = etcdPathService.getFullKeyPath(toggleKey);
+    var toggleKey = etcdPathService.make(["v1", "toggles", applicationName, toggleName]);
 
-    return $http
-      .put(toggleUrl, "value=false")
-      .success(function(){
-        createAudit(Audit.createAction(applicationName,toggleName,CurrentUser.getFullName()))
-      })
+    return etcdLeaderService.getLeader().success(function(leaderUri){
+        var leaderPath = etcdPathService.makeLeaderPath(leaderUri, toggleKey);
+        return $http
+              .put(leaderPath, "value=false")
+              .success(function(){
+                createAudit(Audit.createAction(applicationName,toggleName,CurrentUser.getFullName()))
+              });
+    });
   };
 
 	return etcdApiService;
