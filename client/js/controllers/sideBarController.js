@@ -3,14 +3,23 @@ featureToggleFrontend.controller('SideBarController', function($scope, $http, et
     $scope.AppsService = AppsService;
     $scope.CurrentUser = CurrentUser;
 
-    (function refreshApps() {
+    var refreshApps = function() {
     	AppsService.updateApps();
 
-        $timeout(refreshApps, 3000);
-    })();
+        refreshTimer = $timeout(refreshApps, 3000);
+    }
+
+	var refreshTimer = $timeout(refreshApps, 3000);
+
     AppsService.loadApps();
 
     $scope.isActive = function(appName) {
     	return ($location.path() === '/applications/' + appName);
 	}
+
+	$scope.$on("$destroy", function() {
+        if (refreshTimer) {
+            $timeout.cancel(refreshTimer);
+        }
+    });
 });

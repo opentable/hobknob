@@ -2,11 +2,13 @@ featureToggleFrontend.controller('ApplicationController', function($scope, $http
 
     $scope.AppsService = AppsService;
 
-    (function refreshToggles() {
+    var refreshToggles = function() {
     	AppsService.updateToggles();
 
-        $timeout(refreshToggles, 3000);
-    })();
+        refreshTimer = $timeout(refreshToggles, 3000);
+    }
+
+	var refreshTimer = $timeout(refreshToggles, 3000);
 
     AppsService.loadApp($routeParams.appName);
 
@@ -15,4 +17,10 @@ featureToggleFrontend.controller('ApplicationController', function($scope, $http
         AppsService.updateToggle(toggle);
       });
     }
+
+    $scope.$on("$destroy", function() {
+        if (refreshTimer) {
+            $timeout.cancel(refreshTimer);
+        }
+    });
 });
