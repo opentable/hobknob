@@ -12,8 +12,6 @@ exports.login = function(req, res) {
 };
 
 exports.logout = function(req, res) {
-  if (req.session.user) {
-    delete req.session.user;
-  }
+  req.logout();
   res.redirect("/login");
 };

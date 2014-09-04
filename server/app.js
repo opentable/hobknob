@@ -44,6 +44,7 @@ app.use(express.static(path.join(__dirname, "/../client")));
 app.get('/login', authenticateroutes.login);
 app.get("/", ensureAuthenticated, dashboardroutes.dashboard);
 app.get('/partials/:name', dashboardroutes.partials);
+app.get('/logout', authenticateroutes.logout);
 
 app.get('/auth/google',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',
