@@ -25,7 +25,7 @@ html(lang='en')
               a.logout(href='/logout' ng-show="CurrentUser.requiresAuthentication()") logout
           #sidebar-menu
             ul.nav.nav-pills.nav-stacked
-              li(ng-repeat="app in AppsService.apps" ng-click="console.log(app)" ng-model="AppsService.selectedApp")
+              li(ng-repeat="app in AppsService.apps | orderBy: 'appName'" ng-click="console.log(app)" ng-model="AppsService.selectedApp")
                 a(ng-href="/#!/applications/{{app.appName}}" ng-class="{ active: isActive(app.appName) }") {{app.appName}}
       .right.content-page
         .header.content.rows-content-header

@@ -2,6 +2,12 @@ featureToggleFrontend.controller('SideBarController', function($scope, $http, et
 
     $scope.AppsService = AppsService;
     $scope.CurrentUser = CurrentUser;
+
+    (function refreshApps() {
+    	AppsService.updateApps();
+
+        $timeout(refreshApps, 3000);
+    })();
     AppsService.loadApps();
 
     $scope.isActive = function(appName) {

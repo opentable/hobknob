@@ -12,7 +12,7 @@
                 th 
                   .pull-right State
             trbody
-              tr(ng-repeat="toggle in AppsService.selectedApp.toggles" ng-animate=" 'animate' ")
+              tr(ng-repeat="toggle in AppsService.selectedApp.toggles | orderBy: 'toggleName'")
                 td
                   a(ng-href="/#!/applications/{{toggle.applicationName}}/{{toggle.toggleName}}") {{toggle.toggleName}}
                 td 
