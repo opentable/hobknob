@@ -32,5 +32,11 @@ module.exports.init = function(config){
     sessionMiddleware = express.session();
   }
 
-  return sessionMiddleware;
+  return function(req, res, next){
+    if(req.path === '/service-status' || req.path === '/_lbstatus'){
+      return next();
+    }
+
+    return sessionMiddleware(req, res, next);
+  } ;
 }
