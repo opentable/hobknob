@@ -1,7 +1,7 @@
 hobknob
 ======================
 
-Hobknob is a feature toggle front-end built on top of etcd. It allows users to create, maintain and toggle feature toggles and keeps an audit of all changes. 
+Hobknob is a feature toggle front-end built on top of [etcd](https://github.com/coreos/etcd). It allows users to create, maintain and toggle feature toggles and keeps an audit of all changes. 
 
 The benefit of using etcd as a data store is that there is no need to write an additional API to query for toggles, or a eventing system to update consumers, as it is baked into etcd. Etcd has its own implementation using [long polling](https://github.com/coreos/etcd/blob/master/Documentation/api.md#waiting-for-a-change).
 
