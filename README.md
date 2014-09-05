@@ -1,7 +1,7 @@
 hobknob
 ======================
 
-Hobknob is a feature toggle front-end built on top of etcd. It allows users to create, maintain and toggle feature toggles and keeps an audit of all changes. 
+Hobknob is a feature toggle front-end built on top of etcd. It allows users to create, maintain and toggle feature toggles and keeps an audit of all changes.
 
 The benefit of using etcd as a data store is that there is no need to write an additional API to query for toggles, or a eventing system to update consumers, as it is baked into etcd. Etcd has its own implementation using [long polling](https://github.com/spotify/puppetexplorer).
 
@@ -59,5 +59,11 @@ We've integrated protractor for end-to-end testing. To start these tests run:
 $ grunt test
 ```
 
+### Clients
 
+To aid adoption we have created, and open sourced, several hobknob clients in multiple languages:
 
+* NodeJs (NPM) – https://github.com/opentable/hobknob-client-nodejs
+* .NET (Nuget) – https://github.com/opentable/hobknob-client-net
+* Go – https://github.com/opentable/hobknob-client-go
+* Java (Maven) – https://github.com/opentable/hobknob-client-java
