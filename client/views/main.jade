@@ -12,7 +12,7 @@ html(lang='en')
       window.user = !{JSON.stringify(user, null,2)}
   body(ng-app='featureToggleFrontend')
     .container
-      div(ng-controller="SideBarController").left.side-menu
+      div(ng-controller="SideBarController" ng-cloak).left.side-menu
         .header.sidebar.rows
           a.navbar-brand.logo(href='/')
             img(src='/img/opentable-hr-mono.png')
