@@ -1,9 +1,9 @@
 hobknob
 ======================
 
-Hobknob is a feature toggle front-end built on top of etcd. It allows users to create, maintain and toggle feature toggles and keeps an audit of all changes. 
+Hobknob is a feature toggle front-end built on top of [etcd](https://github.com/coreos/etcd). It allows users to create, maintain and toggle feature toggles and keeps an audit of all changes. 
 
-The benefit of using etcd as a data store is that there is no need to write an additional API to query for toggles, or a eventing system to update consumers, as it is baked into etcd. Etcd has its own implementation using [long polling](https://github.com/spotify/puppetexplorer).
+The benefit of using etcd as a data store is that there is no need to write an additional API to query for toggles, or a eventing system to update consumers, as it is baked into etcd. Etcd has its own implementation using [long polling](https://github.com/coreos/etcd/blob/master/Documentation/api.md#waiting-for-a-change).
 
 ###Screenshots
 
@@ -59,5 +59,56 @@ We've integrated protractor for end-to-end testing. To start these tests run:
 $ grunt test
 ```
 
+### Configuring Authentication
+By default Hobknob ships with authentication disabled. This is configurable by changing the config/default.json config file. 
 
+#### Turning on Google OAuth
+First you must generate a google oauth client Id and client secret. To do this visit the [Google Developer Console](https://console.developers.google.com/project) and create a new project. Select this project once created and go into the section "APIs and auth" in the left hand menu. From here you can create a new oath client Id.
+
+To use oath in Hobknob add the following to your config (config/default.json).
+
+```
+{
+  "RequiresAuth": true,
+  "AuthProviders":{
+    "GoogleAuth": {
+      "GoogleClientId": "somecientid.apps.googleusercontent.com",
+      "GoogleClientSecret": "somesecretkey"
+    }
+  }
+}
+```
+
+This configuration is shared with Angular so you need to run the following:
+```
+grunt
+```
+
+### Configuring Session
+By default session is stored in-memory using the expressjs connect middleware. For a single machine environment this is fine. When you have multiple load balanced machines you probably want to use some kind of shared stored. Hobknob currently supports [Redis](https://github.com/visionmedia/connect-redis) or [etcd](https://github.com/opentable/connect-etcd) connect middleware.
+
+Configuring session is simple. Just npm install the module you want to use. For example, to use etcd to store session simple use:
+
+```
+npm install connect-etcd --save
+```
+
+Hobknob will realise the package is installed and assume that you therefore want to use it for session storage.
+
+The configuration for the session is also stored in the config/default.json file using the following:
+
+```
+{
+  "etcdHost": "hobknob-etcd.yourenvironment.com",
+  "etcdPort": "4001",
+}
+```
+
+## Hobknob Clients
+There are several clients for different languages.
+
+- https://github.com/opentable/hobknob-client-nodejs
+- https://github.com/opentable/hobknob-client-net
+- https://github.com/opentable/hobknob-client-java
+- https://github.com/opentable/hobknob-client-go
 
