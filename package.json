@@ -2,8 +2,10 @@
   "name": "hobknob",
   "version": "0.0.15",
   "description": "feature toggle client app over etcd",
-  "main": "server/app.js",
-  "scripts": {},
+  "scripts": {
+    "prestart": "bower cache clean --config.interactive=false && bower install --config.interactive=false",
+    "start": "node server/app.js"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/opentable/hobknob.git"
