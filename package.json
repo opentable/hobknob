@@ -2,9 +2,9 @@
   "name": "hobknob",
   "version": "0.0.15",
   "description": "feature toggle client app over etcd",
-  "main": "server/app.js",
   "scripts": {
-    "postinstall": "bower cache clean --config.interactive=false && bower install --config.interactive=false"
+    "prestart": "bower cache clean --config.interactive=false && bower install --config.interactive=false",
+    "start": "node server/app.js"
   },
   "repository": {
     "type": "git",
