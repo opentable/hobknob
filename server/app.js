@@ -20,7 +20,7 @@ app.use(express.favicon());
 app.use(express.logger("dev"));
 
 app.use(express.cookieParser("featuretoggle"));
-app.use(require("./session").init(config));
+app.use(require("./session").init(config, express));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(app.router);

@@ -1,4 +1,4 @@
-module.exports.init = function(config){
+module.exports.init = function(config, express){
   var session = require('express-session');
 
   var sessionMiddleware, useConnectEtcdSession, useConnectRedisSession;
