@@ -274,3 +274,12 @@ a.logout {
 .nav-pills>li>a{
   border-radius: 0px !important;
 }
+
+#add-toggle{
+    padding: 10px 5px;
+    width: 200px;
+}
+
+#add-toggle-form button{
+    margin: 10px 0px 0px 10px;
+}

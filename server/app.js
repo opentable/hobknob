@@ -6,7 +6,7 @@ var express = require("express"),
     authenticateRoutes = require("./routes/authenticateRoutes"),
     applicationRoutes = require("./routes/applicationRoutes"),
     path = require("path"),
-    config = require('./../config/default.json');11
+    config = require('./../config/default.json');
 
 var passport = require("./auth").init(config);
 
@@ -66,7 +66,9 @@ app.get('/auth/google/callback',
 );
 
 app.get('/api/applications', applicationRoutes.getApplications);
+app.get('/api/applications/:applicationName', applicationRoutes.getApplication);
 app.put('/api/applications', applicationRoutes.addApplication);
+app.put('/api/applications/:applicationName/:toggleName', applicationRoutes.updateToggle);
 
 console.log("Starting up feature toggle dashboard on port " + app.get('port'));
 

@@ -9,7 +9,7 @@ featureToggleFrontend.controller('SideBarController', ['$scope', 'applicationSer
             function(data){
                 $scope.applications = data;
             },
-            function(data, status, headers, config){
+            function(){
                 // todo: do something with error
             });
     };
@@ -43,15 +43,15 @@ featureToggleFrontend.controller('SideBarController', ['$scope', 'applicationSer
             return;
         }
 
-        applicationService.addApplication(applicationName)
-            .success(function(data, status){
+        applicationService.addApplication(applicationName, applicationName,
+            function(status){
                 if (status === 201) { // created
                     $scope.applications.push(applicationName);
                     $location.path('/applications/' + applicationName)
                 }
                 $scope.setAddingApplicationState(false);
-            })
-            .error(function(data, status, headers, config){
+            },
+            function(){
                 // todo: do something with error
                 $scope.setAddingApplicationState(false);
             });

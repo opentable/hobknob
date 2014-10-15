@@ -34,42 +34,9 @@ html(lang='en')
                 button.btn.btn-warning.pull-right(type="button",ng-click="setAddingApplicationState(false)",ng-show="adding") Cancel
                 button.btn.btn-success.pull-right(type="button",ng-click="addApplication()",ng-show="adding") Add
       .right.content-page
-        .header.content.rows-content-header
-          .navbar.navbar-default(role='navigation')
-            .container
-              .navbar-collapse.collapse
-                ul.nav.navbar-nav
-                  li
-                .navbar-form.navbar-right
-                  div(ng-controller='NewFeatureToggleModalController')
-                    script(type='text/ng-template', id='createToggleContent.html')
-                      .modal-header
-                        h3.modal-title New Feature Toggle
-                        alert(ng-repeat="alert in alerts", type="{{alert.type}}", close="closeAlert($index)") {{alert.msg}}
-                        .modal-body.input-group
-                          input#application-name.form-control(type='text', ng-model='form.applicationName', placeHolder='Application Name', ng-readonly='form.created')
-                          span#toggle-name.input-group-addon /
-                          input.form-control(type='text', ng-model='form.toggleName', placeHolder='Feature Toggle Name', ng-readonly='form.created')
-                        .modal-footer
-                          button.btn.btn-primary(ng-click='close()', ng-show='form.created') Close
-                          button.btn.btn-primary(ng-click='ok()', ng-show='!form.created').create-toggle-btn Create
-                          button.btn.btn-warning(ng-click='cancel()', ng-show='!form.created') Cancel
-                    a(class="btn btn-default" ng-click="open()").btn.btn-success.new-toggle New Feature Toggle
         .body.content.rows.scroll-y
           .row
             div(ng-view='ng-view')
-    //Add Toggle Modal - should probably move to a partial
-    #addModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='addModalLabel', aria-hidden='true')
-      .modal-dialog
-        .modal-content
-          .modal-header
-            button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
-            h4#addModalLabel.modal-title Add
-          .modal-body
-            | Something is wrong. I can't fetch the feature toggle you selected!
-          .modal-footer
-            button.btn.btn-default(type='button', data-dismiss='modal') Close
-            button.btn.btn-primary(type='button') Save changes
     script(src='/bower_components/angular/angular.min.js')
     script(src='/bower_components/angular-resource/angular-resource.min.js')
     script(src='/bower_components/angular-route/angular-route.min.js')
@@ -89,7 +56,6 @@ html(lang='en')
     script(src='/js/controllers/dashboardController.js')
     script(src='/js/controllers/sideBarController.js')
     script(src='/js/controllers/toggleController.js')
-    script(src='/js/controllers/newFeatureToggleModalController.js')
     script(src='/js/services/etcdPathService.js')
     script(src='/js/services/etcdAuditService.js')
     script(src='/js/services/etcdLeaderService.js')
