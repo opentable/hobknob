@@ -1,25 +1,65 @@
-featureToggleFrontend.controller('SideBarController', function($scope, $http, etcdApiService, etcdPathService, AppsService, $timeout, $location, CurrentUser) {
+featureToggleFrontend.controller('SideBarController', ['$scope', 'applicationService', '$location', 'focus', function($scope, applicationService, $location, focus) {
 
-    $scope.AppsService = AppsService;
-    $scope.CurrentUser = CurrentUser;
+    $scope.applications = [];
+    $scope.newApplicationName = '';
+    $scope.adding = false;
 
-    var refreshApps = function() {
-    	AppsService.updateApps();
+    var loadApplications = function(){
+        applicationService.getApplications(
+            function(data){
+                $scope.applications = data;
+            },
+            function(data, status, headers, config){
+                // todo: do something with error
+            });
+    };
 
-        refreshTimer = $timeout(refreshApps, 3000);
+    $scope.setAddingApplicationState = function(state){
+        $scope.adding = state;
+        if (state){
+            focus('newApplicationName');
+        }
+        else{
+            $scope.newApplicationName = '';
+        }
+    };
+
+    var validateNewApplication = function(applicationName){
+        if (!applicationName){
+            return "Must enter an application name";
+        }
+        if (_.any($scope.applications, function(application) { return application == applicationName})) {
+            return "Application already exists";
+        }
     }
 
-	var refreshTimer = $timeout(refreshApps, 3000);
+    $scope.addApplication = function(){
+        var applicationName = $scope.newApplicationName;
 
-    AppsService.loadApps();
-
-    $scope.isActive = function(appName) {
-    	return ($location.path() === '/applications/' + appName);
-	}
-
-	$scope.$on("$destroy", function() {
-        if (refreshTimer) {
-            $timeout.cancel(refreshTimer);
+        var validationError = validateNewApplication(applicationName);
+        if (validationError){
+            console.log(validationError);
+            //todo: raise this error on the UI
+            return;
         }
-    });
-});
+
+        applicationService.addApplication(applicationName)
+            .success(function(data, status){
+                if (status === 201) { // created
+                    $scope.applications.push(applicationName);
+                    $location.path('/applications/' + applicationName)
+                }
+                $scope.setAddingApplicationState(false);
+            })
+            .error(function(data, status, headers, config){
+                // todo: do something with error
+                $scope.setAddingApplicationState(false);
+            });
+    };
+
+    $scope.isActive = function(applicationName) {
+        return ($location.path() === '/applications/' + applicationName);
+    };
+
+    loadApplications();
+}]);

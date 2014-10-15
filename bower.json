@@ -24,6 +24,7 @@
     "angular-bootstrap-toggle-switch": "~0.5.1",
     "angular-bootstrap": "~0.11.0",
     "bootstrap-social": "~4.6.0",
-    "font-awesome": "~4.1.0"
+    "font-awesome": "~4.1.0",
+    "underscore": "~1.7.0"
   }
 }

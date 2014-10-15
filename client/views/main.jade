@@ -25,8 +25,14 @@ html(lang='en')
               a.logout(href='/logout' ng-show="CurrentUser.requiresAuthentication()") logout
           #sidebar-menu
             ul.nav.nav-pills.nav-stacked
-              li(ng-repeat="app in AppsService.apps | orderBy: 'appName'" ng-click="console.log(app)" ng-model="AppsService.selectedApp")
-                a(ng-href="/#!/applications/{{app.appName}}" ng-class="{ active: isActive(app.appName) }") {{app.appName}}
+              li(ng-repeat="application in applications | orderBy:'toString()'" ng-click="console.log(application)")
+                a(ng-href="/#!/applications/{{application}}" ng-class="{ active: isActive(application) }") {{application}}
+            div
+              a(ng-click="setAddingApplicationState(true)",ng-hide="adding") +
+              div(ng-show="adding")
+                input(type="text",ng-model="newApplicationName",focus-on="newApplicationName")
+                a(ng-click="addApplication()") Add
+                a(ng-click="setAddingApplicationState(false)") Cancel
       .right.content-page
         .header.content.rows-content-header
           .navbar.navbar-default(role='navigation')
@@ -71,6 +77,7 @@ html(lang='en')
     script(src='/bower_components/angular-bootstrap/ui-bootstrap-tpls.js')
     script(src='/bower_components/angular-bootstrap-toggle-switch/angular-toggle-switch.js')
     script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
+    script(src='/bower_components/underscore/underscore-min.js')
     script(src='/js/app.js')
     script(src='/js/common/lib/jquery.toggleswitch.min.js')
     script(src='/js/common/dashboard.js')
@@ -78,9 +85,9 @@ html(lang='en')
     script(src='/js/domain/audit.js')
     script(src='/js/domain/toggle.js')
     script(src='/js/domain/user.js')
+    script(src='/js/common/focus.js')
     script(src='/js/controllers/dashboardController.js')
     script(src='/js/controllers/sideBarController.js')
-    script(src='/js/controllers/applicationController.js')
     script(src='/js/controllers/toggleController.js')
     script(src='/js/controllers/newFeatureToggleModalController.js')
     script(src='/js/services/etcdPathService.js')
@@ -89,4 +96,6 @@ html(lang='en')
     script(src='/js/services/etcdService.js')
     script(src='/js/services/appsService.js')
     script(src='/js/services/toggleService.js')
+    script(src='/js/services/applicationService.js')
+    script(src='/js/controllers/applicationController.js')
     script(src='/configuration/config.js')

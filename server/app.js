@@ -1,12 +1,12 @@
 var express = require("express"),
-    exphbs  = require("express3-handlebars"),
-    helpers = require("./src/helper"),
     app = express(),
-    dashboardroutes = require("./routes/dashboardRoutes"),
-    loadbalancerRoutes = require("./routes/loadbalancerRoutes"),
-    authenticateroutes = require("./routes/authenticateRoutes"),
+    bodyParser = require('body-parser'),
+    dashboardRoutes = require("./routes/dashboardRoutes"),
+    loadBalancerRoutes = require("./routes/loadbalancerRoutes"),
+    authenticateRoutes = require("./routes/authenticateRoutes"),
+    applicationRoutes = require("./routes/applicationRoutes"),
     path = require("path"),
-    config = require('./../config/default.json');
+    config = require('./../config/default.json');11
 
 var passport = require("./auth").init(config);
 
@@ -19,6 +19,9 @@ app.use(express.urlencoded()); // to support URL-encoded bodies
 app.use(express.favicon());
 app.use(express.logger("dev"));
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(express.cookieParser("featuretoggle"));
 app.use(require("./session").init(config, express));
 app.use(passport.initialize());
@@ -28,7 +31,7 @@ app.use(app.router);
 app.use(express.static(path.join(__dirname, '/../public')));
 app.use('/bower_components',  express.static(path.join(__dirname, '/../public/bower_components')));
 
-app.get('/_lbstatus', loadbalancerRoutes.lbstatus);
+app.get('/_lbstatus', loadBalancerRoutes.lbstatus);
 app.get('/service-status', function(req, res) {
   res.status(200).end();
 });
@@ -41,10 +44,10 @@ var ensureAuthenticated = function(req, res, next) {
 };
 
 app.use(express.static(path.join(__dirname, "/../client")));
-app.get('/login', authenticateroutes.login);
-app.get("/", ensureAuthenticated, dashboardroutes.dashboard);
-app.get('/partials/:name', dashboardroutes.partials);
-app.get('/logout', authenticateroutes.logout);
+app.get('/login', authenticateRoutes.login);
+app.get("/", ensureAuthenticated, dashboardRoutes.dashboard);
+app.get('/partials/:name', dashboardRoutes.partials);
+app.get('/logout', authenticateRoutes.logout);
 
 app.get('/auth/google',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',
@@ -61,6 +64,9 @@ app.get('/auth/google/callback',
     res.redirect('/');
   }
 );
+
+app.get('/api/applications', applicationRoutes.getApplications);
+app.put('/api/applications', applicationRoutes.addApplication);
 
 console.log("Starting up feature toggle dashboard on port " + app.get('port'));
 
