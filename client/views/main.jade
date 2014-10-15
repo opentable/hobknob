@@ -27,12 +27,12 @@ html(lang='en')
             ul.nav.nav-pills.nav-stacked
               li(ng-repeat="application in applications | orderBy:'toString()'" ng-click="console.log(application)")
                 a(ng-href="/#!/applications/{{application}}" ng-class="{ active: isActive(application) }") {{application}}
-            div
-              a(ng-click="setAddingApplicationState(true)",ng-hide="adding") +
-              div(ng-show="adding")
-                input(type="text",ng-model="newApplicationName",focus-on="newApplicationName")
-                a(ng-click="addApplication()") Add
-                a(ng-click="setAddingApplicationState(false)") Cancel
+            #add-application
+              button.btn.btn-success(type="button",ng-click="setAddingApplicationState(true)",ng-hide="adding") Add
+              #add-application-form
+                input.form-control(type="text",ng-model="newApplicationName",placeholder="Application Name",focus-on="newApplicationName",ng-show="adding")
+                button.btn.btn-warning.pull-right(type="button",ng-click="setAddingApplicationState(false)",ng-show="adding") Cancel
+                button.btn.btn-success.pull-right(type="button",ng-click="addApplication()",ng-show="adding") Add
       .right.content-page
         .header.content.rows-content-header
           .navbar.navbar-default(role='navigation')

@@ -70,6 +70,14 @@ body {
   line-height: 1.3;
 }
 
+#add-application{
+    padding: 10px 15px;
+}
+
+#add-application-form button{
+    margin: 10px 0px 0px 10px;
+}
+
 .profile-image {
   margin: 3px 10px 0 3px; 
 }
@@ -93,6 +101,8 @@ body {
   font-size: 11px;
   color: #8B91A0; 
 }
+
+
 
 /*
  * Main content
@@ -233,7 +243,7 @@ td.toggle-cell {
 
 .body.rows {
   top: 50px;
-  bottom: 50px;
+  bottom: 0px;
 }
 
 h4.media-heading {
