@@ -69,6 +69,13 @@ app.get('/api/applications', applicationRoutes.getApplications);
 app.get('/api/applications/:applicationName', applicationRoutes.getApplication);
 app.put('/api/applications', applicationRoutes.addApplication);
 app.put('/api/applications/:applicationName/:toggleName', applicationRoutes.updateToggle);
+app.get('/api/applications/:applicationName/:toggleName/audit', applicationRoutes.getAuditTrail);
+app.post('/api/applications/:applicationName/:toggleName/audit', applicationRoutes.addAudit);
+
+app.post('/api/applications/:applicationName/users', applicationRoutes.grant);
+app.get('/api/applications/:applicationName/users', applicationRoutes.getUsers);
+app.delete('/api/applications/:applicationName/users/:userEmail', applicationRoutes.revoke);
+app.get('/api/applications/:applicationName/users/:userEmail', applicationRoutes.assert);
 
 console.log("Starting up feature toggle dashboard on port " + app.get('port'));
 

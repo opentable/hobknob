@@ -15,7 +15,6 @@ module.exports.init = function(config){
       },
       function(accessToken, refreshToken, profile, done){
         profile.accessToken = accessToken;
-        //console.log(profile);
         process.nextTick(function(){
           return done(null, profile);
         });

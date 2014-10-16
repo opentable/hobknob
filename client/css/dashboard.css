@@ -1,285 +1,175 @@
-/*
- * Base structure
- */
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
 
-/* Move down content because we have a fixed navbar that is 50px tall */
-body {
-  padding-top: 50px;
+#wrapper.toggled {
+    padding-left: 250px;
+}
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    left: 250px;
+    width: 0;
+    height: 100%;
+    margin-left: -250px;
+    overflow-y: auto;
+    background: #1B1E24;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    width: 250px;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    padding: 15px;
+}
+
+#wrapper.toggled #page-content-wrapper {
+    position: absolute;
+    margin-right: -250px;
+}
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 250px;
+    padding: 0;
+    list-style: none;
+    margin-top: 40px;
+    margin-bottom: 50px;
+}
+
+.sidebar-nav li {
+    text-indent: 20px;
+    line-height: 40px;
+}
+
+.sidebar-nav li > a {
+    display: block;
+    text-decoration: none;
+    color: #999999;
+}
+
+.sidebar-nav li > a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255,255,255,0.2);
+}
+
+.sidebar-nav li > a:active,
+.sidebar-nav li > a:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav li > a.active {
+    color: #fff;
+    background-color: #2a6496;
+}
+
+.sidebar-nav > .sidebar-brand {
+    background: black;
+    height: 50px;
+    font-size: 18px;
+    line-height: 60px;
+    position: fixed;
+    width: 250px;
+    top: 0px;
+}
+
+.sidebar-nav .logo{
+    float: left;
+    width: 250px;
+}
+
+.sidebar-nav .logo img{
+    height: 25px;
+    vertical-align: middle;
+}
+
+.sidebar-nav .profile {
+    border-bottom: 1px solid #1F2429;
+    color: #fff;
+    height: 70px;
+    left: 30px;
+    margin-top: 20px;
+    text-indent: 0px;
+    line-height: 10px;
+}
+
+.sidebar-nav .profile .media-object {
+    width: 57px;
+    margin-left:10px;
+    float: left;
+}
+
+.sidebar-nav .profile-image {
+    margin: 3px 10px 0 3px;
+}
+
+.sidebar-nav .profile-text {
+    padding-top: 10px;
+    margin-left: 80px;
+}
+
+.sidebar-nav .profile a {
+    cursor: pointer;
+    font-size: 11px;
+    color: #8B91A0;
 }
 
 
-/*
- * Global add-ons
- */
+@media(min-width:768px) {
+    #wrapper {
+        padding-left: 250px;
+    }
 
-.sub-header {
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
+    #wrapper.toggled {
+        padding-left: 0;
+    }
+
+    #sidebar-wrapper {
+        width: 250px;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        width: 0;
+    }
+
+    #page-content-wrapper {
+        padding: 20px;
+    }
+
+    #wrapper.toggled #page-content-wrapper {
+        position: relative;
+        margin-right: 0;
+    }
 }
 
-/* Navigation Bar   */
-
-.navbar-default {
-  background-color: transparent;
-  border: none;
+.add-form{
+    width: 400px;
 }
 
-/* Sidebar navigation */
-#sidebar-menu {
-  width: 100%;
-  border-top: 1px solid #1F2429; 
-}
-
-#sidebar-menu, #sidebar-menu ul, #sidebar-menu li, #sidebar-menu a {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  list-style: none;
-  font-weight: normal;
-  text-decoration: none;
-  line-height: 1;
-  font-size: 14px;
-  position: relative; 
-}
-
-#sidebar-menu > ul > li > a {
-  font-size: 14px;
-  display: block;
-  color: #fff;
-  border-left: 4px solid transparent;
-  padding: 10px 15px;
-  -webkit-transition: All 0.25s ease;
-  -moz-transition: All 0.25s ease;
-  -o-transition: All 0.25s ease;
-}
-
-#sidebar-menu > ul > li > a:hover{
-  color: #2a6496; 
-}
-
-#sidebar-menu > ul > li > a.active {
-  color: #fff;
-  background-color: #2a6496;
-}
-
-#sidebar-menu > ul > li > a > span.glyphicon {
-  margin-right: 5px;
-}
-
-#sidebar-menu a {
-  line-height: 1.3;
-}
-
-#add-application{
+.sidebar-nav .add-form {
     padding: 10px 15px;
+    width: 240px;
 }
 
-#add-application-form button{
-    margin: 10px 0px 0px 10px;
-}
-
-.profile-image {
-  margin: 3px 10px 0 3px; 
-}
-
-.side-menu .profile {
-  padding: 0px 30px 15px;
-  margin: 20px -15px 0 -15px;
-  border-bottom: 1px solid #1F2429;
-  color: #fff;
-  height: 80px;
-}
-
-.side-menu .profile .media-object {
-  width: 57px;
-  position: fixed;
-  left: 10px;
-}
-
-.side-menu .profile a {
-  cursor: pointer;
-  font-size: 11px;
-  color: #8B91A0; 
-}
-
-
-
-/*
- * Main content
- */
-
-.main {
-  padding: 20px;
-}
-@media (min-width: 768px) {
-  .main {
-    padding-right: 40px;
-    padding-left: 40px;
-  }
-}
-.main .page-header {
-  margin-top: 0;
-  border-bottom: none !important;
-}
-
-/*
- * Placeholder dashboard ideas
- */
-
-.placeholders {
-  margin-bottom: 30px;
-  text-align: center;
-}
-.placeholders h4 {
-  margin-bottom: 0;
-}
-.placeholder {
-  margin-bottom: 20px;
-}
-.placeholder img {
-  display: inline-block;
-  border-radius: 50%;
-}
-
-.logo img{
-  height: 25px;
-  vertical-align: middle;
-  padding-left: 24px;
-}
-
-.toggle-container { 
-  padding-top: 7px; 
-}
-
-td.toggle-cell {
-  vertical-align: middle;
+.add-form > div button{
+    margin: 10px 0 0 10px;
 }
 
 .container {
-  min-height: 100%;
-  width: auto;
-}
-
-.left {
-  width: 225px;
-  background: #1B1E24;
-  margin-left: -15px;
-  position: absolute;
-  top: 0;
-  bottom: 0; 
-}
-
-.right {
-  left: 225px;
-  right: 0;
-  position: absolute;
-  top: 0;
-  bottom: 0; 
-}
-
-.header.content {
-  background: #FFFFFF;
-  border-bottom: 1px solid #E5E9EC; 
-}
-
-.header.rows-content-header {
-  height: 50px; 
-}
-
-.rows-content-header {
-  left: 0;
-  right: 0;
-  position: absolute; 
-}
-
-
-.body.content.rows {
-  top: 50px;
-  bottom: 0px;
-  background: #F7F8F8;
-  padding: 20px;
-  font-size: 13px;
-} 
-
-.scroll-y {
-  overflow-y: auto; 
-}
-
-.rows {
-  left: 0;
-  right: 0;
-}
-
-.rows, .col, .page {
-  position: absolute; 
-}
-
-.animated {
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both; 
-}
-
-.page-heading {
-  margin: 0px 0 25px;
-  padding: 5px 0;
-}
-
-.page-heading h1 {
-  margin: 0;
-  padding: 0;
-  font-weight: 400;
-  font-size: 24px; 
-}
-
-.header.sidebar {
-  background: #000;
-}
-
-.header.rows {
-  height: 50px;
-}
-
-.body.rows {
-  top: 50px;
-  bottom: 0px;
-}
-
-h4.media-heading {
-  word-wrap: break-word; 
-  margin-left: 60px;
-}
-
-a.logout {
-  margin-left: 60px;
-}
-
-.dashboard-search-box {
-  margin-bottom: 20px;
-}
-
-.tag-container a {
-  margin-right: 3px;
-}
-
-.green {
-  color: green;
-}
-
-.red {
-  color: red;
-}
-
-.nav-pills>li>a{
-  border-radius: 0px !important;
-}
-
-#add-toggle{
-    padding: 10px 5px;
-    width: 200px;
-}
-
-#add-toggle-form button{
-    margin: 10px 0px 0px 10px;
+    min-height: 100%;
+    width: auto;
+    margin-top: 20px;
 }

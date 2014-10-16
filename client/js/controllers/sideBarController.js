@@ -1,16 +1,18 @@
-featureToggleFrontend.controller('SideBarController', ['$scope', 'applicationService', '$location', 'focus', function($scope, applicationService, $location, focus) {
+featureToggleFrontend.controller('SideBarController', ['$scope', 'applicationService', '$location', 'focus', 'CurrentUser', function($scope, applicationService, $location, focus, CurrentUser) {
 
     $scope.applications = [];
     $scope.newApplicationName = '';
     $scope.adding = false;
+
+    $scope.CurrentUser = CurrentUser;
 
     var loadApplications = function(){
         applicationService.getApplications(
             function(data){
                 $scope.applications = data;
             },
-            function(){
-                // todo: do something with error
+            function(data){
+                $scope.$emit('error', "Failed to load applications", new Error(data));
             });
     };
 
@@ -31,7 +33,21 @@ featureToggleFrontend.controller('SideBarController', ['$scope', 'applicationSer
         if (_.any($scope.applications, function(application) { return application == applicationName})) {
             return "Application already exists";
         }
-    }
+    };
+
+    var grantUser = function(applicationName, userEmail, callback) {
+        var user = {
+            email: userEmail
+        };
+
+        applicationService.grant(applicationName, user,
+            function(){
+                callback();
+            },
+            function(data){
+                callback(new Error(data));
+            });
+    };
 
     $scope.addApplication = function(){
         var applicationName = $scope.newApplicationName;
@@ -39,21 +55,26 @@ featureToggleFrontend.controller('SideBarController', ['$scope', 'applicationSer
         var validationError = validateNewApplication(applicationName);
         if (validationError){
             console.log(validationError);
-            //todo: raise this error on the UI
+            $scope.$emit('error', validationError);
             return;
         }
 
-        applicationService.addApplication(applicationName, applicationName,
+        applicationService.addApplication(applicationName,
             function(status){
                 if (status === 201) { // created
-                    $scope.applications.push(applicationName);
-                    $location.path('/applications/' + applicationName)
+                    grantUser(applicationName, CurrentUser.email, function(err) {
+                        $scope.applications.push(applicationName);
+                        if (err){
+                            $scope.$emit('error', "Application created but current user could not be added to list of application owners", err);
+                        } else {
+                            $location.path('/applications/' + applicationName)
+                        }
+                    });
                 }
                 $scope.setAddingApplicationState(false);
             },
-            function(){
-                // todo: do something with error
-                $scope.setAddingApplicationState(false);
+            function(data){
+                $scope.$emit('error', "Failed to add application", new Error(data));
             });
     };
 
