@@ -168,8 +168,9 @@
     margin: 10px 0 0 10px;
 }
 
-.container {
-    min-height: 100%;
-    width: auto;
-    margin-top: 20px;
+.sign-in{
+
+    margin: 60px 5px 0 5px;
+    width: 240px;
+
 }

@@ -11,10 +11,13 @@ html(lang='en')
     link(href='/bower_components/angular-bootstrap-toggle-switch/style/bootstrap3/angular-toggle-switch-bootstrap-3.css', media='all', rel='stylesheet')
     script(src='/public/bower_components/jquery/dist/jquery.min.js')
   body(ng-app='featureToggleFrontend')
-    .container
-      .row
-        .col-sm-2.col-md-offset-5
-          a(href='/auth/google').btn.btn-block.btn-social.btn-google-plus
-            i.fa.fa-google-plus
-            | Sign in with Google
+    #wrapper
+      #sidebar-wrapper
+        ul.sidebar-nav
+          li.sidebar-brand
+            a.navbar-brand.logo(href='/')
+              img(src='/img/opentable-hr-mono.png')
+        a(href='/auth/google').btn.btn-block.btn-social.btn-google-plus.sign-in
+          i.fa.fa-google-plus
+          | Sign in with Google
     script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')

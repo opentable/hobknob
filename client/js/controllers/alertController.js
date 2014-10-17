@@ -1,11 +1,10 @@
-featureToggleFrontend.controller('AlertController', ['$scope', '$rootScope', '$timeout', function($scope, $rootScope, $timeout) {
+featureToggleFrontend.controller('AlertController', ['$scope', '$rootScope', function($scope, $rootScope) {
 
     $scope.alert = null;
 
     $rootScope.$on('success', function(event, message){
         $scope.alert = {
             message: message,
-            date: new Date(),
             class: "alert-success"
         };
     });
@@ -13,7 +12,6 @@ featureToggleFrontend.controller('AlertController', ['$scope', '$rootScope', '$t
     $rootScope.$on('error', function(event, message, err){
         $scope.alert = {
             message: message,
-            date: new Date(),
             class: "alert-danger"
         };
 

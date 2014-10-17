@@ -1,6 +1,6 @@
 .col-md-12
-  .alert.alert-warning(ng-hide="userHasPermissions") You do not have permissions to add or modify toggles for this application. Please contact an Application Owner if you require this ability.
-  .panel.panel-default
+  .alert.alert-warning(ng-cloak,ng-hide="userHasPermissions") You do not have permissions to add or modify toggles for this application. Please contact an Application Owner if you require this ability.
+  .panel.panel-default(ng-cloak,ng-controller="ToggleListController")
     .panel-heading
       h3.panel-title Toggles
     .panel-body
@@ -27,7 +27,7 @@
             input.form-control(type="text",ng-model="newToggleName",placeholder="Toggle Name",focus-on="newToggleName",ng-show="adding")
             button.btn.btn-warning.pull-right(type="button",ng-click="setAddingToggleState(false)",ng-show="adding") Cancel
             button.btn.btn-success.pull-right(type="submit",ng-show="adding") Add
-  .panel.panel-default(ng-show="requiresAuthentication")
+  .panel.panel-default(ng-controller="ApplicationOwnersController",ng-show="requiresAuthentication")
     .panel-heading
       h3.panel-title Application Owners
     .panel-body
