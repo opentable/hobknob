@@ -36,7 +36,7 @@ describe("Dashboard", function () {
 		var successAlert = element(by.repeater('alert in alerts').row(0));
 
 		browser.get('/#!/applications/protractor');
-		var toggleInApplicationView = element(by.css('a[href="/#!/applications/monkey1/woo1"]'))
+		var toggleInApplicationView = element(by.css('a[href="/#!/applications/monkey1/woo1"]'));
 		expect(toggleInApplicationView).toBeDefined();
 	});
 

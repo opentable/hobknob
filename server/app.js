@@ -6,6 +6,7 @@ var express = require("express"),
     authenticateRoutes = require("./routes/authenticateRoutes"),
     applicationRoutes = require("./routes/applicationRoutes"),
     path = require("path"),
+    acl = require("./acl"),
     config = require('./../config/default.json');
 
 var passport = require("./auth").init(config);
@@ -36,25 +37,51 @@ app.get('/service-status', function(req, res) {
   res.status(200).end();
 });
 
-var ensureAuthenticated = function(req, res, next) {
-  if (req.isAuthenticated() || !config.RequiresAuth) {
+var isAuthenticated = function(req) {
+    return !config.RequiresAuth || req.isAuthenticated();
+};
+
+var ensureAuthenticatedOrRedirectToLogin = function(req, res, next) {
+  if (isAuthenticated(req)) {
     return next();
   }
   res.redirect('/login');
 };
 
+var ensureAuthenticated = function(req, res, next) {
+    if (isAuthenticated(req)) {
+        return next();
+    }
+    res.send(403);
+};
+
+var authoriseUserForThisApplication = function(req, res, next) {
+    if (!config.RequiresAuth) return true;
+
+    var applicationName = req.params.applicationName;
+    var userEmail = req.user._json.email;
+    acl.assert(userEmail, applicationName, function(err, isAuthroised){
+        if (err || !isAuthroised){
+            res.send(403);
+        } else {
+            next();
+        }
+    });
+};
+
 app.use(express.static(path.join(__dirname, "/../client")));
 app.get('/login', authenticateRoutes.login);
-app.get("/", ensureAuthenticated, dashboardRoutes.dashboard);
+app.get("/", ensureAuthenticatedOrRedirectToLogin, dashboardRoutes.dashboard);
 app.get('/partials/:name', dashboardRoutes.partials);
 app.get('/logout', authenticateRoutes.logout);
 
 app.get('/auth/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',
-  'https://www.googleapis.com/auth/userinfo.email'] }),
+  passport.authenticate('google',
+  {
+      scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']
+  }),
   function(req, res){
-    // The request will be redirected to Google for authentication, so this
-    // function will not be called.
+    // The request will be redirected to Google for authentication
   }
 );
 
@@ -67,14 +94,13 @@ app.get('/auth/google/callback',
 
 app.get('/api/applications', applicationRoutes.getApplications);
 app.get('/api/applications/:applicationName', applicationRoutes.getApplication);
-app.put('/api/applications', applicationRoutes.addApplication);
-app.put('/api/applications/:applicationName/:toggleName', applicationRoutes.updateToggle);
+app.put('/api/applications', ensureAuthenticated, applicationRoutes.addApplication);
+app.put('/api/applications/:applicationName/:toggleName', ensureAuthenticated, authoriseUserForThisApplication, applicationRoutes.updateToggle);
 app.get('/api/applications/:applicationName/:toggleName/audit', applicationRoutes.getAuditTrail);
-app.post('/api/applications/:applicationName/:toggleName/audit', applicationRoutes.addAudit);
-
-app.post('/api/applications/:applicationName/users', applicationRoutes.grant);
+app.post('/api/applications/:applicationName/:toggleName/audit', ensureAuthenticated, authoriseUserForThisApplication, applicationRoutes.addAudit);
+app.post('/api/applications/:applicationName/users', ensureAuthenticated, authoriseUserForThisApplication, applicationRoutes.grant);
 app.get('/api/applications/:applicationName/users', applicationRoutes.getUsers);
-app.delete('/api/applications/:applicationName/users/:userEmail', applicationRoutes.revoke);
+app.delete('/api/applications/:applicationName/users/:userEmail', ensureAuthenticated, authoriseUserForThisApplication, applicationRoutes.revoke);
 app.get('/api/applications/:applicationName/users/:userEmail', applicationRoutes.assert);
 
 console.log("Starting up feature toggle dashboard on port " + app.get('port'));

@@ -13,5 +13,5 @@ featureToggleFrontend.factory('focus', function ($rootScope, $timeout) {
         $timeout(function (){
             $rootScope.$broadcast('focusOn', name);
         });
-    }
+    };
 });

@@ -1,16 +1,20 @@
-featureToggleFrontend.controller('ApplicationOwnersController', ['$scope', '$routeParams', '$timeout', 'toggleService', 'authorisationService', 'focus', function($scope, $routeParams, $timeout, toggleService, authorisationService, focus) {
+featureToggleFrontend.controller('ApplicationOwnersController', ['$scope', 'authorisationService', 'focus', function($scope, authorisationService, focus) {
 
     $scope.users = [];
     $scope.addingUser = false;
     $scope.newUserEmail = '';
+    $scope.loadingUsers = true;
 
     var loadUsers = function() {
         authorisationService.getUsers($scope.applicationName,
             function(users){
                 $scope.users = users;
+                $scope.loadingUsers = false;
             },
             function(data){
                 $scope.$emit('error', "Failed to load application owners", new Error(data));
+                $scope.loadingUsers = false;
+
             });
     };
 
@@ -28,7 +32,7 @@ featureToggleFrontend.controller('ApplicationOwnersController', ['$scope', '$rou
         if (!validator.isEmail(user.email)){
             return "Invalid email address";
         }
-        if (_.any($scope.users, function(existingUser) { return existingUser.email == user.email})) {
+        if (_.any($scope.users, function(existingUser) { return existingUser.email == user.email; })) {
             return "This user is already added to this application";
         }
     };

@@ -39,4 +39,4 @@ module.exports.init = function(config, express){
 
     return sessionMiddleware(req, res, next);
   } ;
-}
+};

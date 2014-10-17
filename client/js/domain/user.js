@@ -1,8 +1,7 @@
-'use strict';
-
 angular.module('featureToggleFrontend')
 
 .factory('CurrentUser', function($window, ENV) {
+  'use strict';
 
   function CurrentUser(){
     if (ENV.RequiresAuth === true) {

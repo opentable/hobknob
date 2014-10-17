@@ -31,4 +31,4 @@ module.exports.init = function(config){
   });
 
   return passport;
-}
+};

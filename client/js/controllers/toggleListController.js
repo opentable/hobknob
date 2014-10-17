@@ -1,16 +1,19 @@
-featureToggleFrontend.controller('ToggleListController', ['$scope', '$routeParams', '$timeout', 'toggleService', 'authorisationService', 'focus', 'ENV', function($scope, $routeParams, $timeout, toggleService, authorisationService, focus, ENV) {
+featureToggleFrontend.controller('ToggleListController', ['$scope', '$timeout', 'toggleService', 'focus', 'ENV', function($scope, $timeout, toggleService, focus, ENV) {
 
     $scope.toggles = [];
     $scope.adding = false;
     $scope.newToggleName = '';
+    $scope.loadingToggles = true;
 
     var loadToggles = function() {
         toggleService.getToggles($scope.applicationName,
             function(toggles){
                 $scope.toggles = toggles;
+                $scope.loadingToggles = false;
             },
             function(data){
                 $scope.$emit('error', "Failed to load toggles", new Error(data));
+                $scope.loadingToggles = false;
             });
     };
 
@@ -25,6 +28,8 @@ featureToggleFrontend.controller('ToggleListController', ['$scope', '$routeParam
     };
 
     $scope.updateThisToggle = function(toggle) {
+        if (!$scope.userHasPermissions) return;
+
         $timeout(function(){
             toggleService.updateToggle($scope.applicationName, toggle.name, toggle.value,
                 function(){
@@ -39,7 +44,7 @@ featureToggleFrontend.controller('ToggleListController', ['$scope', '$routeParam
         if (!toggleName){
             return "Must enter an toggle name";
         }
-        if (_.any($scope.toggles, function(toggle) { return toggle.name == toggleName})) {
+        if (_.any($scope.toggles, function(toggle) { return toggle.name == toggleName; })) {
             return "Toggle already exists";
         }
     };

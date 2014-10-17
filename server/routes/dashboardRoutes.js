@@ -1,4 +1,4 @@
-var config = require('./../../config/default.json');
+var config = require('./../../config/config.json');
 
 exports.dashboard = function(req, res){
   res.render('main', 

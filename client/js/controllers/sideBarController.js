@@ -30,7 +30,7 @@ featureToggleFrontend.controller('SideBarController', ['$scope', 'toggleService'
         if (!applicationName){
             return "Must enter an application name";
         }
-        if (_.any($scope.applications, function(application) { return application == applicationName})) {
+        if (_.any($scope.applications, function(application) { return application == applicationName; })) {
             return "Application already exists";
         }
     };
@@ -67,7 +67,7 @@ featureToggleFrontend.controller('SideBarController', ['$scope', 'toggleService'
                         if (err){
                             $scope.$emit('error', "Application created but current user could not be added to list of application owners", err);
                         } else {
-                            $location.path('/applications/' + applicationName)
+                            $location.path('/applications/' + applicationName);
                         }
                     });
                 }

@@ -1,9 +1,9 @@
 .col-md-12
-  .alert.alert-warning(ng-cloak,ng-hide="userHasPermissions") You do not have permissions to add or modify toggles for this application. Please contact an Application Owner if you require this ability.
+  .alert.alert-warning(ng-show="userHasPermissionsLoaded && !userHasPermissions") You do not have permissions to add or modify toggles for this application. Please contact an Application Owner if you require this ability.
   .panel.panel-default(ng-cloak,ng-controller="ToggleListController")
     .panel-heading
       h3.panel-title Toggles
-    .panel-body
+    .panel-body(ng-hide="loadingToggles")
       p(ng-hide="toggles.length>0") No toggles added yet.
       table.table(ng-show="toggles.length>0")
         trhead
@@ -19,8 +19,8 @@
               a(href="{{toggle.fullPath}}" target="_blank") {{toggle.fullPath}}
             td
               .pull-right
-                toggle-switch(model="toggle.value" on-change="updateThisToggle(toggle)").switch-primary
-      div.add-form(ng-show="userHasPermissions")
+                toggle-switch(model="toggle.value" on-change="updateThisToggle(toggle)" ng-disabled="userHasPermissionsLoaded && !userHasPermissions").switch-primary
+      div.add-form(ng-show="userHasPermissionsLoaded && userHasPermissions")
         button.btn.btn-success(type="button",ng-click="setAddingToggleState(true)",ng-hide="adding") New Toggle
         div
           form(ng-submit="addToggle()")
@@ -31,7 +31,7 @@
     .panel-heading
       h3.panel-title Application Owners
     .panel-body
-      table.table
+      table.table(ng-hide="loadingUsers")
         trhead
           tr
             th Email
@@ -43,7 +43,7 @@
             td
               .pull-right
                 button.btn.btn-danger.pull-right(type="button",ng-click="revokeUser(user)",ng-show="userHasPermissions") Remove
-      .add-form(ng-show="userHasPermissions")
+      .add-form(ng-show="userHasPermissionsLoaded && userHasPermissions")
         button.btn.btn-success(type="button",ng-click="setAddingUserState(true)",ng-hide="addingUser") Add user
         div
           form(ng-submit="grantUser()")

@@ -5,7 +5,7 @@
             | Audit for
             a(ng-href="/#!/applications/{{applicationName}}")  {{applicationName}}
             |  > {{toggleName}}
-        .panel-body
+        .panel-body(ng-controller="ToggleAuditController")
           table.table
             trhead
               tr

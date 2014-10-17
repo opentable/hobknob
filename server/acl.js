@@ -7,7 +7,7 @@ EtcdAclStore.prototype.grant = function(user, resource, callback) {
     etcd.client.set('v1/toggleAcl/' + resource + '/' + user.email, JSON.stringify(user), function(err){
         if (err) callback(err);
         callback();
-    })
+    });
 };
 
 EtcdAclStore.prototype.assert = function(userEmail, resource, callback) {
@@ -21,7 +21,7 @@ EtcdAclStore.prototype.assert = function(userEmail, resource, callback) {
             return;
         }
         callback(null, true);
-    })
+    });
 };
 
 EtcdAclStore.prototype.revoke = function(userEmail, resource, callback) {
@@ -35,7 +35,7 @@ EtcdAclStore.prototype.revoke = function(userEmail, resource, callback) {
             return;
         }
         callback();
-    })
+    });
 };
 
 EtcdAclStore.prototype.getAllUsers = function(resource, callback) {
@@ -53,7 +53,7 @@ EtcdAclStore.prototype.getAllUsers = function(resource, callback) {
             return JSON.parse(node.value);
         });
         callback(null, users);
-    })
+    });
 };
 
 module.exports = new EtcdAclStore();

@@ -1,7 +1,5 @@
-'use strict';
-
-angular.module('featureToggleFrontend')
-    .factory('auditService', ['ENV', '$http', function(ENV, $http) {
+angular.module('featureToggleFrontend').factory('auditService', ['ENV', '$http', function(ENV, $http) {
+    'use strict';
 
     var exports = {};
 
@@ -26,20 +24,13 @@ angular.module('featureToggleFrontend')
             user:user
         };
 
-        $http({
-            method: 'POST',
-            url: path,
-            data: { audit: audit },
-            headers: {
-                'Content-Type': 'application/json' // can default this once we stop calling etcd directly.
-            }
-        })
-        .success(function(){
-            callback();
-        })
-        .error(function(data){
-            callback(data);
-        });
+        $http.post(path,{ audit: audit })
+            .success(function(){
+                callback();
+            })
+            .error(function(data){
+                callback(data);
+            });
     };
 
     return exports;
