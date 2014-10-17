@@ -2,6 +2,7 @@ var etcd = require('../etcd'),
     _ = require('underscore'),
     validator = require('validator'),
     config = require('./../../config/config.json'),
+    acl = require('./../acl');
     etcdBaseUrl = "http://" + config.etcdHost + ":" + config.etcdPort + '/v2/keys/';
 
 module.exports = {
@@ -31,7 +32,17 @@ module.exports = {
         var path = 'v1/toggles/' + applicationName;
         etcd.client.mkdir(path, function(err){
             if (err) throw err;
-            res.send(201);
+
+            // todo: not sure if this is correct
+            if (config.RequiresAuth) {
+                var userEmail = req.user._json.email;
+                acl.grant(userEmail, applicationName, function (err) {
+                    if (err) throw err;
+                    res.send(201);
+                })
+            } else {
+                res.send(201);
+            }
         });
     },
 

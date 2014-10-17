@@ -1,4 +1,4 @@
-featureToggleFrontend.controller('SideBarController', ['$scope', 'toggleService', '$location', 'focus', 'CurrentUser', function($scope, toggleService, $location, focus, CurrentUser) {
+featureToggleFrontend.controller('SideBarController', ['$scope', 'toggleService', 'authorisationService', '$location', 'focus', 'CurrentUser', function($scope, toggleService, authorisationService, $location, focus, CurrentUser) {
 
     $scope.applications = [];
     $scope.newApplicationName = '';
@@ -33,20 +33,9 @@ featureToggleFrontend.controller('SideBarController', ['$scope', 'toggleService'
         if (_.any($scope.applications, function(application) { return application == applicationName; })) {
             return "Application already exists";
         }
-    };
-
-    var grantUser = function(applicationName, userEmail, callback) {
-        var user = {
-            email: userEmail
-        };
-
-        toggleService.grant(applicationName, user,
-            function(){
-                callback();
-            },
-            function(data){
-                callback(new Error(data));
-            });
+        if (!/^[a-z0-9]+$/i.test(applicationName)){
+            return "Application name must be alphanumeric with no spaces"
+        }
     };
 
     $scope.addApplication = function(){
@@ -62,14 +51,8 @@ featureToggleFrontend.controller('SideBarController', ['$scope', 'toggleService'
         toggleService.addApplication(applicationName,
             function(status){
                 if (status === 201) { // created
-                    grantUser(applicationName, CurrentUser.email, function(err) {
-                        $scope.applications.push(applicationName);
-                        if (err){
-                            $scope.$emit('error', "Application created but current user could not be added to list of application owners", err);
-                        } else {
-                            $location.path('/applications/' + applicationName);
-                        }
-                    });
+                    $scope.applications.push(applicationName);
+                    $location.path('/applications/' + applicationName);
                 }
                 $scope.setAddingApplicationState(false);
             },

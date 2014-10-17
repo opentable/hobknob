@@ -37,9 +37,9 @@
             th Email
             th
         trbody
-          tr(ng-repeat="user in users | orderBy: 'email'")
+          tr(ng-repeat="user in users | orderBy: 'toString()'")
             td
-              | {{user.email}}
+              | {{user}}
             td
               .pull-right
                 button.btn.btn-danger.pull-right(type="button",ng-click="revokeUser(user)",ng-show="userHasPermissions") Remove

@@ -3,8 +3,8 @@ var etcd = require('./etcd'),
 
 var EtcdAclStore = function() { };
 
-EtcdAclStore.prototype.grant = function(user, resource, callback) {
-    etcd.client.set('v1/toggleAcl/' + resource + '/' + user.email, JSON.stringify(user), function(err){
+EtcdAclStore.prototype.grant = function(userEmail, resource, callback) {
+    etcd.client.set('v1/toggleAcl/' + resource + '/' + userEmail, userEmail, function(err){
         if (err) callback(err);
         callback();
     });
@@ -50,7 +50,7 @@ EtcdAclStore.prototype.getAllUsers = function(resource, callback) {
         }
 
         var users = _.map(result.node.nodes || [], function(node){
-            return JSON.parse(node.value);
+            return node.value;
         });
         callback(null, users);
     });

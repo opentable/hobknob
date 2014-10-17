@@ -28,42 +28,39 @@ featureToggleFrontend.controller('ApplicationOwnersController', ['$scope', 'auth
         }
     };
 
-    var validateNewUser = function(user){
-        if (!validator.isEmail(user.email)){
+    var validateNewUser = function(email){
+        if (!validator.isEmail(email)){
             return "Invalid email address";
         }
-        if (_.any($scope.users, function(existingUser) { return existingUser.email == user.email; })) {
+        if (_.any($scope.users, function(existingUser) { return existingUser == email; })) {
             return "This user is already added to this application";
         }
     };
 
     $scope.grantUser = function() {
         var email = $scope.newUserEmail;
-        var user = {
-            email: email
-        };
 
-        var validationError = validateNewUser(user);
+        var validationError = validateNewUser(email);
         if (validationError){
             $scope.$emit('error', validationError);
             return;
         }
 
-        authorisationService.grant($scope.applicationName, user,
+        authorisationService.grant($scope.applicationName, email,
             function(){
-                $scope.users.push(user);
+                $scope.users.push(email);
                 $scope.setAddingUserState(false);
-                $scope.$emit('success', user.email + " was successfully made an application owner");
+                $scope.$emit('success', email + " was successfully made an application owner");
             },
             function(data){
                 $scope.$emit('error', "Failed to add user to the application owners", new Error(data));
             });
     };
 
-    $scope.revokeUser = function(user) {
-        authorisationService.revoke($scope.applicationName, user.email,
+    $scope.revokeUser = function(email) {
+        authorisationService.revoke($scope.applicationName, email,
             function(){
-                var index = $scope.users.indexOf(user);
+                var index = $scope.users.indexOf(email);
                 if (index > -1) {
                     $scope.users.splice(index, 1);
                 }

@@ -47,10 +47,13 @@ featureToggleFrontend.controller('ToggleListController', ['$scope', '$timeout', 
         if (_.any($scope.toggles, function(toggle) { return toggle.name == toggleName; })) {
             return "Toggle already exists";
         }
+        if (!/^[a-z0-9]+$/i.test(toggleName)){
+            return "Toggle name must be alphanumeric with no spaces"
+        }
     };
 
     $scope.addToggle = function() {
-        var toggleName = $scope.newToggleName;
+        var toggleName = $scope.newToggleName.trim();
 
         var validationError = validateNewToggle(toggleName);
         if (validationError){

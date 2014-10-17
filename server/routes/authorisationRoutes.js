@@ -16,12 +16,12 @@ module.exports = {
 
     grant: function(req, res){
         var applicationName = req.params.applicationName;
-        var user = req.body.user;
-        if (!validator.isEmail(user.email)){
+        var userEmail = req.body.userEmail;
+        if (!validator.isEmail(userEmail)){
             res.status(400).send('Invalid email');
             return;
         }
-        acl.grant(user, applicationName, function(err){
+        acl.grant(userEmail, applicationName, function(err){
             if (err) throw err;
             res.send(200);
         });

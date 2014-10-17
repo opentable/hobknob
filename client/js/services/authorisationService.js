@@ -16,9 +16,9 @@ angular.module('featureToggleFrontend').factory('authorisationService', ['ENV', 
             });
     };
 
-    exports.grant = function (applicationName, user, success, error) {
+    exports.grant = function (applicationName, userEmail, success, error) {
         var path = '/api/applications/' + applicationName + '/users';
-        $http.post(path, { user: user })
+        $http.post(path, { userEmail: userEmail })
             .success(function(data){
                 success(data);
             })
@@ -27,8 +27,8 @@ angular.module('featureToggleFrontend').factory('authorisationService', ['ENV', 
             });
     };
 
-    exports.revoke = function (applicationName, user, success, error) {
-        var path = '/api/applications/' + applicationName + '/users/' + user;
+    exports.revoke = function (applicationName, userEmail, success, error) {
+        var path = '/api/applications/' + applicationName + '/users/' + userEmail;
         $http.delete(path)
             .success(function(){
                 success();
@@ -38,8 +38,8 @@ angular.module('featureToggleFrontend').factory('authorisationService', ['ENV', 
             });
     };
 
-    exports.isUserAuthorised = function (applicationName, user, callback) {
-        var path = '/api/applications/' + applicationName + '/users/' + user;
+    exports.isUserAuthorised = function (applicationName, userEmail, callback) {
+        var path = '/api/applications/' + applicationName + '/users/' + userEmail;
         $http.get(path)
             .success(function(data){
                 callback(null, data.authorised);

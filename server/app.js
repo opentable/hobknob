@@ -4,10 +4,12 @@ var express = require("express"),
     dashboardRoutes = require("./routes/dashboardRoutes"),
     loadBalancerRoutes = require("./routes/loadbalancerRoutes"),
     authenticateRoutes = require("./routes/authenticateRoutes"),
-    applicationRoutes = require("./routes/applicationRoutes"),
+    authorisationRoutes = require("./routes/authorisationRoutes"),
+    toggleRoutes = require("./routes/toggleRoutes"),
+    auditRoutes = require("./routes/auditRoutes"),
     path = require("path"),
     acl = require("./acl"),
-    config = require('./../config/default.json');
+    config = require('./../config/config.json');
 
 var passport = require("./auth").init(config);
 
@@ -92,16 +94,18 @@ app.get('/auth/google/callback',
   }
 );
 
-app.get('/api/applications', applicationRoutes.getApplications);
-app.get('/api/applications/:applicationName', applicationRoutes.getApplication);
-app.put('/api/applications', ensureAuthenticated, applicationRoutes.addApplication);
-app.put('/api/applications/:applicationName/:toggleName', ensureAuthenticated, authoriseUserForThisApplication, applicationRoutes.updateToggle);
-app.get('/api/applications/:applicationName/:toggleName/audit', applicationRoutes.getAuditTrail);
-app.post('/api/applications/:applicationName/:toggleName/audit', ensureAuthenticated, authoriseUserForThisApplication, applicationRoutes.addAudit);
-app.post('/api/applications/:applicationName/users', ensureAuthenticated, authoriseUserForThisApplication, applicationRoutes.grant);
-app.get('/api/applications/:applicationName/users', applicationRoutes.getUsers);
-app.delete('/api/applications/:applicationName/users/:userEmail', ensureAuthenticated, authoriseUserForThisApplication, applicationRoutes.revoke);
-app.get('/api/applications/:applicationName/users/:userEmail', applicationRoutes.assert);
+app.get('/api/applications', toggleRoutes.getApplications);
+app.get('/api/applications/:applicationName', toggleRoutes.getApplication);
+app.put('/api/applications', ensureAuthenticated, toggleRoutes.addApplication);
+app.put('/api/applications/:applicationName/:toggleName', ensureAuthenticated, authoriseUserForThisApplication, toggleRoutes.updateToggle);
+
+app.post('/api/applications/:applicationName/users', ensureAuthenticated, authoriseUserForThisApplication, authorisationRoutes.grant);
+app.get('/api/applications/:applicationName/users', authorisationRoutes.getUsers);
+app.delete('/api/applications/:applicationName/users/:userEmail', ensureAuthenticated, authoriseUserForThisApplication, authorisationRoutes.revoke);
+app.get('/api/applications/:applicationName/users/:userEmail', authorisationRoutes.assert);
+
+app.get('/api/applications/:applicationName/:toggleName/audit', auditRoutes.getAuditTrail);
+app.post('/api/applications/:applicationName/:toggleName/audit', ensureAuthenticated, authoriseUserForThisApplication, auditRoutes.addAudit);
 
 console.log("Starting up feature toggle dashboard on port " + app.get('port'));
 
