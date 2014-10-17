@@ -1,6 +1,6 @@
 {
   "name": "hobknob",
-  "version": "0.0.16",
+  "version": "1.0.0",
   "description": "feature toggle client app over etcd",
   "scripts": {
     "prestart": "bower cache clean --config.interactive=false && bower install --config.interactive=false",
