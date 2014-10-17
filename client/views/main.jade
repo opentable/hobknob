@@ -23,7 +23,7 @@ html(lang='en')
                 .profile-text
                   h4.media-heading {{CurrentUser.getFullName()}}
                   a.logout(href='/logout' ng-show="CurrentUser.requiresAuthentication()") logout
-          li(ng-repeat="application in applications | orderBy:'toString()'" ng-click="console.log(application)")
+          li.application(ng-repeat="application in applications | orderBy:'toString()'" ng-click="console.log(application)")
             a(ng-href="/#!/applications/{{application}}" ng-class="{ active: isActive(application) }") {{application}}
           .add-form
             button.btn.btn-success(type="button",ng-click="setAddingApplicationState(true)",ng-hide="adding") Add

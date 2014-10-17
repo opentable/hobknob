@@ -58,7 +58,10 @@ var ensureAuthenticated = function(req, res, next) {
 };
 
 var authoriseUserForThisApplication = function(req, res, next) {
-    if (!config.RequiresAuth) return true;
+    if (!config.RequiresAuth) {
+        next();
+        return;
+    }
 
     var applicationName = req.params.applicationName;
     var userEmail = req.user._json.email;

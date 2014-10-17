@@ -49,7 +49,7 @@ module.exports = function(grunt) {
                 keepAlive: true,
                 noColor: false,
                 args: {
-                    seleniumServerJar: 'node_modules/protractor/selenium/selenium-server-standalone-2.42.2.jar',
+                    seleniumServerJar: 'node_modules/protractor/selenium/selenium-server-standalone-2.43.1.jar',
                     chromeDriver: 'node_modules/protractor/selenium/chromedriver'
                 }
             },
@@ -69,8 +69,9 @@ module.exports = function(grunt) {
 
     // Automatically load in all Grunt npm tasks
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-    
-    grunt.registerTask('default', ['copyConfigToClient', 'jshint']);
+
+    grunt.registerTask('default', 'build');
+    grunt.registerTask('build', ['copyConfigToClient', 'jshint']);
     grunt.registerTask('copyConfigToClient', ['ngconstant:copyConfigToClient']);
-    grunt.registerTask('test', ['protractor:run']);
+    grunt.registerTask('test', ['jshint', 'protractor:run']);
 };

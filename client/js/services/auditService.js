@@ -14,6 +14,7 @@ angular.module('featureToggleFrontend').factory('auditService', ['ENV', '$http',
             });
     };
 
+    // todo: this should be moved server side
     exports.addAudit = function(applicationName, toggleName, value, action, user, callback){
         var path = '/api/applications/' + applicationName + '/' + toggleName + '/audit';
         var audit = {

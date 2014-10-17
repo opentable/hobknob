@@ -48,7 +48,7 @@ featureToggleFrontend.controller('ToggleListController', ['$scope', '$timeout', 
             return "Toggle already exists";
         }
         if (!/^[a-z0-9]+$/i.test(toggleName)){
-            return "Toggle name must be alphanumeric with no spaces"
+            return "Toggle name must be alphanumeric with no spaces";
         }
     };
 

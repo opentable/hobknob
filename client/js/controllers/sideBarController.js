@@ -34,7 +34,7 @@ featureToggleFrontend.controller('SideBarController', ['$scope', 'toggleService'
             return "Application already exists";
         }
         if (!/^[a-z0-9]+$/i.test(applicationName)){
-            return "Application name must be alphanumeric with no spaces"
+            return "Application name must be alphanumeric with no spaces";
         }
     };
 

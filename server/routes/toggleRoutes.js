@@ -39,7 +39,7 @@ module.exports = {
                 acl.grant(userEmail, applicationName, function (err) {
                     if (err) throw err;
                     res.send(201);
-                })
+                });
             } else {
                 res.send(201);
             }
@@ -84,6 +84,7 @@ module.exports = {
         var applicationName = req.params.applicationName;
         var toggleName = req.params.toggleName;
         var value = req.body.value;
+        console.log(value);
 
         var path = 'v1/toggles/' + applicationName + '/' + toggleName;
         etcd.client.set(path, value, function(err){
