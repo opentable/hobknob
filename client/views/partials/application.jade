@@ -1,5 +1,6 @@
+h1.content-heading {{applicationName}}
 .col-md-12
-  .alert.alert-warning(ng-show="userHasPermissionsLoaded && !userHasPermissions") You do not have permissions to add or modify toggles for this application. Please contact an Application Owner if you require this ability.
+  .alert.alert-warning(ng-show="userHasPermissionsLoaded && !userHasPermissions") You do not have permissions to add or modify toggles for this application. Please contact an Owner of this application if you require this ability.
   .panel.panel-default(ng-cloak,ng-controller="ToggleListController")
     .panel-heading
       h3.panel-title Toggles
@@ -29,7 +30,7 @@
             button.btn.btn-success.pull-right(type="submit",ng-show="adding") Add
   .panel.panel-default(ng-controller="ApplicationOwnersController",ng-show="requiresAuthentication")
     .panel-heading
-      h3.panel-title Application Owners
+      h3.panel-title Owners
     .panel-body
       table.table(ng-hide="loadingUsers")
         trhead

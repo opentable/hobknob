@@ -4,7 +4,7 @@ angular.module('featureToggleFrontend').factory('auditService', ['ENV', '$http',
     var exports = {};
 
     exports.getToggleAuditTrail = function(applicationName, toggleName, success, error){
-        var path = '/api/applications/' + applicationName + '/' + toggleName + '/audit';
+        var path = '/api/audit/toggle/' + applicationName + '/' + toggleName;
         $http.get(path)
             .success(function(data){
                 success(data);
@@ -14,23 +14,14 @@ angular.module('featureToggleFrontend').factory('auditService', ['ENV', '$http',
             });
     };
 
-    // todo: this should be moved server side
-    exports.addAudit = function(applicationName, toggleName, value, action, user, callback){
-        var path = '/api/applications/' + applicationName + '/' + toggleName + '/audit';
-        var audit = {
-            applicationName: applicationName,
-            toggleName: toggleName,
-            value: value,
-            action:action,
-            user:user
-        };
-
-        $http.post(path,{ audit: audit })
-            .success(function(){
-                callback();
+    exports.getApplicationAuditTrail = function(applicationName, success, error){
+        var path = '/api/audit/application/' + applicationName;
+        $http.get(path)
+            .success(function(data){
+                success(data);
             })
             .error(function(data){
-                callback(data);
+                error(data);
             });
     };
 

@@ -7,6 +7,6 @@ featureToggleFrontend.controller('ToggleAuditController', ['$scope', 'auditServi
             $scope.auditTrail = data;
         },
         function(data){
-            $scope.emit('error', 'Error loading audit trail', new Error(data));
+            $scope.$emit('error', 'Error loading audit trail', new Error(data));
         });
 }]);

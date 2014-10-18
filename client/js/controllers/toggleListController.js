@@ -66,8 +66,7 @@ featureToggleFrontend.controller('ToggleListController', ['$scope', '$timeout', 
                 $scope.toggles.push(
                     {
                         name: toggleName,
-                        value: false,
-                        fullPath: 'http://' + ENV.etcdHost + ':' + ENV.etcdPort + '/v2/keys/v1/toggles/' + $scope.applicationName + '/' + toggleName
+                        value: false
                     });
                 $scope.setAddingToggleState(false);
                 $scope.$emit('success', toggleName + " was successfully added");
