@@ -61,8 +61,10 @@ featureToggleFrontend.controller('SideBarController', ['$scope', 'toggleService'
             });
     };
 
+
     $scope.isActive = function(applicationName) {
-        return ($location.path() === '/applications/' + applicationName);
+        var appUrlPart = '/applications/' + applicationName;
+        return $location.path() === appUrlPart || $location.path().indexOf(appUrlPart + '/') > -1;
     };
 
     loadApplications();

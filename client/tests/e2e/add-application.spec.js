@@ -1,6 +1,6 @@
 var Etcd = require('node-etcd'),
     etcd = new Etcd(),
-    _ = requier('underscore');
+    _ = require('underscore');
 
 describe("Sidebar - add new application", function () {
 
@@ -12,7 +12,7 @@ describe("Sidebar - add new application", function () {
     var submitApplicationButtonCss = '#sidebar-wrapper .add-form form button[type=submit]';
 
     var removeAllToggles = function(done){
-        etcd.rmdir('v1/toggles', { recursive: true }, function(){
+        etcd.rmdir('v1', { recursive: true }, function(){
             done();
         });
     };

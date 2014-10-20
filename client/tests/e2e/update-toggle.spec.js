@@ -8,7 +8,7 @@ describe("New Toggle", function () {
 
 
     var removeAllToggles = function(done){
-        etcd.rmdir('v1/toggles', { recursive: true }, function(){
+        etcd.rmdir('v1', { recursive: true }, function(){
             done();
         });
     };
