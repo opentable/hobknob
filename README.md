@@ -7,12 +7,10 @@ The benefit of using etcd as a data store is that there is no need to write an a
 
 ###Screenshots
 
-#####The Dashboard
-![The dashboard](screenshots/dashboard.png)
-#####Creating Toggle
-![New Toggle](screenshots/newtoggle.png)
-#####Audit View
-![New Toggle](screenshots/audit.png)
+##### Application View
+![New Toggle](screenshots/ApplicationView.png)
+##### Toggle View
+![New Toggle](screenshots/ToggleView.png)
 
 ###Running the app locally
 The quickest way to run the app locally is to use Vagrant. If you don't have Vagrant you should install it from [here](http://www.vagrantup.com/).
