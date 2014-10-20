@@ -30,7 +30,7 @@ featureToggleFrontend.controller('SideBarController', ['$scope', 'toggleService'
         if (!applicationName){
             return "Must enter an application name";
         }
-        if (_.any($scope.applications, function(application) { return application == applicationName; })) {
+        if (_.any($scope.applications, function(application) { return application.toLowerCase() == applicationName.toLowerCase(); })) {
             return "Application already exists";
         }
         if (!/^[a-z0-9]+$/i.test(applicationName)){

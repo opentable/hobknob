@@ -44,7 +44,7 @@ featureToggleFrontend.controller('ToggleListController', ['$scope', '$timeout', 
         if (!toggleName){
             return "Must enter an toggle name";
         }
-        if (_.any($scope.toggles, function(toggle) { return toggle.name == toggleName; })) {
+        if (_.any($scope.toggles, function(toggle) { return toggle.name.toLowerCase() == toggleName.toLowerCase(); })) {
             return "Toggle already exists";
         }
         if (!/^[a-z0-9]+$/i.test(toggleName)){
@@ -63,11 +63,12 @@ featureToggleFrontend.controller('ToggleListController', ['$scope', '$timeout', 
 
         toggleService.addToggle($scope.applicationName, toggleName, false,
             function(){
-                $scope.toggles.push(
-                    {
-                        name: toggleName,
-                        value: false
-                    });
+                var fakeToggle = {
+                    name: toggleName,
+                    fullPath: "http://" + ENV.etcdHost + ":" + ENV.etcdPort + "/v2/keys/v1/toggles/" + $scope.applicationName + "/" + toggleName,
+                    value: false
+                };
+                $scope.toggles.push(fakeToggle);
                 $scope.setAddingToggleState(false);
                 $scope.$emit('success', toggleName + " was successfully added");
             },

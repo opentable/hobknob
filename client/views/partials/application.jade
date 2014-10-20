@@ -21,7 +21,7 @@ h1.content-heading {{applicationName}}
             td
               .pull-right
                 toggle-switch(model="toggle.value" on-change="updateThisToggle(toggle)" ng-disabled="userHasPermissionsLoaded && !userHasPermissions").switch-primary
-      div.add-form(ng-show="userHasPermissionsLoaded && userHasPermissions")
+      #add-toggle-form.add-form(ng-show="userHasPermissionsLoaded && userHasPermissions")
         button.btn.btn-success(type="button",ng-click="setAddingToggleState(true)",ng-hide="adding") New Toggle
         div
           form(ng-submit="addToggle()")

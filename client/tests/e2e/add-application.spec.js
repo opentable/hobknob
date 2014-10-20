@@ -1,9 +1,11 @@
 var Etcd = require('node-etcd'),
-    etcd = new Etcd();
+    etcd = new Etcd(),
+    _ = requier('underscore');
 
 describe("Sidebar - add new application", function () {
 
     var protractorInstance = protractor.getInstance();
+
     var addApplicationButtonCss = '#sidebar-wrapper .add-form > button';
     var applicationNameInputCss = '#sidebar-wrapper .add-form form input';
     var cancelApplicationFormButtonCss = '#sidebar-wrapper .add-form form button[type=button]';
@@ -52,58 +54,70 @@ describe("Sidebar - add new application", function () {
         return element.all(by.css('#sidebar-wrapper > ul > li.application > a'));
     };
 
+    var assertAddApplicationFormIsDisplayed = function(isDisplayed){
+        expect(element(by.css(addApplicationButtonCss)).isDisplayed()).toBe(!isDisplayed);
+        expect(element(by.css(applicationNameInputCss)).isDisplayed()).toBe(isDisplayed);
+        expect(element(by.css(cancelApplicationFormButtonCss)).isDisplayed()).toBe(isDisplayed);
+        expect(element(by.css(submitApplicationButtonCss)).isDisplayed()).toBe(isDisplayed);
+    };
+
+    var addApplication = function(newApplicationName){
+        clickAddButton();
+        enterApplicationName(newApplicationName);
+        clickSubmitButton();
+    };
+
     it("should show the add application form when the Add button is clicked", function() {
         clickAddButton();
-
-
-        expect(element(by.css(addApplicationButtonCss)).isDisplayed()).toBe(false);
-        expect(element(by.css(applicationNameInputCss)).isDisplayed()).toBe(true);
-        expect(element(by.css(cancelApplicationFormButtonCss)).isDisplayed()).toBe(true);
-        expect(element(by.css(submitApplicationButtonCss)).isDisplayed()).toBe(true);
+        assertAddApplicationFormIsDisplayed(true);
     });
 
     it("should hide the add application form when the Cancel button is clicked", function() {
         clickAddButton();
         clickCancelButton();
-
-        expect(element(by.css(addApplicationButtonCss)).isDisplayed()).toBe(true);
-        expect(element(by.css(applicationNameInputCss)).isDisplayed()).toBe(false);
-        expect(element(by.css(cancelApplicationFormButtonCss)).isDisplayed()).toBe(false);
-        expect(element(by.css(submitApplicationButtonCss)).isDisplayed()).toBe(false);
+        assertAddApplicationFormIsDisplayed(false);
     });
 
     it("should successfully add an application", function() {
-        clickAddButton();
-        enterApplicationName("newTestApp");
-        clickSubmitButton();
+        addApplication("newTestApp");
 
         var applicationLinks = getApplicationLinks();
         expect(applicationLinks.count()).toEqual(1);
         expect(applicationLinks.first().getText()).toEqual('newTestApp');
+    });
+
+    it("should show a newly added application when the browser is refreshed", function() {
+        addApplication("newTestApp");
+        browser.get('/#!/', function(){
+            var applicationLinks = getApplicationLinks();
+            expect(applicationLinks.count()).toEqual(1);
+            expect(applicationLinks.first().getText()).toEqual('newTestApp');
+        });
     });
 
     it("should not be allowed to add the same application more than once", function() {
-        clickAddButton();
-        enterApplicationName("newTestApp");
-        clickSubmitButton();
-
-        clickAddButton();
-        enterApplicationName("newTestApp");
-        clickSubmitButton();
+        addApplication("newTestApp");
+        addApplication("newTestApp");
 
         var applicationLinks = getApplicationLinks();
         expect(applicationLinks.count()).toEqual(1);
         expect(applicationLinks.first().getText()).toEqual('newTestApp');
+        expect(element(by.binding("alert.message")).getText()).toBe("Application already exists");
+    });
+
+    it("should not be allowed to add the same application more than once - case insensitive", function() {
+        addApplication("newTestApp");
+        addApplication("NEWTestApp");
+
+        var applicationLinks = getApplicationLinks();
+        expect(applicationLinks.count()).toEqual(1);
+        expect(applicationLinks.first().getText()).toEqual('newTestApp');
+        expect(element(by.binding("alert.message")).getText()).toBe("Application already exists");
     });
 
     it("should be allowed to add more than one applications", function() {
-        clickAddButton();
-        enterApplicationName("newTestApp1");
-        clickSubmitButton();
-
-        clickAddButton();
-        enterApplicationName("newTestApp2");
-        clickSubmitButton();
+        addApplication("newTestApp1");
+        addApplication("newTestApp2");
 
         var applicationLinks = getApplicationLinks();
         expect(applicationLinks.count()).toEqual(2);
@@ -112,17 +126,19 @@ describe("Sidebar - add new application", function () {
     });
 
     it("should reset the add application form after adding an application", function() {
-        clickAddButton();
-        enterApplicationName("newTestApp1");
-        clickSubmitButton();
-
-        expect(element(by.css(addApplicationButtonCss)).isDisplayed()).toBe(true);
-        expect(element(by.css(applicationNameInputCss)).isDisplayed()).toBe(false);
-        expect(element(by.css(cancelApplicationFormButtonCss)).isDisplayed()).toBe(false);
-        expect(element(by.css(submitApplicationButtonCss)).isDisplayed()).toBe(false);
-
+        addApplication("newTestApp1");
         clickAddButton();
 
         expect(element(by.css(applicationNameInputCss)).getText()).toBe('');
+    });
+
+    _.each(["App With Spaces", "Under_score", "Slash/es", "Back\\SlashesToo", "Weird@Chars"], function(badToggleName){
+        it("should not accept bad application name: " + badToggleName, function(){
+            addApplication(badToggleName);
+
+            assertAddApplicationFormIsDisplayed(true);
+            expect(element.all(by.repeater('application in applications')).count()).toBe(0);
+            expect(element(by.binding("alert.message")).getText()).toBe("Application name must be alphanumeric with no spaces");
+        });
     });
 });
