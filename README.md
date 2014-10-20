@@ -54,7 +54,7 @@ We've integrated protractor for end-to-end testing. To start these tests run:
 
 ```sh
 # Make sure you have the app running first
-$ grunt test
+$ npm test
 ```
 
 ### Configuring Authentication
