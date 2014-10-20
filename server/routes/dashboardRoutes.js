@@ -1,10 +1,12 @@
+var config = require('./../../config/config.json');
+
 exports.dashboard = function(req, res){
   res.render('main', 
-               {
-                 title: 'Dashboard', 
-                 pageHeader: 'Dashboard',
-                 user: req.user
-               });
+       {
+         title: 'Dashboard',
+         pageHeader: 'Dashboard',
+         user: req.user
+       });
 };
 
 exports.partials = function (req, res) {

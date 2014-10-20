@@ -1,8 +1,8 @@
-'use strict';
-
 var featureToggleFrontend = angular.module('featureToggleFrontend', ['ngResource', 'ngRoute', 'ui.bootstrap', 'config', 'toggle-switch']);
 
 featureToggleFrontend.config(function($routeProvider, $locationProvider, $httpProvider) {
+    'use strict';
+
 	$locationProvider.hashPrefix('!');
   	$routeProvider.
 	    when('/', {
@@ -14,10 +14,10 @@ featureToggleFrontend.config(function($routeProvider, $locationProvider, $httpPr
 	    	templateUrl: 'partials/application'
 	    }).
       when('/applications/:appName/:toggleName', {
-        controller: 'ToggleController',
+        controller: 'ApplicationController',
         templateUrl: 'partials/toggle'
       });
 
-    $httpProvider.defaults.headers.put = { "Content-Type": "application/x-www-form-urlencoded" };
-    $httpProvider.defaults.headers.post = { "Content-Type": "application/x-www-form-urlencoded" };
+    $httpProvider.defaults.headers.put = { "Content-Type": "application/json" };
+    $httpProvider.defaults.headers.post = { "Content-Type": "application/json" };
 });

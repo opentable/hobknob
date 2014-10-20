@@ -1,35 +1,77 @@
-'use strict';
+module.exports = function(grunt) {
+    "use strict";
 
-module.exports = function(grunt) {          
+    grunt.initConfig({
+        pkg: grunt.file.readJSON('package.json'),
 
-    var taskObject = {
-        pkg: grunt.file.readJSON('package.json')
-    };
+        copy: {
+            build: {
+                files: [
+                    {expand: true, src: ['src/**'], dest: 'package/'},
+                    {expand: true, src: ['config/**'], dest: 'package/'},
+                    {expand: true, src: ['public/**'], dest: 'package/'},
+                    {expand: true, src: ['routes/**'], dest: 'package/'},
+                    {expand: true, src: ['views/**'], dest: 'package/'},
+                    {src: ['app.js'], dest: 'package/', filter: 'isFile'},
+                    {src: ['package.json'], dest: 'package/', filter: 'isFile'},
+                    {src: ['bower.json'], dest: 'package/', filter: 'isFile'},
+                    {src: ['.bowerrc'], dest: 'package/', filter: 'isFile'}
+                ]
+            },
+            buildOutputAsPackage: { // used when deploying locally to vagrant
+                files: [
+                    {
+                        expand: true,
+                        cwd: "package/",
+                        src: ["**"],
+                        dest: "temp/package"
+                    }
+                ]
+            }
+        },
 
-    // Loop through the tasks in the 'grunt-tasks' folder, ignore any with an underscore at
-    // the beginning, and add them to the taskObject
-    // or invoke if they are functions
-    grunt.file.expand('grunt-tasks/*.js', '!grunt-tasks/_*.js').forEach(function(file) {
-        var name = file.split('/');
-        name = name[name.length - 1].replace('.js', '');
-        var task = require('./'+ file);
+        ngconstant: {
+            options: {
+                name: 'config',
+                dest: 'client/configuration/config.js',
+                space: '  ',
+                wrap: '{%= __ngModule %}',
+                constants: {
+                    ENV: require("./config/config.json")
+                }
+            },
+            copyConfigToClient: {}
+        },
 
-        if(grunt.util._.isFunction(task)){
-          task(grunt);
-        } else {
-            taskObject[name] = task;
+        protractor: {
+            options: {
+                configFile: "client/tests/e2e/protractor.conf.js",
+                keepAlive: true,
+                noColor: false,
+                args: {
+                    seleniumServerJar: 'node_modules/protractor/selenium/selenium-server-standalone-2.43.1.jar',
+                    chromeDriver: 'node_modules/protractor/selenium/chromedriver'
+                }
+            },
+            run: {}
+        },
+
+        jshint: {
+            all: [
+                'Gruntfile.js',
+                'server/**/*.js',
+                'client/**/*.js',
+                '!client/public/**/*.js',
+                '!client/js/common/lib/**/*.js',
+            ]
         }
     });
 
-    grunt.initConfig(taskObject);
-
     // Automatically load in all Grunt npm tasks
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-    
-    grunt.registerTask('default', 'dev');
 
-    grunt.registerTask('dev', ['ngconstant:development']);
-    grunt.registerTask('prod', ['ngconstant:production']);
-    grunt.registerTask('test', ['protractor:run']);
-
+    grunt.registerTask('default', 'build');
+    grunt.registerTask('build', ['copyConfigToClient', 'jshint']);
+    grunt.registerTask('copyConfigToClient', ['ngconstant:copyConfigToClient']);
+    grunt.registerTask('test', ['jshint', 'protractor:run']);
 };

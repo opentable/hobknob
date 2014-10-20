@@ -7,12 +7,10 @@ The benefit of using etcd as a data store is that there is no need to write an a
 
 ###Screenshots
 
-#####The Dashboard
-![The dashboard](screenshots/dashboard.png)
-#####Creating Toggle
-![New Toggle](screenshots/newtoggle.png)
-#####Audit View
-![New Toggle](screenshots/audit.png)
+##### Application View
+![New Toggle](screenshots/ApplicationView.png)
+##### Toggle View
+![New Toggle](screenshots/ToggleView.png)
 
 ###Running the app locally
 The quickest way to run the app locally is to use Vagrant. If you don't have Vagrant you should install it from [here](http://www.vagrantup.com/).
@@ -56,16 +54,16 @@ We've integrated protractor for end-to-end testing. To start these tests run:
 
 ```sh
 # Make sure you have the app running first
-$ grunt test
+$ npm test
 ```
 
 ### Configuring Authentication
-By default Hobknob ships with authentication disabled. This is configurable by changing the config/default.json config file. 
+By default Hobknob ships with authentication disabled. This is configurable by changing the config/config.json config file.
 
 #### Turning on Google OAuth
 First you must generate a google oauth client Id and client secret. To do this visit the [Google Developer Console](https://console.developers.google.com/project) and create a new project. Select this project once created and go into the section "APIs and auth" in the left hand menu. From here you can create a new oath client Id.
 
-To use oath in Hobknob add the following to your config (config/default.json).
+To use oath in Hobknob add the following to your config (config/confg.json).
 
 ```
 {
@@ -81,7 +79,7 @@ To use oath in Hobknob add the following to your config (config/default.json).
 
 This configuration is shared with Angular so you need to run the following:
 ```
-grunt
+grunt 
 ```
 
 ### Configuring Session
@@ -95,7 +93,7 @@ npm install connect-etcd --save
 
 Hobknob will realise the package is installed and assume that you therefore want to use it for session storage.
 
-The configuration for the session is also stored in the config/default.json file using the following:
+The configuration for the session is also stored in the config/config.json file using the following:
 
 ```
 {

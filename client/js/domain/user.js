@@ -1,8 +1,7 @@
-'use strict';
-
 angular.module('featureToggleFrontend')
 
 .factory('CurrentUser', function($window, ENV) {
+  'use strict';
 
   function CurrentUser(){
     if (ENV.RequiresAuth === true) {
@@ -11,6 +10,7 @@ angular.module('featureToggleFrontend')
     }
   }
 
+  // todo: what does this do?
   CurrentUser.create = function(data){
     return new CurrentUser(data);
   };

@@ -1,26 +1,17 @@
-featureToggleFrontend.controller('ApplicationController', function($scope, $http, etcdApiService, etcdPathService, AppsService, $timeout, $routeParams) {
+featureToggleFrontend.controller('ApplicationController', ['$scope', '$routeParams', 'toggleService', 'authorisationService', 'CurrentUser', function($scope, $routeParams, toggleService, authorisationService, CurrentUser) {
 
-    $scope.AppsService = AppsService;
+    $scope.applicationName = $routeParams.appName;
+    $scope.requiresAuthentication = CurrentUser.requiresAuthentication();
+    $scope.userHasPermissionsLoaded = false; // stops flickering of alert and buttons
 
-    var refreshToggles = function() {
-    	AppsService.updateToggles();
-
-        refreshTimer = $timeout(refreshToggles, 3000);
+    if ($scope.requiresAuthentication){
+        authorisationService.isUserAuthorised($scope.applicationName, CurrentUser.email, function(err, isAuthorised){
+            $scope.userHasPermissions = !err && isAuthorised;
+            $scope.userHasPermissionsLoaded = true;
+        });
+    } else {
+        $scope.userHasPermissions = true;
+        $scope.userHasPermissionsLoaded = true;
     }
 
-	var refreshTimer = $timeout(refreshToggles, 3000);
-
-    AppsService.loadApp($routeParams.appName);
-
-    $scope.updateThisToggle = function(toggle) {
-      $timeout(function(){
-        AppsService.updateToggle(toggle);
-      });
-    }
-
-    $scope.$on("$destroy", function() {
-        if (refreshTimer) {
-            $timeout.cancel(refreshTimer);
-        }
-    });
-});
+}]);

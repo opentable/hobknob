@@ -11,59 +11,34 @@ html(lang='en')
     script(type="text/javascript").
       window.user = !{JSON.stringify(user, null,2)}
   body(ng-app='featureToggleFrontend')
-    .container
-      div(ng-controller="SideBarController" ng-cloak).left.side-menu
-        .header.sidebar.rows
-          a.navbar-brand.logo(href='/')
-            img(src='/img/opentable-hr-mono.png')
-        .body.rows.scroll-y.animated
-          .profile
-            .profile-image.pull-left
-              img.media-object.img-circle(ng-src='{{CurrentUser.getPicture()}}', alt='avatar')
-              h4.media-heading
-                | {{CurrentUser.getFullName()}}
-              a.logout(href='/logout' ng-show="CurrentUser.requiresAuthentication()") logout
-          #sidebar-menu
-            ul.nav.nav-pills.nav-stacked
-              li(ng-repeat="app in AppsService.apps | orderBy: 'appName'" ng-click="console.log(app)" ng-model="AppsService.selectedApp")
-                a(ng-href="/#!/applications/{{app.appName}}" ng-class="{ active: isActive(app.appName) }") {{app.appName}}
-      .right.content-page
-        .header.content.rows-content-header
-          .navbar.navbar-default(role='navigation')
-            .container
-              .navbar-collapse.collapse
-                ul.nav.navbar-nav
-                  li
-                .navbar-form.navbar-right
-                  div(ng-controller='NewFeatureToggleModalController')
-                    script(type='text/ng-template', id='createToggleContent.html')
-                      .modal-header
-                        h3.modal-title New Feature Toggle
-                        alert(ng-repeat="alert in alerts", type="{{alert.type}}", close="closeAlert($index)") {{alert.msg}}
-                        .modal-body.input-group
-                          input#application-name.form-control(type='text', ng-model='form.applicationName', placeHolder='Application Name', ng-readonly='form.created')
-                          span#toggle-name.input-group-addon /
-                          input.form-control(type='text', ng-model='form.toggleName', placeHolder='Feature Toggle Name', ng-readonly='form.created')
-                        .modal-footer
-                          button.btn.btn-primary(ng-click='close()', ng-show='form.created') Close
-                          button.btn.btn-primary(ng-click='ok()', ng-show='!form.created').create-toggle-btn Create
-                          button.btn.btn-warning(ng-click='cancel()', ng-show='!form.created') Cancel
-                    a(class="btn btn-default" ng-click="open()").btn.btn-success.new-toggle New Feature Toggle
-        .body.content.rows.scroll-y
+    #wrapper
+      #sidebar-wrapper(ng-controller="SideBarController" ng-cloak)
+        ul.sidebar-nav
+          li.sidebar-brand
+            a.navbar-brand.logo(href='/')
+              img(src='/img/opentable-hr-mono.png')
+          li
+            .profile
+                img.media-object.img-circle(ng-src='{{CurrentUser.getPicture()}}', alt='avatar')
+                .profile-text
+                  h4.media-heading {{CurrentUser.getFullName()}}
+                  a.logout(href='/logout' ng-show="CurrentUser.requiresAuthentication()") logout
+          li.application(ng-repeat="application in applications | orderBy:'toString()'" ng-click="console.log(application)")
+            a(ng-href="/#!/applications/{{application}}" ng-class="{ active: isActive(application) }") {{application}}
+          .add-form
+            button.btn.btn-success(type="button",ng-click="setAddingApplicationState(true)",ng-hide="adding") Add
+            div
+              form(ng-submit="addApplication()")
+                input.form-control(type="text",ng-model="newApplicationName",placeholder="Application Name",focus-on="newApplicationName",ng-show="adding")
+                button.btn.btn-warning.pull-right(type="button",ng-click="setAddingApplicationState(false)",ng-show="adding") Cancel
+                button.btn.btn-success.pull-right(type="submit",ng-show="adding") Add
+      #page-content-wrapper
+        .container-fluid
           .row
+            .col-lg-12
+              div(ng-controller="AlertController",ng-cloak)
+                .alert(ng-show="alert",ng-class="alert.class") {{alert.message}}
             div(ng-view='ng-view')
-    //Add Toggle Modal - should probably move to a partial
-    #addModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='addModalLabel', aria-hidden='true')
-      .modal-dialog
-        .modal-content
-          .modal-header
-            button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
-            h4#addModalLabel.modal-title Add
-          .modal-body
-            | Something is wrong. I can't fetch the feature toggle you selected!
-          .modal-footer
-            button.btn.btn-default(type='button', data-dismiss='modal') Close
-            button.btn.btn-primary(type='button') Save changes
     script(src='/bower_components/angular/angular.min.js')
     script(src='/bower_components/angular-resource/angular-resource.min.js')
     script(src='/bower_components/angular-route/angular-route.min.js')
@@ -71,22 +46,23 @@ html(lang='en')
     script(src='/bower_components/angular-bootstrap/ui-bootstrap-tpls.js')
     script(src='/bower_components/angular-bootstrap-toggle-switch/angular-toggle-switch.js')
     script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
+    script(src='/bower_components/underscore/underscore-min.js')
+    script(src='/bower_components/validator-js/validator.min.js')
     script(src='/js/app.js')
     script(src='/js/common/lib/jquery.toggleswitch.min.js')
     script(src='/js/common/dashboard.js')
-    script(src='/js/domain/app.js')
-    script(src='/js/domain/audit.js')
-    script(src='/js/domain/toggle.js')
+    script(src='/js/common/focus.js')
     script(src='/js/domain/user.js')
+    script(src='/js/services/toggleService.js')
+    script(src='/js/services/authorisationService.js')
+    script(src='/js/services/auditService.js')
     script(src='/js/controllers/dashboardController.js')
     script(src='/js/controllers/sideBarController.js')
     script(src='/js/controllers/applicationController.js')
+    script(src='/js/controllers/toggleListController.js')
+    script(src='/js/controllers/applicationOwnersController.js')
     script(src='/js/controllers/toggleController.js')
-    script(src='/js/controllers/newFeatureToggleModalController.js')
-    script(src='/js/services/etcdPathService.js')
-    script(src='/js/services/etcdAuditService.js')
-    script(src='/js/services/etcdLeaderService.js')
-    script(src='/js/services/etcdService.js')
-    script(src='/js/services/appsService.js')
-    script(src='/js/services/toggleService.js')
+    script(src='/js/controllers/toggleAuditController.js')
+    script(src='/js/controllers/toggleDangerController.js')
+    script(src='/js/controllers/alertController.js')
     script(src='/configuration/config.js')
