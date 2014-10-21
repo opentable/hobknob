@@ -9,7 +9,7 @@ html(lang='en')
     link(href='/bower_components/angular-bootstrap-toggle-switch/style/bootstrap3/angular-toggle-switch-bootstrap-3.css', media='all', rel='stylesheet')
     script(src='/public/bower_components/jquery/dist/jquery.min.js')
     script(type="text/javascript").
-      window.user = !{JSON.stringify(user, null,2)}
+      window.user = !{JSON.stringify(user || {}, null, 2)};
   body(ng-app='featureToggleFrontend')
     #wrapper
       #sidebar-wrapper(ng-controller="SideBarController" ng-cloak)

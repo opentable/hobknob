@@ -132,7 +132,7 @@ describe("Sidebar - add new application", function () {
         expect(element(by.css(applicationNameInputCss)).getText()).toBe('');
     });
 
-    _.each(["App With Spaces", "Under_score", "Slash/es", "Back\\SlashesToo", "Weird@Chars"], function(badToggleName){
+    _.each(["App With Spaces", "Under_score", "Slash/es", "Back\\SlashesToo", "Dots.NotHere", "Weird@Chars"], function(badToggleName){
         it("should not accept bad application name: " + badToggleName, function(){
             addApplication(badToggleName);
 

@@ -126,9 +126,16 @@ describe("New Toggle", function () {
         expect(element(by.binding("alert.message")).getText()).toBe("Toggle already exists");
     });
 
-    _.each(["Toggle With Spaces", "Under_score", "Slash/es", "Back\\SlashesToo", "Weird@Chars"], function(badToggleName){
-        it("should not accept bad toggle name: " + badToggleName, function(){
-            addNewToggle(badToggleName);
+    _.each(["ToggleWithNumbers123", "1StartsWithNumber", "Dots.AndMoreDot.s"], function(validToggleName){
+        it("should accept a valid toggle name: " + validToggleName, function() {
+            addNewToggle(validToggleName);
+            assertToggleHasBeenAdded(validToggleName);
+        });
+    });
+
+    _.each(["Toggle With Spaces", "Under_score", "Slash/es", "Back\\SlashesToo", "Weird@Chars"], function(invalidToggleName){
+        it("should not accept a invalid toggle name: " + invalidToggleName, function(){
+            addNewToggle(invalidToggleName);
             assertAddToggleFormIsDisplayed(true);
             expect(element.all(by.repeater('toggle in toggles')).count()).toBe(0);
             expect(element(by.binding("alert.message")).getText()).toBe("Toggle name must be alphanumeric with no spaces");
