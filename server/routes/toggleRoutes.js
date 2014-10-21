@@ -8,7 +8,7 @@ var etcd = require('../etcd'),
 
 module.exports = {
     getApplications: function(req, res){
-        etcd.client.get('v1/toggles/', {recursive: true}, function(err, result){
+        etcd.client.get('v1/toggles/', {recursive: false}, function(err, result){
             if (err) {
                 if (err.errorCode == 100) { // key not found
                     res.send([]);
@@ -57,7 +57,7 @@ module.exports = {
         var applicationName = req.params.applicationName;
 
         var path = 'v1/toggles/' + applicationName;
-        etcd.client.get(path, {recursive: true}, function(err, result){
+        etcd.client.get(path, {recursive: false}, function(err, result){
 
             if (err) {
                 if (err.errorCode === 100){ // key not found
