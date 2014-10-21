@@ -1,6 +1,6 @@
 {
   "name": "hobknob",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Front end for managing feature toggles in etcd",
   "scripts": {
     "prestart": "bower cache clean --config.interactive=false && bower install --config.interactive=false",
