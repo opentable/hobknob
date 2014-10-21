@@ -72,7 +72,7 @@ module.exports = {
                 {
                     var splitKey = node.key.split('/');
                     var name = splitKey[splitKey.length - 1];
-                    var value = node.value.toLowerCase() === 'true';
+                    var value = node.value && node.value.toLowerCase() === 'true';
                     return {
                         name: name,
                         value: value,
