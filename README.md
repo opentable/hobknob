@@ -1,5 +1,7 @@
-hobknob
+![Alt OpenTable](http://www.opentable.com/img/common/opentable_logo_reg.png)Hobknob
 ======================
+
+[<img src="http://standards-badges.herokuapp.com/image?serviceStatusEndpoint=0&logSchema=0&githubReadme=1">](http://standards-badges.herokuapp.com/?serviceStatusEndpoint=0&logSchema=0&githubReadme=1)
 
 Hobknob is a feature toggle front-end built on top of [etcd](https://github.com/coreos/etcd).
 It allows users to create, maintain, and set feature toggles. It will also keep an audit of all changes. 
