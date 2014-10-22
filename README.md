@@ -96,6 +96,8 @@ When authentication is enabled, you can control who is allowed to add, update, o
  
 The creator of an application is automatically an owner of that application. Application owners can add other owners via the Owners panel in the Application View.
 
+![Application Owners](screenshots/ApplicationOwners.png)
+
 If in an emergency, you need to be added to an application's ACL, you can use this command:
 
 ```
