@@ -14,7 +14,7 @@ var config = {
     }
 };
 
-is (process.env.TRAVIS_BUILD_NUMBER) {
+if (process.env.TRAVIS_BUILD_NUMBER) {
 	config.sauceUser = process.env.SAUCE_USERNAME;
 	config.sauceKey = process.env.SAUCE_ACCESS_KEY;
     config.capabilities = {
