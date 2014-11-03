@@ -8,5 +8,5 @@ script:
 - ./scripts/testonsauce.sh
 env:
   global:
-  - secure: gUf50JLsgUsGfORUD3h+f0neogEPIhLuqTBW50C6oR4kePTHm5BPnir9WDEbsYm2CPZcUe2DvtMeDPpH5UmE7XCRT0mYzFUhE0Vj97i7C9n3rsRLbWg1gtAxWZqlOI5v/IC1L3Ef0SPOToIddAGbDgbacQCqnKoOD1bECY4odzY=
-  - secure: RB13JnKoQO3BZzvJBoSFJ1MAFAd1erJE2KRh1umUWQSgcnwJc34wUf09rEvmhGe6fFbwffRDcSPvF0UwTz3KuZYtlsXCS5KyF+ZGRMI2PiLiG557TRzdyvBv/ubrDjkiCZnEKV1YfMJhBF1L89rxQM7Q0JkAaLpfjV/MpH70p5Y=
+  - secure: ZxldMUNPjm7T/zGthCGvL2kbPLapcaJAj1VXYFw3he9TW4FG0H+E4u6/NEPSG5OdtG530NizguKJlbigmAN16eKaD+1MPkvBAY274RdFKBVv3Lemb1impM7VZC/zMOfDqmIPXYSzvp0Qgw1McS3W1x0Ub2arPS0CwW83LjackCQ=
+  - secure: CyolMw3r+ezNBciIvy7qEBGwXNuKB5zhbB+p4x0jWNXOoimT2LY1ParJ+NavBB9fbedMxn2qGQxAAhGtgjg/x2TFdI5V80hDHb3rnLvGEUM54/HioAuTr7cyp425ujIdr/b5vg6w1yb2FE0LTcfpuqaHRmKevxrYoCi8b0ETak8=
