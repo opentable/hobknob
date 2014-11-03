@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - "0.10"
+
+env:
+  global:
+    - secure: FJkIbL9LBDLSAYWp+lOOIu5tflkpeKrTJge8K216Z5MgfKjYvtumHwGymOlpCxUaw2uR3/RqnxulsISIL5lqRHwyTDEVugv36s/RtoY6g/s1OJkMOreZlyWDHQvVSi3+d6JzhGeLvQ+Sar7/e3A8oDXqeZDtaiIEK14RpRj6e8w=
+    - secure: ZW3vpHtJThJTZx2GQBCKNvurQ5c8rn4ySIzshp8FtDdwCu4jIzyEAS6u4u1asc4uVqyYIyIFYdyOt2HJFuy3R/fmRaPnY6TuwAySnQg8IVKZhcx0J2ytYG6fmy28qrLdSm4YcCquAvYw9XKXJunL+3m8nGYYjosuGs0nTZAO8b0=
+
+addons:
+  sauce_connect: true
+
+script:
+  - ./scripts/testserver.sh
+  - ./scripts/testonsauce.sh
