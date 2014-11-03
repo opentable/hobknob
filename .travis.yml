@@ -1,15 +1,12 @@
 language: node_js
 node_js:
-  - "0.10"
-
-env:
-  global:
-    - secure: KxU52CO+NwAVTghagvLnfmjLX4vqJ/eAbBVAEzcd/j2ZEP5LULBmDNt/9zArBpPZssH6TfUcmCxNOX1XP0qWzCS+XQX7G6Rpg68MEjOd9YCg6HMAM3Cnhjikbt0EiTSX7NqGz9l1G+/rrxdfbJDY2cN5mxCZ/+0VxHrMBbaG97g=
-    - secure: fZ/cGV9GRx1S61ZH7Nay0n3r9qlzISiiC72dUQqx/YTKfMVJfQhYy/Oyq60cAEQ60Zuna2yOH/+s8kAr2GQn9lG20vuLz5BFQf5wud7a7EQ5fwKIzHFfX6WK5qOJ9Dq4DkfCSz7Fxvb4XVYfZl37Q5mfCMPUJXpEFoHd+kT4nyE=
-
+- '0.10'
 addons:
   sauce_connect: true
-
 script:
-  - ./scripts/testserver.sh
-  - ./scripts/testonsauce.sh
+- ./scripts/testserver.sh
+- ./scripts/testonsauce.sh
+env:
+  global:
+  - secure: lGdhMVuOkvBAPanf/7uizNW3E4/kFlHiuO2ByjTpLiD2A7HDwMXZ9kV2qbbr/E634n+v7Dwwk3Nprf/Rho4bDfb8moeMb24b9Dg1I5W7uOjdVB57KBtEE2YAjGZv49eORLV2u0kHC9qy9Z1f8wiVz7xUQvXpVFjJQzArcW9/3Ks=
+  - secure: BEU3WBOgk8JwKpt1sbOpaLSRNTmYcm7vl+z4MO9hEPAeeHNYOjF1h3ZHsIzP5YzIgq4L40zB+prD4WvWA0kK2RGuWxe2YNhyvCZzJgY7la4uHgOpayPiCe+UsjLvA5NYKjRYd7qE5nbkdzO63LLbsrfA4/XRTXCs3mx3innmoxI=
