@@ -3,7 +3,7 @@ var config = {
     capabilities: {
         'browserName': 'chrome'
     },
-    baseUrl: 'http://localhost:3006/',
+    baseUrl: 'http://127.0.0.1:3006/',
     framework: 'jasmine',
     specs: ['**/*.spec.js'],
     jasmineNodeOpts: {
