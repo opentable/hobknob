@@ -21,7 +21,7 @@ app.use(express.json());       // to support JSON-encoded bodies
 app.use(express.urlencoded()); // to support URL-encoded bodies
 app.use(express.favicon());
 
-if (config.loggingMiddleware && config.loggingMiddleware.path)
+if (config.loggingMiddleware && config.loggingMiddleware.path) {
     app.use(require(config.loggingMiddleware.path)(config.loggingMiddleware.settings));
 } else {
     app.use(express.logger("dev"));
