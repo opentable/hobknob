@@ -3,6 +3,11 @@ node_js:
 - '0.10'
 addons:
   sauce_connect: true
+before_install:
+- npm install -g -q bower
+- npm install -g -q grunt-cli
+install:
+- npm install -q
 script:
 - ./scripts/testserver.sh
 - ./scripts/etcd.sh
