@@ -20,7 +20,12 @@ app.set("port", process.env.PORT || 3006);
 app.use(express.json());       // to support JSON-encoded bodies
 app.use(express.urlencoded()); // to support URL-encoded bodies
 app.use(express.favicon());
-app.use(express.logger("dev"));
+
+if (config.loggingMiddleware && config.loggingMiddleware.path)
+    app.use(require(config.loggingMiddleware.path)(config.loggingMiddleware.settings));
+} else {
+    app.use(express.logger("dev"));
+}
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
