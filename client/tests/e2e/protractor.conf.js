@@ -20,6 +20,7 @@ if (process.env.TRAVIS_BUILD_NUMBER) {
     config.capabilities = {
         'browserName': 'chrome',
         'build': process.env.TRAVIS_BUILD_NUMBER,
+        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
         'name': 'Hobknob Tests'
     };
 }
