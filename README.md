@@ -117,12 +117,25 @@ Hobknob will realise the package is installed and assume that you therefore want
 
 The configuration for the session is also stored in the config/config.json file using the following:
 
-```
+```json
 {
   "etcdHost": "hobknob-etcd.yourenvironment.com",
   "etcdPort": "4001",
 }
 ```
+## Configureing Logging
+By default, express has been configured to use a dev logger to stdout. You can configure to use different logging middleware by supplying configuration in config/config.json file.
+
+```json
+{
+  "loggingMiddleware": {
+    "path": "./logging_module",
+    "settings": { }
+  }
+}
+```
+
+Note, the module must be a function with the following standard express middleware signature: `function(settings) { return function(req, res, next) { }; }`
 
 ## Hobknob Clients
 There are several clients for different languages.
