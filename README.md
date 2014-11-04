@@ -123,7 +123,7 @@ The configuration for the session is also stored in the config/config.json file 
   "etcdPort": "4001",
 }
 ```
-## Configureing Logging
+## Configuring Logging
 By default, express has been configured to use a dev logger to stdout. You can configure to use different logging middleware by supplying configuration in config/config.json file.
 
 ```json
@@ -136,6 +136,33 @@ By default, express has been configured to use a dev logger to stdout. You can c
 ```
 
 Note, the module must be a function with the following standard express middleware signature: `function(settings) { return function(req, res, next) { }; }`
+
+### Example
+
+In a file called simple-console.js:
+
+```javascript
+module.exports = function(settings) {
+  return function(req, res, next) {
+    if (settings.enabled) {
+      console.log('request: ' + req.path);
+    };
+  };
+};
+```
+
+config/config.json:
+```json
+{
+  ...
+   "loggingMiddleware": {
+     "path": "./simple-console",
+     "settings": {
+       "enabled": true 
+     }
+   }
+}
+```
 
 ## Hobknob Clients
 There are several clients for different languages.
