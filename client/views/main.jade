@@ -29,7 +29,7 @@ html(lang='en')
             button.btn.btn-success(type="button",ng-click="setAddingApplicationState(true)",ng-hide="adding") Add
             div
               form(ng-submit="addApplication()")
-                input.form-control(type="text",ng-model="newApplicationName",placeholder="Application Name",focus-on="newApplicationName",ng-show="adding")
+                input#addApplicationInput.form-control(type="text",ng-model="newApplicationName",placeholder="Application Name",focus-on="newApplicationName",ng-show="adding")
                 button.btn.btn-warning.pull-right(type="button",ng-click="setAddingApplicationState(false)",ng-show="adding") Cancel
                 button.btn.btn-success.pull-right(type="submit",ng-show="adding") Add
       #page-content-wrapper
