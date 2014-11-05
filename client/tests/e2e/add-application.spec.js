@@ -38,10 +38,10 @@ describe("Sidebar - add new application", function () {
         applicationNameInput.sendKeys(applicationName);
     };
 
-    var enterApplicationNameAndSubmit = function(applicationName){
+    var enterApplicationNameAndSubmit = function(applicationName, sleepAfterInput){
         var applicationNameInput = element(by.css(applicationNameInputCss));
         applicationNameInput.sendKeys(applicationName).then(function(){
-            clickSubmitButton();
+            browser.sleep(sleepAfterInput || 0).then(clickSubmitButton);
         });
     };
 
@@ -68,9 +68,9 @@ describe("Sidebar - add new application", function () {
         expect(element(by.css(submitApplicationButtonCss)).isDisplayed()).toBe(isDisplayed);
     };
 
-    var addApplication = function(newApplicationName){
+    var addApplication = function(newApplicationName, sleepAfterInput){
         clickAddButton();
-        enterApplicationNameAndSubmit(newApplicationName);
+        enterApplicationNameAndSubmit(newApplicationName, sleepAfterInput);
     };
 
     it("should show the add application form when the Add button is clicked", function() {
@@ -140,7 +140,7 @@ describe("Sidebar - add new application", function () {
 
     _.each(["App With Spaces", "Under_score", "Slash/es", "Back\\SlashesToo", "Dots.NotHere", "Weird@Chars"], function(badToggleName){
         it("should not accept bad application name: " + badToggleName, function(){
-            addApplication(badToggleName);
+            addApplication(badToggleName, 1000);
 
             assertAddApplicationFormIsDisplayed(true);
             expect(element.all(by.repeater('application in applications')).count()).toBe(0);
