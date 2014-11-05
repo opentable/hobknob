@@ -138,7 +138,15 @@ describe("Sidebar - add new application", function () {
         expect(element(by.css(applicationNameInputCss)).getText()).toBe('');
     });
 
-    _.each(["App With Spaces", "Under_score", "Slash/es", "Back\\SlashesToo", "Dots.NotHere", "Weird@Chars"], function(badToggleName){
+    it("should not accept bad application name: another with spaces", function(){
+        addApplication("another with spaces", 1000);
+
+        assertAddApplicationFormIsDisplayed(true);
+        expect(element.all(by.repeater('application in applications')).count()).toBe(0);
+        expect(element(by.binding("alert.message")).getText()).toBe("Application name must be alphanumeric with no spaces");
+    });
+
+    _.each(["App With Spaces", "Under_score", "more spaces in this one", "Slash/es", "Back\\SlashesToo", "Dots.NotHere", "Weird@Chars"], function(badToggleName){
         it("should not accept bad application name: " + badToggleName, function(){
             addApplication(badToggleName, 1000);
 
