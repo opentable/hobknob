@@ -36,7 +36,13 @@ describe("Sidebar - add new application", function () {
     var enterApplicationName = function(applicationName){
         var applicationNameInput = element(by.css(applicationNameInputCss));
         applicationNameInput.sendKeys(applicationName);
-        browser.waitForAngular();
+    };
+
+    var enterApplicationNameAndSubmit = function(applicationName){
+        var applicationNameInput = element(by.css(applicationNameInputCss));
+        applicationNameInput.sendKeys(applicationName).then(function(){
+            clickSubmitButton();
+        });
     };
 
     var clickSubmitButton = function(){
@@ -64,8 +70,7 @@ describe("Sidebar - add new application", function () {
 
     var addApplication = function(newApplicationName){
         clickAddButton();
-        enterApplicationName(newApplicationName);
-        clickSubmitButton();
+        enterApplicationNameAndSubmit(newApplicationName);
     };
 
     it("should show the add application form when the Add button is clicked", function() {
