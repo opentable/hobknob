@@ -19,8 +19,9 @@ describe("Sidebar - add new application", function () {
 
     beforeEach(function(done) {
         removeAllToggles(function(){
-            browser.get('/#!/');
-            done();
+            browser.get('/#!/').then(function(){
+                done();
+            });
         });
     });
 
