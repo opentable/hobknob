@@ -7,7 +7,7 @@ describe("Sidebar - add new application", function () {
     var protractorInstance = protractor.getInstance();
 
     var addApplicationButtonCss = '#sidebar-wrapper .add-form > button';
-    var applicationNameInputCss = '#sidebar-wrapper .add-form form input';
+    var applicationNameInputCss = '#addApplicationInput';
     var cancelApplicationFormButtonCss = '#sidebar-wrapper .add-form form button[type=button]';
     var submitApplicationButtonCss = '#sidebar-wrapper .add-form form button[type=submit]';
 
