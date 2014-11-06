@@ -104,6 +104,7 @@ app.get('/auth/google/callback',
 
 app.get('/api/applications', toggleRoutes.getApplications);
 app.get('/api/applications/:applicationName', toggleRoutes.getApplication);
+app.get('/api/v2/applications/:applicationName', toggleRoutes.getApplication2);
 app.put('/api/applications', ensureAuthenticated, toggleRoutes.addApplication);
 app.post('/api/applications/:applicationName', ensureAuthenticated, authoriseUserForThisApplication, toggleRoutes.addToggle);
 app.put('/api/applications/:applicationName/:toggleName', ensureAuthenticated, authoriseUserForThisApplication, toggleRoutes.updateToggle);

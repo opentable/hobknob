@@ -6,6 +6,65 @@ var etcd = require('../etcd'),
     audit = require('./../audit'),
     etcdBaseUrl = "http://" + config.etcdHost + ":" + config.etcdPort + '/v2/keys/';
 
+var getCategoriesFromConfig = function() {
+    var simpleCategory = {
+        name: "simple",
+        id: 0,
+        columns: [""],
+        features: []
+    };
+    if (!config.categories) {
+        return { 0: simpleCategory };
+    }
+    var categories = _.map(config.categories, function(category) {
+        if (!category.id) {
+            simpleCategory.name = category.name;
+            return [0, simpleCategory];
+        }
+        return [category.id, {
+            "name": category.name,
+            "id": category.id,
+            "columns": category.values,
+            "features": []
+        }];
+    });
+    return _.object(categories);
+};
+
+var getNodeName = function(node) {
+    var splitKey = node.key.split('/');
+    return splitKey[splitKey.length - 1];
+};
+
+var getFeature = function(node, categories) {
+    var name = getNodeName(node);
+    var metaNode = _.find(node.nodes, function(metaNode) { return metaNode.key == node.key + '/_meta'; });
+
+    var isMultiToggle = metaNode && metaNode.categoryId;
+    if (isMultiToggle) {
+        var category = categories[metaNode.categoryId];
+        var values = _.map(category.columns, function(column) {
+            var columnNode = _.find(node.nodes, function(c) { return c.key == node.key + '/' + column; });
+            var value = columnNode.value && columnNode.value.toLowerCase() === 'true';
+        });
+        return {
+            name: name,
+            values: values,
+            categoryId: metaNode.categoryId,
+            fullPath: etcdBaseUrl + 'v1/toggles/' + name
+        };
+    } else {
+        var value = node.value && node.value.toLowerCase() === 'true';
+        var valueText = value ? 'true' : 'false';
+        return {
+            name: name,
+            values: [ valueText ],
+            categoryId: 0,
+            fullPath: etcdBaseUrl + 'v1/toggles/' + name
+        };
+    }
+};
+
 module.exports = {
     getApplications: function(req, res){
         etcd.client.get('v1/toggles/', {recursive: false}, function(err, result){
@@ -83,6 +142,34 @@ module.exports = {
             res.send({
                 name: applicationName,
                 toggles: toggles
+            });
+        });
+    },
+
+    getApplication2: function(req, res){
+        var applicationName = req.params.applicationName;
+
+        var path = 'v1/toggles/' + applicationName;
+        etcd.client.get(path, {recursive: false}, function(err, result){
+
+            if (err) {
+                if (err.errorCode === 100){ // key not found
+                    res.send(404);
+                    return;
+                } else {
+                    throw err;
+                }
+            }
+
+            var categories = getCategoriesFromConfig();
+            _.each(result.node.nodes, function(node) {
+                var feature = getFeature(node);
+                categories[feature.categoryId].features.push(feature);
+            });
+
+            res.send({
+                name: applicationName,
+                categories: categories
             });
         });
     },

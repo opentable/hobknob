@@ -1,0 +1,22 @@
+.panel.panel-default(ng-cloak,ng-controller="TogglePanelController")
+  .panel-heading
+    h3.panel-title {{category.name}}
+  .panel-body(ng-hide="loadingToggles")
+    p(ng-hide="category.features.length>0") No toggles added yet.
+    table.table(ng-show="category.features.length>0")
+      trhead
+        tr
+          th Name
+          th.col-md-1(ng-repeat="column in category.columns") {{column}}
+      trbody
+        tr(ng-repeat="feature in category.features | orderBy: 'name'")
+          td
+            a(href="/#!/applications/{{applicationName}}/{{feature.name}}") {{feature.name}}
+          td(ng-repeat="value in feature.values track by $index") {{value}}
+    .add-form(ng-show="userHasPermissionsLoaded && userHasPermissions")
+      button.btn.btn-success(type="button",ng-click="setAddingToggleState(true)",ng-hide="adding") New Toggle
+      div
+        form(ng-submit="addToggle()")
+          input.form-control(type="text",ng-model="newToggleName",placeholder="Toggle Name",focus-on="newToggleName",ng-show="adding")
+          button.btn.btn-warning.pull-right(type="button",ng-click="setAddingToggleState(false)",ng-show="adding") Cancel
+          button.btn.btn-success.pull-right(type="submit",ng-show="adding") Add

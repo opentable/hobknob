@@ -36,6 +36,17 @@ angular.module('featureToggleFrontend').factory('toggleService', ['ENV', '$http'
             });
     };
 
+    exports.getCategories = function (applicationName, success, error) {
+        var path = '/api/v2/applications/' + applicationName;
+        $http.get(path)
+            .success(function(data){
+                success(data.categories);
+            })
+            .error(function(data){
+                error(data);
+            });
+    };
+
     exports.addToggle = function (applicationName, toggleName, value, success, error) {
         var path = '/api/applications/' + applicationName;
         $http.post(path, { toggleName: toggleName, value: value })

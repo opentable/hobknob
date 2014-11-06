@@ -12,26 +12,7 @@ html(lang='en')
       window.user = !{JSON.stringify(user || {}, null, 2)};
   body(ng-app='featureToggleFrontend')
     #wrapper
-      #sidebar-wrapper(ng-controller="SideBarController" ng-cloak)
-        ul.sidebar-nav
-          li.sidebar-brand
-            a.navbar-brand.logo(href='/')
-              img(src='/img/opentable-hr-mono.png')
-          li
-            .profile
-                img.media-object.img-circle(ng-src='{{CurrentUser.getPicture()}}', alt='avatar')
-                .profile-text
-                  h4.media-heading {{CurrentUser.getFullName()}}
-                  a.logout(href='/logout' ng-show="CurrentUser.requiresAuthentication()") logout
-          li.application(ng-repeat="application in applications | orderBy:'toString()'" ng-click="console.log(application)")
-            a(ng-href="/#!/applications/{{application}}" ng-class="{ active: isActive(application) }") {{application}}
-          .add-form
-            button.btn.btn-success(type="button",ng-click="setAddingApplicationState(true)",ng-hide="adding") Add
-            div
-              form(ng-submit="addApplication()")
-                input#addApplicationInput.form-control(type="text",ng-model="newApplicationName",placeholder="Application Name",focus-on="newApplicationName",ng-show="adding")
-                button.btn.btn-warning.pull-right(type="button",ng-click="setAddingApplicationState(false)",ng-show="adding") Cancel
-                button.btn.btn-success.pull-right(type="submit",ng-show="adding") Add
+      include ./sidebar.jade
       #page-content-wrapper
         .container-fluid
           .row
@@ -60,6 +41,7 @@ html(lang='en')
     script(src='/js/controllers/sideBarController.js')
     script(src='/js/controllers/applicationController.js')
     script(src='/js/controllers/toggleListController.js')
+    script(src='/js/controllers/togglePanelController.js')
     script(src='/js/controllers/applicationOwnersController.js')
     script(src='/js/controllers/toggleController.js')
     script(src='/js/controllers/toggleAuditController.js')
