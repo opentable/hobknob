@@ -7,6 +7,11 @@
     "categories": [
         {
             "name": "Simple Toggles"
+        },
+        {
+            "name": "Domain Toggles",
+            "id": 1,
+            "values": ["com", "co.uk"]
         }
     ]
 }

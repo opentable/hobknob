@@ -22,10 +22,10 @@ var getCategoriesFromConfig = function() {
             return [0, simpleCategory];
         }
         return [category.id, {
-            "name": category.name,
-            "id": category.id,
-            "columns": category.values,
-            "features": []
+            name: category.name,
+            id: category.id,
+            columns: category.values,
+            features: []
         }];
     });
     return _.object(categories);
@@ -36,21 +36,22 @@ var getNodeName = function(node) {
     return splitKey[splitKey.length - 1];
 };
 
-var getFeature = function(node, categories) {
+var getFeature = function(node, parentNode, categories) {
     var name = getNodeName(node);
-    var metaNode = _.find(node.nodes, function(metaNode) { return metaNode.key == node.key + '/_meta'; });
-
-    var isMultiToggle = metaNode && metaNode.categoryId;
+    var metaNode = _.find(node.nodes, function(md) { return md.key === node.key + '/@meta'; });
+    var metaNodeValue = metaNode ? JSON.parse(metaNode.value) : null;
+    var isMultiToggle = metaNode && metaNodeValue.categoryId;
     if (isMultiToggle) {
-        var category = categories[metaNode.categoryId];
+        console.log(categories);
+        var category = categories[metaNodeValue.categoryId];
         var values = _.map(category.columns, function(column) {
             var columnNode = _.find(node.nodes, function(c) { return c.key == node.key + '/' + column; });
-            var value = columnNode.value && columnNode.value.toLowerCase() === 'true';
+            return columnNode && columnNode.value && columnNode.value.toLowerCase() === 'true';
         });
         return {
             name: name,
             values: values,
-            categoryId: metaNode.categoryId,
+            categoryId: metaNodeValue.categoryId,
             fullPath: etcdBaseUrl + 'v1/toggles/' + name
         };
     } else {
@@ -150,7 +151,7 @@ module.exports = {
         var applicationName = req.params.applicationName;
 
         var path = 'v1/toggles/' + applicationName;
-        etcd.client.get(path, {recursive: false}, function(err, result){
+        etcd.client.get(path, {recursive: true}, function(err, result){
 
             if (err) {
                 if (err.errorCode === 100){ // key not found
@@ -163,7 +164,7 @@ module.exports = {
 
             var categories = getCategoriesFromConfig();
             _.each(result.node.nodes, function(node) {
-                var feature = getFeature(node);
+                var feature = getFeature(node, result.node, categories);
                 categories[feature.categoryId].features.push(feature);
             });
 
