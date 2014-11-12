@@ -1,17 +1,17 @@
 featureToggleFrontend.controller('ToggleListController', ['$scope', '$timeout', 'toggleService', 'focus', 'ENV', function($scope, $timeout, toggleService, focus, ENV) {
 
     $scope.categories = [];
-    $scope.loadingToggles = false;
+    $scope.loadingFeatureCategories = false;
 
-    var loadCategories = function() {
-        toggleService.getCategories($scope.applicationName,
+    var loadFeatureCategories = function() {
+        toggleService.getFeatureCategories($scope.applicationName,
             function(categories){
                 $scope.categories = categories;
-                $scope.loadingToggles = false;
+                $scope.loadingFeatureCategories = false;
             },
             function(data){
                 $scope.$emit('error', "Failed to load feature toggles", new Error(data));
-                $scope.loadingToggles = false;
+                $scope.loadingFeatureCategories = false;
             });
     };
 
@@ -21,5 +21,5 @@ featureToggleFrontend.controller('ToggleListController', ['$scope', '$timeout', 
 //        }
 //    };
 
-    loadCategories();
+    loadFeatureCategories();
 }]);

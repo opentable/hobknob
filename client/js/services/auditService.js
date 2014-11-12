@@ -3,8 +3,8 @@ angular.module('featureToggleFrontend').factory('auditService', ['ENV', '$http',
 
     var exports = {};
 
-    exports.getToggleAuditTrail = function(applicationName, toggleName, success, error){
-        var path = '/api/audit/toggle/' + applicationName + '/' + toggleName;
+    exports.getFeatureAuditTrail = function(applicationName, featureName, success, error){
+        var path = '/api/audit/feature/' + applicationName + '/' + featureName;
         $http.get(path)
             .success(function(data){
                 success(data);

@@ -9,11 +9,11 @@ featureToggleFrontend.config(function($routeProvider, $locationProvider, $httpPr
             controller: 'DashboardController',
             templateUrl: 'partials/dashboard'
         }).
-        when('/applications/:appName', {
+        when('/applications/:applicationName', {
             controller: 'ApplicationController',
             templateUrl: 'partials/application'
         }).
-        when('/applications/:appName/:toggleName', {
+        when('/applications/:applicationName/:featureName', {
             controller: 'ApplicationController',
             templateUrl: 'partials/toggle'
         });

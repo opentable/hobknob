@@ -3,7 +3,7 @@
     h3.panel-title {{category.name}}
   .panel-body(ng-hide="loadingToggles")
     p(ng-hide="category.features.length>0") No toggles added yet.
-    table.table(ng-show="category.features.length>0")
+    table.table.table-striped(ng-show="category.features.length>0")
       trhead
         tr
           th Name
@@ -12,7 +12,10 @@
         tr(ng-repeat="feature in category.features | orderBy: 'name'")
           td
             a(href="/#!/applications/{{applicationName}}/{{feature.name}}") {{feature.name}}
-          td(ng-repeat="value in feature.values track by $index") {{value}}
+          td(ng-repeat="value in feature.values track by $index")
+            span.tick.fa.fa-check(ng-show="value")
+            span.cross.fa.fa-times(ng-show="value == false")
+            span.dash.fa.fa-minus(ng-show="value == null")
     .add-form(ng-show="userHasPermissionsLoaded && userHasPermissions")
       button.btn.btn-success(type="button",ng-click="setAddingToggleState(true)",ng-hide="adding") New Toggle
       div

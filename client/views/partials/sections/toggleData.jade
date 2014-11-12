@@ -1,0 +1,23 @@
+.panel.panel-default(ng-controller="ToggleDataController")
+  .panel-heading
+    h3.panel-title
+      | Data
+  .panel-body
+    table.table.table-striped
+      trhead
+        tr
+          th Toggle
+          th
+      trbody
+        tr(ng-repeat="toggle in toggles")
+          td {{toggle.name}}
+          td 
+            .pull-right
+              toggle-switch(model="toggle.value" on-change="updateThisToggle(toggle)" ng-disabled="userHasPermissionsLoaded && !userHasPermissions").switch-primary
+    .add-form(ng-show="isMultiToggle && userHasPermissionsLoaded && userHasPermissions")
+      button.btn.btn-success(type="button",ng-click="setAddingToggleState(true)",ng-hide="adding") Add Toggle
+      div
+        form(ng-submit="addToggle()")
+          input.form-control(type="text",ng-model="newToggleName",placeholder="Toggle Name",focus-on="newToggleName",ng-show="adding")
+          button.btn.btn-warning.pull-right(type="button",ng-click="setAddingToggleState(false)",ng-show="adding") Cancel
+          button.btn.btn-success.pull-right(type="submit",ng-show="adding") Add

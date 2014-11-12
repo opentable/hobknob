@@ -30,7 +30,8 @@
     "node-etcd": "^2.1.1",
     "underscore": "^1.7.0",
     "body-parser": "^1.9.0",
-    "validator": "^3.21.0"
+    "validator": "^3.21.0",
+    "string": "^2.2.0"
   },
   "devDependencies": {
     "forever-monitor": "~1.2.3",

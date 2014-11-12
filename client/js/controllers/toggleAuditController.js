@@ -2,7 +2,7 @@ featureToggleFrontend.controller('ToggleAuditController', ['$scope', 'auditServi
 
     $scope.auditTrail = [];
 
-    auditService.getToggleAuditTrail($scope.applicationName, $scope.toggleName,
+    auditService.getFeatureAuditTrail($scope.applicationName, $scope.featureName,
         function(data){
             $scope.auditTrail = data;
         },

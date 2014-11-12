@@ -4,7 +4,8 @@ var etcd = require('../etcd'),
     config = require('./../../config/config.json'),
     acl = require('./../acl'),
     audit = require('./../audit'),
-    etcdBaseUrl = "http://" + config.etcdHost + ":" + config.etcdPort + '/v2/keys/';
+    etcdBaseUrl = "http://" + config.etcdHost + ":" + config.etcdPort + '/v2/keys/',
+    S = require('string');
 
 var getCategoriesFromConfig = function() {
     var simpleCategory = {
@@ -31,6 +32,24 @@ var getCategoriesFromConfig = function() {
     return _.object(categories);
 };
 
+var isMetaNode = function(node) {
+    return S(node.key).endsWith('@meta');
+};
+
+var getMetaData = function(featureNode) {
+    var metaNode =  _.find(featureNode.nodes, function(n) { return isMetaNode(n); });
+    if (metaNode){
+        return JSON.parse(metaNode.value);
+    }
+    return {
+        categoryId: 0
+    };
+};
+
+var isMultiToggle = function(metaData) {
+    return metaData.categoryId > 0;
+};
+
 var getNodeName = function(node) {
     var splitKey = node.key.split('/');
     return splitKey[splitKey.length - 1];
@@ -38,12 +57,9 @@ var getNodeName = function(node) {
 
 var getFeature = function(node, parentNode, categories) {
     var name = getNodeName(node);
-    var metaNode = _.find(node.nodes, function(md) { return md.key === node.key + '/@meta'; });
-    var metaNodeValue = metaNode ? JSON.parse(metaNode.value) : null;
-    var isMultiToggle = metaNode && metaNodeValue.categoryId;
-    if (isMultiToggle) {
-        console.log(categories);
-        var category = categories[metaNodeValue.categoryId];
+    var metaData = getMetaData(node);
+    if (isMultiToggle(metaData)) {
+        var category = categories[metaData.categoryId];
         var values = _.map(category.columns, function(column) {
             var columnNode = _.find(node.nodes, function(c) { return c.key == node.key + '/' + column; });
             return columnNode && columnNode.value && columnNode.value.toLowerCase() === 'true';
@@ -51,15 +67,14 @@ var getFeature = function(node, parentNode, categories) {
         return {
             name: name,
             values: values,
-            categoryId: metaNodeValue.categoryId,
+            categoryId: metaData.categoryId,
             fullPath: etcdBaseUrl + 'v1/toggles/' + name
         };
     } else {
         var value = node.value && node.value.toLowerCase() === 'true';
-        var valueText = value ? 'true' : 'false';
         return {
             name: name,
-            values: [ valueText ],
+            values: [ value ],
             categoryId: 0,
             fullPath: etcdBaseUrl + 'v1/toggles/' + name
         };
@@ -175,16 +190,63 @@ module.exports = {
         });
     },
 
-    addToggle: function(req, res){
+    getFeature: function(req, res) {
         var applicationName = req.params.applicationName;
-        var toggleName = req.body.toggleName;
-        var value = req.body.value;
+        var featureName = req.params.featureName;
+
+        var path = 'v1/toggles/' + applicationName + '/' + featureName;
+        etcd.client.get(path, {recursive: true}, function(err, result){
+
+            if (err) {
+                if (err.errorCode === 100){ // key not found
+                    res.send(404);
+                    return;
+                } else {
+                    throw err;
+                }
+            }
+
+            var metaData = getMetaData(result.node);
+            var isMulti = isMultiToggle(metaData);
+
+            var toggles;
+            if (isMulti){
+                toggles = _
+                    .chain(result.node.nodes)
+                    .filter(function(node) { return !isMetaNode(node); })
+                    .map(function(node) {
+                        return {
+                            name: _.last(node.key.split('/')),
+                            value: node.value === 'true'
+                        };    
+                    })
+                    .value();
+            } else {
+                toggles = [{
+                    name: featureName,
+                    value: result.node.value === 'true'
+                }];
+            }
+
+            res.send({
+                applicationName: applicationName,
+                featureName: featureName,
+                toggles: toggles,
+                isMultiToggle: isMulti
+            });
+        });
+    },
+
+    // todo
+    addFeature: function(req, res){
+        var applicationName = req.params.applicationName;
+        var featureName = req.body.featureName;
 
         var path = 'v1/toggles/' + applicationName + '/' + toggleName;
         etcd.client.set(path, value, function(err){
             if (err) throw err;
 
-            audit.addToggleAudit(req, applicationName, toggleName, value, 'Created', function(err){
+            audit.addFeatureAudit(req, applicationName, featureName, null, value, 'Created', function(err){
                if (err){
                    console.log(err); // todo: better logging
                }
@@ -194,16 +256,55 @@ module.exports = {
         });
     },
 
-    updateToggle: function(req, res){
+    addToggle: function(req, res){
         var applicationName = req.params.applicationName;
-        var toggleName = req.params.toggleName;
+        var toggleName = req.body.toggleName;
         var value = req.body.value;
 
         var path = 'v1/toggles/' + applicationName + '/' + toggleName;
         etcd.client.set(path, value, function(err){
             if (err) throw err;
 
-            audit.addToggleAudit(req, applicationName, toggleName, value, 'Updated', function(err){
+            audit.addFeatureAudit(req, applicationName, toggleName, null, value, 'Created', function(err){
+               if (err){
+                   console.log(err); // todo: better logging
+               }
+            });
+
+            res.send(201);
+        });
+    },
+
+    updateFeatureToggle: function(req, res){
+        var applicationName = req.params.applicationName;
+        var featureName = req.params.featureName;
+        var value = req.body.value;
+
+        var path = 'v1/toggles/' + applicationName + '/' + featureName;
+        etcd.client.set(path, value, function(err){
+            if (err) throw err;
+
+            audit.addFeatureAudit(req, applicationName, featureName, null, value, 'Updated', function(err){
+                if (err){
+                    console.log(err); // todo: better logging
+                }
+            });
+
+            res.send(200);
+        });
+    },
+
+    updateFeatureMultiToggle: function(req, res){
+        var applicationName = req.params.applicationName;
+        var featureName = req.params.featureName;
+        var toggleName = req.params.toggleName;
+        var value = req.body.value;
+
+        var path = 'v1/toggles/' + applicationName + '/' + featureName +  '/' + toggleName;
+        etcd.client.set(path, value, function(err){
+            if (err) throw err;
+
+            audit.addFeatureAudit(req, applicationName, featureName, toggleName, value, 'Updated', function(err){
                 if (err){
                     console.log(err); // todo: better logging
                 }
@@ -217,14 +318,14 @@ module.exports = {
         var applicationName = req.params.applicationName;
         var toggleName = req.params.toggleName;
 
-        audit.addToggleAudit(req, applicationName, toggleName, null, 'Delete Requested', function(err){
+        audit.addFeatureAudit(req, applicationName, toggleName, null, null, 'Delete Requested', function(err){
             if (err){
                 throw new Error('Could not audit delete request. An audit is required to delete a toggle.');
             }
             var path = 'v1/toggles/' + applicationName + '/' + toggleName;
             etcd.client.delete(path, function(err){
                 if (err) throw err;
-                audit.addToggleAudit(req, applicationName, toggleName, null, 'Deleted', function(err) {
+                audit.addFeatureAudit(req, applicationName, toggleName, null, 'Deleted', function(err) {
                     if (err){
                         console.log(err); // todo: better logging
                     }

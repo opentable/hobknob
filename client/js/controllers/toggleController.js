@@ -1,6 +1,6 @@
 featureToggleFrontend.controller('ToggleController', ['$scope', '$routeParams', function($scope, $routeParams) {
 
-    $scope.applicationName = $routeParams.appName;
-    $scope.toggleName = $routeParams.toggleName;
+    $scope.applicationName = $routeParams.applicationName;
+    $scope.featureName = $routeParams.featureName;
 
 }]);

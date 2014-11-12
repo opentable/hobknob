@@ -1,6 +1,6 @@
 featureToggleFrontend.controller('ApplicationController', ['$scope', '$routeParams', 'toggleService', 'authorisationService', 'CurrentUser', function($scope, $routeParams, toggleService, authorisationService, CurrentUser) {
 
-    $scope.applicationName = $routeParams.appName;
+    $scope.applicationName = $routeParams.applicationName;
     $scope.requiresAuthentication = CurrentUser.requiresAuthentication();
     $scope.userHasPermissionsLoaded = false; // stops flickering of alert and buttons
 
