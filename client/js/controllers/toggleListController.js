@@ -15,11 +15,21 @@ featureToggleFrontend.controller('ToggleListController', ['$scope', '$timeout', 
             });
     };
 
-//    var validateNewToggle = function(toggleName){
-//        if (_.any($scope.toggles, function(toggle) { return toggle.name.toLowerCase() == toggleName.toLowerCase(); })) {
-//            return "Toggle already exists";
-//        }
-//    };
+    $scope.isFeatureUnique = function(featureName){
+        return !_.chain($scope.categories)
+            .map(function(category) { return _.map(category.features, function(feature) { return feature.name; }); })
+            .flatten()
+            .any(function(existingFeature) { return existingFeature === featureName; })
+            .value();
+    };
+
+    $scope.addFakeFeature = function(featureName, categoryId){
+        var category = _.find($scope.categories, function(category) { return category.id === categoryId; });
+        category.features.push({
+            name: featureName,
+            values: categoryId === 0 ? [false] : _.map(category.columns, function(column) { return null; })
+        });
+    };
 
     loadFeatureCategories();
 }]);

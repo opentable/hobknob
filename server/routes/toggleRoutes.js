@@ -46,8 +46,10 @@ var getMetaData = function(featureNode) {
     };
 };
 
+var simpleToggleCategoryId = 0;
+
 var isMultiToggle = function(metaData) {
-    return metaData.categoryId > 0;
+    return metaData.categoryId !== simpleToggleCategoryId;
 };
 
 var getNodeName = function(node) {
@@ -237,42 +239,51 @@ module.exports = {
         });
     },
 
-    // todo
     addFeature: function(req, res){
         var applicationName = req.params.applicationName;
         var featureName = req.body.featureName;
+        var categoryId = req.body.categoryId;
 
-        var path = 'v1/toggles/' + applicationName + '/' + toggleName;
-        etcd.client.set(path, value, function(err){
-            if (err) throw err;
+        var metaData = {
+            categoryId: categoryId
+        };
 
-            audit.addFeatureAudit(req, applicationName, featureName, null, value, 'Created', function(err){
-               if (err){
-                   console.log(err); // todo: better logging
-               }
+        var path = 'v1/toggles/' + applicationName + '/' + featureName;
+        var metaPath = path + '/@meta';
+
+        var isMulti = isMultiToggle(metaData);
+
+        if (isMulti){
+            etcd.client.set(metaPath, JSON.stringify(metaData), function(err){
+                if (err) throw err;
+
+                audit.addFeatureAudit(req, applicationName, featureName, null, null, 'Created', function(err){
+                   if (err){
+                       console.log(err); // todo: better logging
+                   }
+                });
+
+                res.send(201);
             });
+        } else {
 
-            res.send(201);
-        });
-    },
+            etcd.client.set(path, false, function(err){
+                if (err) throw err;
 
-    addToggle: function(req, res){
-        var applicationName = req.params.applicationName;
-        var toggleName = req.body.toggleName;
-        var value = req.body.value;
+                audit.addFeatureAudit(req, applicationName, featureName, null, false, 'Created', function(err){
+                   if (err){
+                       console.log(err); // todo: better logging
+                   }
+                });
 
-        var path = 'v1/toggles/' + applicationName + '/' + toggleName;
-        etcd.client.set(path, value, function(err){
-            if (err) throw err;
-
-            audit.addFeatureAudit(req, applicationName, toggleName, null, value, 'Created', function(err){
-               if (err){
-                   console.log(err); // todo: better logging
-               }
+                etcd.client.set(metaPath, JSON.stringify(metaData), function(err){
+                   if (err){
+                       console.log(err); // todo: better logging
+                   }
+                    res.send(201);
+                });
             });
-
-            res.send(201);
-        });
+        }
     },
 
     updateFeatureToggle: function(req, res){

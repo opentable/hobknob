@@ -58,9 +58,9 @@ angular.module('featureToggleFrontend').factory('toggleService', ['ENV', '$http'
             });
     };
 
-    exports.addToggle = function (applicationName, toggleName, value, success, error) {
+    exports.addFeature = function (applicationName, categoryId, featureName, success, error) {
         var path = '/api/applications/' + applicationName;
-        $http.post(path, { toggleName: toggleName, value: value })
+        $http.post(path, { featureName: featureName, categoryId: categoryId})
             .success(function(data, status){
                 success(status);
             })

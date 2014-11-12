@@ -107,7 +107,7 @@ app.get('/api/applications/:applicationName', toggleRoutes.getApplication);
 app.get('/api/v2/applications/:applicationName', toggleRoutes.getApplication2);
 app.get('/api/v2/applications/:applicationName/:featureName', toggleRoutes.getFeature);
 app.put('/api/applications', ensureAuthenticated, toggleRoutes.addApplication);
-app.post('/api/applications/:applicationName', ensureAuthenticated, authoriseUserForThisApplication, toggleRoutes.addToggle);
+app.post('/api/applications/:applicationName', ensureAuthenticated, authoriseUserForThisApplication, toggleRoutes.addFeature);
 app.put('/api/applications/:applicationName/:featureName', ensureAuthenticated, authoriseUserForThisApplication, toggleRoutes.updateFeatureToggle);
 app.put('/api/applications/:applicationName/:featureName/:toggleName', ensureAuthenticated, authoriseUserForThisApplication, toggleRoutes.updateFeatureMultiToggle);
 app.delete('/api/applications/:applicationName/:toggleName', ensureAuthenticated, authoriseUserForThisApplication, toggleRoutes.deleteToggle);

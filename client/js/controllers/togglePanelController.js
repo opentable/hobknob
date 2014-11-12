@@ -1,66 +1,48 @@
 featureToggleFrontend.controller('TogglePanelController', ['$scope', '$timeout', 'toggleService', 'focus', 'ENV', function($scope, $timeout, toggleService, focus, ENV) {
 
     $scope.adding = false;
-    $scope.newToggleName = '';
+    $scope.newFeatureName = '';
 
-    $scope.setAddingToggleState = function(state){
+    $scope.setAddingFeatureState = function(state){
         $scope.adding = state;
         if (state){
-            focus('newToggleName');
+            focus('newFeatureName');
         }
         else{
-            $scope.newToggleName = '';
+            $scope.newFeatureName = '';
         }
     };
 
-    $scope.updateThisToggle = function(toggle) {
-        if (!$scope.userHasPermissions) return;
-
-        $timeout(function(){
-            toggleService.updateToggle($scope.applicationName, toggle.name, toggle.value,
-                function(){
-                },
-                function(data){
-                    $scope.$emit('error', "Failed to update toggle", new Error(data));
-                });
-        });
-    };
-
-    var validateNewToggle = function(toggleName){
-        if (!toggleName){
-            return "Must enter an toggle name";
+    var validateNewFeature = function(featureName){
+        if (!featureName){
+            return "Must enter an feature name";
         }
-// Parent scope has all toggle names
-//        if (_.any($scope.toggles, function(toggle) { return toggle.name.toLowerCase() == toggleName.toLowerCase(); })) {
-//            return "Toggle already exists";
-//        }
-        if (!/^[a-z0-9.]+$/i.test(toggleName)){
-            return "Toggle name must be alphanumeric with no spaces";
+        if (!$scope.isFeatureUnique(featureName)){
+            return "Feature name must be unique in this application";
+        };
+        if (!/^[a-z0-9.]+$/i.test(featureName)){
+            return "Feature name must be alphanumeric with no spaces";
         }
     };
 
-    $scope.addToggle = function() {
-        var toggleName = $scope.newToggleName.trim();
+    $scope.addFeature = function() {
+        var categoryId = $scope.category.id;
+        var featureName = $scope.newFeatureName.trim();
 
-        var validationError = validateNewToggle(toggleName);
+        var validationError = validateNewFeature(featureName);
         if (validationError){
             $scope.$emit('error', validationError);
             return;
         }
 
-        toggleService.addToggle($scope.applicationName, toggleName, false,
+        toggleService.addFeature($scope.applicationName, categoryId, featureName,
             function(){
-                var fakeToggle = {
-                    name: toggleName,
-                    fullPath: "http://" + ENV.etcdHost + ":" + ENV.etcdPort + "/v2/keys/v1/toggles/" + $scope.applicationName + "/" + toggleName,
-                    value: false
-                };
-                $scope.toggles.push(fakeToggle);
-                $scope.setAddingToggleState(false);
-                $scope.$emit('success', toggleName + " was successfully added");
+                $scope.addFakeFeature(featureName, categoryId);
+                $scope.setAddingFeatureState(false);
+                $scope.$emit('success', featureName + " was successfully added");
             },
             function(data){
-                $scope.$emit('error', "Failed to add toggle", new Error(data));
+                $scope.$emit('error', "Failed to add feature", new Error(data));
             });
     };
 }]);

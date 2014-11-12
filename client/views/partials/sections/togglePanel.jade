@@ -1,8 +1,8 @@
 .panel.panel-default(ng-cloak,ng-controller="TogglePanelController")
   .panel-heading
     h3.panel-title {{category.name}}
-  .panel-body(ng-hide="loadingToggles")
-    p(ng-hide="category.features.length>0") No toggles added yet.
+  .panel-body(ng-hide="loadingFeatures")
+    p(ng-hide="category.features.length>0") No features added yet.
     table.table.table-striped(ng-show="category.features.length>0")
       trhead
         tr
@@ -17,9 +17,9 @@
             span.cross.fa.fa-times(ng-show="value == false")
             span.dash.fa.fa-minus(ng-show="value == null")
     .add-form(ng-show="userHasPermissionsLoaded && userHasPermissions")
-      button.btn.btn-success(type="button",ng-click="setAddingToggleState(true)",ng-hide="adding") New Toggle
+      button.btn.btn-success(type="button",ng-click="setAddingFeatureState(true)",ng-hide="adding") New Feature
       div
-        form(ng-submit="addToggle()")
-          input.form-control(type="text",ng-model="newToggleName",placeholder="Toggle Name",focus-on="newToggleName",ng-show="adding")
-          button.btn.btn-warning.pull-right(type="button",ng-click="setAddingToggleState(false)",ng-show="adding") Cancel
+        form(ng-submit="addFeature()")
+          input.form-control(type="text",ng-model="newFeatureName",placeholder="Feature Name",focus-on="newFeatureName",ng-show="adding")
+          button.btn.btn-warning.pull-right(type="button",ng-click="setAddingFeatureState(false)",ng-show="adding") Cancel
           button.btn.btn-success.pull-right(type="submit",ng-show="adding") Add
