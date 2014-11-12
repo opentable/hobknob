@@ -5,36 +5,5 @@ div(ng-controller="ToggleController")
   .col-md-12
     .alert.alert-warning(ng-show="userHasPermissionsLoaded && !userHasPermissions") You do not have permissions to delete toggles for this application. Please contact an Owner of this application if you require this ability.
     include ./sections/toggleData
-    .panel.panel-default
-      .panel-heading
-        h3.panel-title
-          | Audit
-      .panel-body(ng-controller="ToggleAuditController")
-        table.table.table-striped
-          trhead
-            tr
-              th Toggle
-              th User
-              th Action
-              th Date Modified
-              th
-          trbody
-            tr(ng-repeat="audit in auditTrail | orderBy:'createdIndex'" ng-animate=" 'animate' ")
-              td 
-                | {{featureName}}
-                span(ng-show="audit.toggleName") /{{audit.toggleName}}
-              td {{audit.user.name}}
-              td {{audit.action}}
-              td {{audit.dateModified | date:'medium'}}
-              td
-                .pull-right
-                  span.tick.fa.fa-check(ng-show="audit.value")
-                  span.cross.fa.fa-times(ng-show="audit.value == false")
-                  span.dash.fa.fa-minus(ng-show="audit.value == null")
-    .panel.panel-danger(ng-controller="ToggleDangerController",ng-show="userHasPermissionsLoaded && userHasPermissions")
-      .panel-heading
-        h3.panel-title Danger Zone
-      .panel-body
-        button.btn.btn-danger(ng-click="deleteToggle()")
-          span(ng-show="confirm") Confirm delete
-          span(ng-hide="confirm") Delete Toggle
+    include ./sections/featureAudit
+    include ./sections/dangerPanel

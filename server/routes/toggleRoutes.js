@@ -15,17 +15,18 @@ var getCategoriesFromConfig = function() {
         features: []
     };
     if (!config.categories) {
-        return { 0: simpleCategory };
+        return { 0: _.clone(simpleCategory) };
     }
     var categories = _.map(config.categories, function(category) {
         if (!category.id) {
-            simpleCategory.name = category.name;
-            return [0, simpleCategory];
+            var simpleCategoryClone = _.clone(simpleCategory);
+            simpleCategoryClone.name = category.name;
+            return [0, simpleCategoryClone];
         }
         return [category.id, {
             name: category.name,
             id: category.id,
-            columns: category.values,
+            columns: _.clone(category.values),
             features: []
         }];
     });
@@ -185,6 +186,30 @@ module.exports = {
                 categories[feature.categoryId].features.push(feature);
             });
 
+            var featureHasValueAtIndex = function(index){
+                return function(feature){
+                    return feature.values[index] !== null && feature.values[index] !== undefined;
+                };
+            };
+            _.each(categories, function(category){
+                if (category.id !== 0){
+                    var columnsToRemove = [];
+                    for(var i = 0; i < category.columns.length; i++){
+                        var aFeatureHasColumnValue = _.some(category.features, featureHasValueAtIndex(i));
+                        if (!aFeatureHasColumnValue){
+                            columnsToRemove.push(category.columns[i]);
+                        }
+                    }
+                    _.each(columnsToRemove, function(columnName){
+                        var columnIndex = _.indexOf(category.columns, columnName);
+                        category.columns.splice(columnIndex, 1);
+                        _.each(category.features, function(feature){
+                            feature.values.splice(columnIndex, 1);
+                        });
+                    });
+                }
+            });
+
             res.send({
                 name: applicationName,
                 categories: categories
@@ -211,7 +236,7 @@ module.exports = {
             var metaData = getMetaData(result.node);
             var isMulti = isMultiToggle(metaData);
 
-            var toggles;
+            var toggles, remainingToggles;
             if (isMulti){
                 toggles = _
                     .chain(result.node.nodes)
@@ -223,6 +248,8 @@ module.exports = {
                         };    
                     })
                     .value();
+                var categories = getCategoriesFromConfig();
+                remainingToggles = _.difference(categories[metaData.categoryId].columns, _.map(toggles, function(toggle) { return toggle.name; }));
             } else {
                 toggles = [{
                     name: featureName,
@@ -230,11 +257,13 @@ module.exports = {
                 }];
             }
 
+            console.log(remainingToggles);
             res.send({
                 applicationName: applicationName,
                 featureName: featureName,
                 toggles: toggles,
-                isMultiToggle: isMulti
+                isMultiToggle: isMulti,
+                toggleSuggestions: remainingToggles
             });
         });
     },
@@ -257,7 +286,7 @@ module.exports = {
             etcd.client.set(metaPath, JSON.stringify(metaData), function(err){
                 if (err) throw err;
 
-                audit.addFeatureAudit(req, applicationName, featureName, null, null, 'Created', function(err){
+                audit.addFeatureAudit(req, applicationName, featureName, null, null, 'Feature Created', function(err){ 
                    if (err){
                        console.log(err); // todo: better logging
                    }
@@ -296,6 +325,25 @@ module.exports = {
             if (err) throw err;
 
             audit.addFeatureAudit(req, applicationName, featureName, null, value, 'Updated', function(err){
+                if (err){
+                    console.log(err); // todo: better logging
+                }
+            });
+
+            res.send(200);
+        });
+    },
+
+    addFeatureToggle: function(req, res){
+        var applicationName = req.params.applicationName;
+        var featureName = req.params.featureName;
+        var toggleName = req.body.toggleName;
+
+        var path = 'v1/toggles/' + applicationName + '/' + featureName +  '/' + toggleName;
+        etcd.client.set(path, false, function(err){
+            if (err) throw err;
+
+            audit.addFeatureAudit(req, applicationName, featureName, toggleName, false, 'Toggle Created', function(err){
                 if (err){
                     console.log(err); // todo: better logging
                 }

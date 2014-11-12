@@ -8,18 +8,20 @@ angular.module("config", [])
   "hobknobPort": "3006",
   "categories": [
     {
-      "name": "Simple Toggles"
+      "name": "Simple Features"
     },
     {
-      "name": "Domain Toggles",
+      "name": "Domain Features",
       "id": 1,
       "values": [
         "com",
-        "co.uk"
+        "couk",
+        "de",
+        "fr"
       ]
     },
     {
-      "name": "Locale Toggles",
+      "name": "Locale Features",
       "id": 2,
       "values": [
         "en-GB",

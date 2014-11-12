@@ -69,6 +69,17 @@ angular.module('featureToggleFrontend').factory('toggleService', ['ENV', '$http'
             });
     };
 
+    exports.addFeatureToggle = function (applicationName, featureName, toggleName, success, error) {
+        var path = '/api/applications/' + applicationName + '/' + featureName;
+        $http.post(path, { toggleName: toggleName })
+            .success(function(data, status){
+                success(status);
+            })
+            .error(function(data){
+                error(data);
+            });
+    };
+
     exports.updateFeatureToggle = function (applicationName, featureName, isMultiToggle, toggleName, value, success, error) {
         var path = '/api/applications/' + applicationName + '/' + featureName + (isMultiToggle ? '/' + toggleName : '');
         $http.put(path, { value: value })

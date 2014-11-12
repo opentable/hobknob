@@ -18,6 +18,6 @@
       button.btn.btn-success(type="button",ng-click="setAddingToggleState(true)",ng-hide="adding") Add Toggle
       div
         form(ng-submit="addToggle()")
-          input.form-control(type="text",ng-model="newToggleName",placeholder="Toggle Name",focus-on="newToggleName",ng-show="adding")
+          input.form-control(type="text",ng-model="newToggleName",placeholder="Toggle Name",focus-on="newToggleName",ng-show="adding", typeahead="toggleSuggestion for toggleSuggestion in toggleSuggestions | filter:$viewValue | limitTo:8")
           button.btn.btn-warning.pull-right(type="button",ng-click="setAddingToggleState(false)",ng-show="adding") Cancel
           button.btn.btn-success.pull-right(type="submit",ng-show="adding") Add

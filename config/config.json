@@ -11,7 +11,7 @@
         {
             "name": "Domain Features",
             "id": 1,
-            "values": ["com", "co.uk"]
+            "values": ["com", "couk", "de", "fr"]
         },
         {
             "name": "Locale Features",
