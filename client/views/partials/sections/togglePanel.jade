@@ -13,9 +13,9 @@
           td
             a(href="/#!/applications/{{applicationName}}/{{feature.name}}") {{feature.name}}
           td(ng-repeat="value in feature.values track by $index")
-            span.tick.fa.fa-check(ng-show="value")
-            span.cross.fa.fa-times(ng-show="value == false")
-            span.dash.fa.fa-minus(ng-show="value == null")
+            span.tick.fa.fa-check-circle(ng-show="value")
+            span.cross.fa.fa-times-circle(ng-show="value == false")
+            span.dash.fa.fa-minus-circle(ng-show="value == null")
     .add-form(ng-show="userHasPermissionsLoaded && userHasPermissions")
       button.btn.btn-success(type="button",ng-click="setAddingFeatureState(true)",ng-hide="adding") New Feature
       div

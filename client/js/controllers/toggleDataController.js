@@ -7,10 +7,8 @@ featureToggleFrontend.controller('ToggleDataController', ['$scope', '$timeout', 
     $scope.setAddingToggleState = function(state){
         $scope.adding = state;
         if (state){
+            $scope.newToggleName = $scope.toggleSuggestions[0];
             focus('newToggleName');
-        }
-        else{
-            $scope.newToggleName = '';
         }
     };
 
