@@ -21,11 +21,13 @@ var getCategoriesFromConfig = function() {
         if (!category.id) {
             var simpleCategoryClone = _.clone(simpleCategory);
             simpleCategoryClone.name = category.name;
+            simpleCategoryClone.description = category.description;
             return [0, simpleCategoryClone];
         }
         return [category.id, {
             name: category.name,
             id: category.id,
+            description: category.description,
             columns: _.clone(category.values),
             features: []
         }];
@@ -373,18 +375,18 @@ module.exports = {
         });
     },
 
-    deleteToggle: function(req, res){
+    deleteFeature: function(req, res){
         var applicationName = req.params.applicationName;
-        var toggleName = req.params.toggleName;
+        var featureName = req.params.featureName;
 
-        audit.addFeatureAudit(req, applicationName, toggleName, null, null, 'Delete Requested', function(err){
+        audit.addFeatureAudit(req, applicationName, featureName, null, null, 'Delete Requested', function(err){
             if (err){
-                throw new Error('Could not audit delete request. An audit is required to delete a toggle.');
+                throw new Error('Could not audit delete request. An audit is required to delete a feature');
             }
-            var path = 'v1/toggles/' + applicationName + '/' + toggleName;
-            etcd.client.delete(path, function(err){
+            var path = 'v1/toggles/' + applicationName + '/' + featureName;
+            etcd.client.delete(path, { recursive: true }, function(err){
                 if (err) throw err;
-                audit.addFeatureAudit(req, applicationName, toggleName, null, 'Deleted', function(err) {
+                audit.addFeatureAudit(req, applicationName, featureName, null, null, 'Deleted', function(err) {
                     if (err){
                         console.log(err); // todo: better logging
                     }

@@ -5,14 +5,14 @@ featureToggleFrontend.controller('ToggleDangerController', ['$scope', 'toggleSer
 
     $scope.deleteToggle = function(){
         var application = $scope.applicationName;
-        var toggle = $scope.toggleName;
+        var featureName = $scope.featureName;
 
         if (!$scope.confirm){
             $scope.confirm = true;
             return;
         }
 
-        toggleService.deleteToggle(application, toggle, function(err){
+        toggleService.deleteToggle(application, featureName, function(err){
             if (err){
                 $scope.$emit('error', 'Failed to delete toggle. See console for more detail.', err);
                 return;

@@ -111,7 +111,7 @@ app.post('/api/applications/:applicationName', ensureAuthenticated, authoriseUse
 app.put('/api/applications/:applicationName/:featureName', ensureAuthenticated, authoriseUserForThisApplication, toggleRoutes.updateFeatureToggle);
 app.post('/api/applications/:applicationName/:featureName', ensureAuthenticated, authoriseUserForThisApplication, toggleRoutes.addFeatureToggle);
 app.put('/api/applications/:applicationName/:featureName/:toggleName', ensureAuthenticated, authoriseUserForThisApplication, toggleRoutes.updateFeatureMultiToggle);
-app.delete('/api/applications/:applicationName/:toggleName', ensureAuthenticated, authoriseUserForThisApplication, toggleRoutes.deleteToggle);
+app.delete('/api/applications/:applicationName/:featureName', ensureAuthenticated, authoriseUserForThisApplication, toggleRoutes.deleteFeature);
 
 app.post('/api/applications/:applicationName/users', ensureAuthenticated, authoriseUserForThisApplication, authorisationRoutes.grant);
 app.get('/api/applications/:applicationName/users', authorisationRoutes.getUsers);

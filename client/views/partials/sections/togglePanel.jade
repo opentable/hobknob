@@ -2,7 +2,9 @@
   .panel-heading
     h3.panel-title {{category.name}}
   .panel-body(ng-hide="loadingFeatures")
-    p(ng-hide="category.features.length>0") No features added yet.
+    p {{category.description}}
+    p
+      em(ng-hide="category.features.length>0") No features added yet
     table.table.table-striped(ng-show="category.features.length>0")
       trhead
         tr
