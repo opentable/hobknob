@@ -3,7 +3,6 @@ featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'to
 
     $scope.adding = false;
     $scope.newToggleName = '';
-
     $scope.setAddingToggleState = function(state){
         $scope.adding = state;
         if (state){
@@ -12,36 +11,13 @@ featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'to
         }
     };
 
-    var loadToggles = function() {
-        $scope.toggles = [];
-        $scope.loadingToggles = true;
-        $scope.isMultiToggle = false;
-
-        toggleService.getFeature($scope.applicationName, $scope.featureName,
-            function(feature){
-                $scope.toggles = feature.toggles;
-                $scope.isMultiToggle = feature.isMultiToggle;
-                $scope.toggleSuggestions = feature.toggleSuggestions;
-                $scope.loadingToggles = false;
-            },
+    $scope.updateThisToggle = function(toggle){
+        toggleService.updateFeatureToggle($scope.applicationName, $scope.featureName,
+            $scope.isMultiToggle, toggle.name, toggle.value, null, 
             function(data){
-                $scope.$emit('error', "Failed to load this feature toggle", new Error(data));
-                $scope.loadingToggles = false;
+                $scope.$emit('error', "Failed to update toggle", new Error(data));
             });
     };
-
-    $scope.updateThisToggle = function(toggle){
-        if (!$scope.userHasPermissions) return;
-
-        $timeout(function(){
-            toggleService.updateFeatureToggle($scope.applicationName, $scope.featureName, $scope.isMultiToggle,
-                toggle.name, toggle.value, function(){},
-                function(data){
-                    $scope.$emit('error', "Failed to update toggle", new Error(data));
-                });
-        });
-    };
-
 
     var validateNewToggle = function(toggleName){
         if (!toggleName){
@@ -85,5 +61,21 @@ featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'to
             });
     };
 
-    loadToggles();
+    (function loadFeatureToggles() {
+        $scope.toggles = [];
+        $scope.loadingToggles = true;
+        $scope.isMultiToggle = false;
+
+        toggleService.getFeature($scope.applicationName, $scope.featureName,
+            function(feature){
+                $scope.toggles = feature.toggles;
+                $scope.isMultiToggle = feature.isMultiToggle;
+                $scope.toggleSuggestions = feature.toggleSuggestions;
+                $scope.loadingToggles = false;
+            },
+            function(data){
+                $scope.$emit('error', "Failed to load this feature toggle", new Error(data));
+                $scope.loadingToggles = false;
+            });
+    })();
 }]);

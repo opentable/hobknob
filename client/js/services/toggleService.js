@@ -73,10 +73,10 @@ angular.module('featureToggleFrontend').factory('toggleService', ['ENV', '$http'
         var path = '/api/applications/' + applicationName + '/' + featureName + (isMultiToggle ? '/' + toggleName : '');
         $http.put(path, { value: value })
             .success(function(data, status){
-                success(status);
+                if (success) success(status);
             })
             .error(function(data){
-                error(data);
+                if (error) error(data);
             });
     };
 

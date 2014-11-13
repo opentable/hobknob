@@ -2,7 +2,6 @@ featureToggleFrontend.controller('FeatureCategoryController', ['$scope', '$timeo
 
     $scope.adding = false;
     $scope.newFeatureName = '';
-
     $scope.setAddingFeatureState = function(state){
         $scope.adding = state;
         if (state){
