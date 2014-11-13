@@ -5,8 +5,9 @@ var express = require("express"),
     loadBalancerRoutes = require("./routes/loadbalancerRoutes"),
     authenticateRoutes = require("./routes/authenticateRoutes"),
     authorisationRoutes = require("./routes/authorisationRoutes"),
-    toggleRoutes = require("./routes/toggleRoutes"),
     auditRoutes = require("./routes/auditRoutes"),
+    applicationRoutes = require("./routes/applicationRoutes"),
+    featureRoutes = require("./routes/featureRoutes"),
     path = require("path"),
     acl = require("./acl"),
     config = require('./../config/config.json');
@@ -102,16 +103,8 @@ app.get('/auth/google/callback',
   }
 );
 
-app.get('/api/applications', toggleRoutes.getApplications);
-app.get('/api/applications/:applicationName', toggleRoutes.getApplication);
-app.get('/api/v2/applications/:applicationName', toggleRoutes.getApplication2);
-app.get('/api/v2/applications/:applicationName/:featureName', toggleRoutes.getFeature);
-app.put('/api/applications', ensureAuthenticated, toggleRoutes.addApplication);
-app.post('/api/applications/:applicationName', ensureAuthenticated, authoriseUserForThisApplication, toggleRoutes.addFeature);
-app.put('/api/applications/:applicationName/:featureName', ensureAuthenticated, authoriseUserForThisApplication, toggleRoutes.updateFeatureToggle);
-app.post('/api/applications/:applicationName/:featureName', ensureAuthenticated, authoriseUserForThisApplication, toggleRoutes.addFeatureToggle);
-app.put('/api/applications/:applicationName/:featureName/:toggleName', ensureAuthenticated, authoriseUserForThisApplication, toggleRoutes.updateFeatureMultiToggle);
-app.delete('/api/applications/:applicationName/:featureName', ensureAuthenticated, authoriseUserForThisApplication, toggleRoutes.deleteFeature);
+applicationRoutes.registerRoutes(app, ensureAuthenticated);
+featureRoutes.registerRoutes(app, ensureAuthenticated, authoriseUserForThisApplication);
 
 app.post('/api/applications/:applicationName/users', ensureAuthenticated, authoriseUserForThisApplication, authorisationRoutes.grant);
 app.get('/api/applications/:applicationName/users', authorisationRoutes.getUsers);

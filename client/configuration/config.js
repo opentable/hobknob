@@ -8,11 +8,14 @@ angular.module("config", [])
   "hobknobPort": "3006",
   "categories": [
     {
-      "name": "Simple Features"
+      "id": 0,
+      "name": "Simple Features",
+      "description": "Use when you want your feature to be either on or off"
     },
     {
-      "name": "Domain Features",
       "id": 1,
+      "name": "Domain Features",
+      "description": "Use when you want your features to be toggled separately for different domains (e.g. com, couk, fr, etc...)",
       "values": [
         "com",
         "couk",
@@ -21,8 +24,9 @@ angular.module("config", [])
       ]
     },
     {
-      "name": "Locale Features",
       "id": 2,
+      "name": "Locale Features",
+      "description": "Use when you want your features to be toggled separately for different locales (e.g. en-GB, en-US, fr-FR, etc...)",
       "values": [
         "en-GB",
         "en-US",

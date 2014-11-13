@@ -21,9 +21,7 @@ featureToggleFrontend.controller('FeatureCategoriesController', ['$scope', '$tim
             return category.id === categoryId; 
         });
 
-        var toggleValues = new Category(category.id).isSimple()
-            ? [false] 
-            : _.map(category.columns, function(column) { return null; });
+        var toggleValues = new Category(category.id).isSimple() ? [false] : _.map(category.columns, function(column) { return null; });
  
         category.features.push({
             name: featureName,

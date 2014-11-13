@@ -8,7 +8,7 @@ angular.module('featureToggleFrontend').factory('Category', function() {
     }
 
     Category.prototype.isSimple = function(){
-        return this.categoryId == 0;
+        return this.categoryId === 0;
     };
 
     return Category;

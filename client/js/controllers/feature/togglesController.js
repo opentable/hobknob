@@ -12,11 +12,13 @@ featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'to
     };
 
     $scope.updateThisToggle = function(toggle){
-        toggleService.updateFeatureToggle($scope.applicationName, $scope.featureName,
-            $scope.isMultiToggle, toggle.name, toggle.value, null, 
-            function(data){
-                $scope.$emit('error', "Failed to update toggle", new Error(data));
-            });
+        $timeout(function(){
+            toggleService.updateFeatureToggle($scope.applicationName, $scope.featureName,
+                $scope.isMultiToggle, toggle.name, toggle.value, null, 
+                function(data){
+                    $scope.$emit('error', "Failed to update toggle", new Error(data));
+                });
+        });
     };
 
     var validateNewToggle = function(toggleName){

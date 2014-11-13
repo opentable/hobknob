@@ -69,6 +69,7 @@ module.exports = {
             action: action,
             dateModified: new Date().toISOString() // todo: should be UTC time
         };
+        console.log(audit);
         var auditJson = JSON.stringify(audit);
 
         var path = 'v1/audit/feature/' + applicationName + '/' + featureName;
