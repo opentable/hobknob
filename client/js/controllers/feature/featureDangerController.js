@@ -1,4 +1,4 @@
-featureToggleFrontend.controller('ToggleDangerController', ['$scope', 'toggleService', '$location', function($scope, toggleService, $location) {
+featureToggleFrontend.controller('FeaatureDangerController', ['$scope', 'toggleService', '$location', function($scope, toggleService, $location) {
 
     $scope.canSeeDangerZone = true; // todo
     $scope.confirm = false;

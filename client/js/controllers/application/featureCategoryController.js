@@ -1,4 +1,4 @@
-featureToggleFrontend.controller('TogglePanelController', ['$scope', '$timeout', 'toggleService', 'focus', 'ENV', function($scope, $timeout, toggleService, focus, ENV) {
+featureToggleFrontend.controller('FeatureCategoryController', ['$scope', '$timeout', 'toggleService', 'focus', 'ENV', function($scope, $timeout, toggleService, focus, ENV) {
 
     $scope.adding = false;
     $scope.newFeatureName = '';

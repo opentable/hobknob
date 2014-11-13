@@ -1,4 +1,4 @@
-featureToggleFrontend.controller('ApplicationController', ['$scope', '$routeParams', 'toggleService', 'authorisationService', 'CurrentUser', function($scope, $routeParams, toggleService, authorisationService, CurrentUser) {
+featureToggleFrontend.controller('ApplicationViewController', ['$scope', '$routeParams', 'toggleService', 'authorisationService', 'CurrentUser', function($scope, $routeParams, toggleService, authorisationService, CurrentUser) {
 
     $scope.applicationName = $routeParams.applicationName;
     $scope.requiresAuthentication = CurrentUser.requiresAuthentication();

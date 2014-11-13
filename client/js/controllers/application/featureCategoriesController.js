@@ -1,4 +1,4 @@
-featureToggleFrontend.controller('ToggleListController', ['$scope', '$timeout', 'toggleService', 'focus', 'ENV', function($scope, $timeout, toggleService, focus, ENV) {
+featureToggleFrontend.controller('FeatureCategoriesController', ['$scope', '$timeout', 'toggleService', 'focus', 'ENV', function($scope, $timeout, toggleService, focus, ENV) {
 
     $scope.categories = [];
     $scope.loadingFeatureCategories = false;

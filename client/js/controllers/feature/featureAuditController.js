@@ -1,4 +1,4 @@
-featureToggleFrontend.controller('ToggleAuditController', ['$scope', 'auditService', function($scope, auditService) {
+featureToggleFrontend.controller('FeatureAuditController', ['$scope', 'auditService', function($scope, auditService) {
 
     $scope.auditTrail = [];
 

@@ -259,7 +259,6 @@ module.exports = {
                 }];
             }
 
-            console.log(remainingToggles);
             res.send({
                 applicationName: applicationName,
                 featureName: featureName,

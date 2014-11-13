@@ -1,5 +1,5 @@
 
-featureToggleFrontend.controller('ToggleDataController', ['$scope', '$timeout', 'toggleService', 'focus', 'ENV', function($scope, $timeout, toggleService, focus, ENV) {
+featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'toggleService', 'focus', 'ENV', function($scope, $timeout, toggleService, focus, ENV) {
 
     $scope.adding = false;
     $scope.newToggleName = '';
