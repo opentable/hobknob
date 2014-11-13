@@ -25,17 +25,6 @@ angular.module('featureToggleFrontend').factory('toggleService', ['ENV', '$http'
             });
     };
 
-    exports.getToggles = function (applicationName, success, error) {
-        var path = '/api/applications/' + applicationName;
-        $http.get(path)
-            .success(function(data){
-                success(data.toggles);
-            })
-            .error(function(data){
-                error(data);
-            });
-    };
-
     exports.getFeatureCategories = function (applicationName, success, error) {
         var path = '/api/v2/applications/' + applicationName;
         $http.get(path)
@@ -91,18 +80,7 @@ angular.module('featureToggleFrontend').factory('toggleService', ['ENV', '$http'
             });
     };
 
-    exports.updateToggle = function (applicationName, toggleName, value, success, error) {
-        var path = '/api/applications/' + applicationName + '/' + toggleName;
-        $http.put(path, { value: value })
-            .success(function(data, status){
-                success(status);
-            })
-            .error(function(data){
-                error(data);
-            });
-    };
-
-    exports.deleteToggle = function(applicationName, toggleName, callback){
+    exports.deleteFeature = function(applicationName, toggleName, callback){
         var path = '/api/applications/' + applicationName + '/' + toggleName;
         $http.delete(path)
             .success(function(){
@@ -114,5 +92,4 @@ angular.module('featureToggleFrontend').factory('toggleService', ['ENV', '$http'
     };
 
     return exports;
-
 }]);

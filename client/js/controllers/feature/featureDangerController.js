@@ -3,7 +3,7 @@ featureToggleFrontend.controller('FeaatureDangerController', ['$scope', 'toggleS
     $scope.canSeeDangerZone = true; // todo
     $scope.confirm = false;
 
-    $scope.deleteToggle = function(){
+    $scope.deleteFeature = function(){
         var application = $scope.applicationName;
         var featureName = $scope.featureName;
 
@@ -12,9 +12,9 @@ featureToggleFrontend.controller('FeaatureDangerController', ['$scope', 'toggleS
             return;
         }
 
-        toggleService.deleteToggle(application, featureName, function(err){
+        toggleService.deleteFeature(application, featureName, function(err){
             if (err){
-                $scope.$emit('error', 'Failed to delete toggle. See console for more detail.', err);
+                $scope.$emit('error', 'Failed to delete feature. See console for more detail.', err);
                 return;
             }
             $location.path("/applications/" + application);
