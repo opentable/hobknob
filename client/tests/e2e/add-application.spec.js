@@ -146,7 +146,7 @@ describe("Sidebar - add new application", function () {
         expect(element(by.binding("alert.message")).getText()).toBe("Application name must be alphanumeric with no spaces");
     });
 
-    _.each(["App With Spaces", "Under_score", "more spaces in this one", "Slash/es", "Back\\SlashesToo", "Dots.NotHere", "Weird@Chars"], function(badToggleName){
+    _.each(["App With Spaces", "Under_score", "more spaces in this one", "Slash/es", "Back\\SlashesToo", "Dots.NotHere", "Weird@Chars", "Dash-es"], function(badToggleName){
         it("should not accept bad application name: " + badToggleName, function(){
             addApplication(badToggleName, 1000);
 
