@@ -1,7 +1,7 @@
 var feature = require('./../domain/feature');
 
-var getApplication = function(req, res){
-    feature.getApplication(req.params.applicationName,
+var getFeatureCategories = function(req, res){
+    feature.getFeatureCategories(req.params.applicationName,
         function(err, application){
             if (err) throw err;
 
@@ -84,8 +84,8 @@ var deleteFeature = function(req, res){
 
 
 module.exports.registerRoutes = function(app, authenticate, authorise){
-    app.get('/api/v2/applications/:applicationName', getApplication);
-    app.get('/api/v2/applications/:applicationName/:featureName', getFeature);
+    app.get('/api/applications/:applicationName', getFeatureCategories);
+    app.get('/api/applications/:applicationName/:featureName', getFeature);
     app.post('/api/applications/:applicationName', authenticate, authorise, addFeature);
     app.put('/api/applications/:applicationName/:featureName', authenticate, authorise, updateFeatureToggle);
     app.post('/api/applications/:applicationName/:featureName', authenticate, authorise, addFeatureToggle);

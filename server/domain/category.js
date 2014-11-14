@@ -8,7 +8,7 @@ var getCategory = function(id, name, description, columns, features){
     return {
         id: id,
         name: name,
-        description: "",
+        description: description || "",
         columns: columns || [],
         features: features || [] 
     };
