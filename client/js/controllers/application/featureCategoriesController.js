@@ -1,7 +1,7 @@
 featureToggleFrontend.controller('FeatureCategoriesController', ['$scope', '$timeout', 'toggleService', 'focus', 'ENV',  'Category', function($scope, $timeout, toggleService, focus, ENV, Category) {
 
     $scope.isFeatureUnique = function(featureName){
-        return !_
+        var existingFeatureNames = _
             .chain($scope.categories)
             .map(function(category) { 
                 var featureNames =  _.map(category.features, function(feature) {
@@ -10,10 +10,10 @@ featureToggleFrontend.controller('FeatureCategoriesController', ['$scope', '$tim
                 return featureNames;
             })
             .flatten()
-            .any(function(existingFeature) { 
-                return existingFeature === featureName; 
-            })
             .value();
+        return !_.any(existingFeatureNames, function(existingFeature) { 
+            return existingFeature.toLowerCase() === featureName.toLowerCase(); 
+        });
     };
 
     $scope.addFakeFeature = function(featureName, categoryId){

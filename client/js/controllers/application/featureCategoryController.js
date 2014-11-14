@@ -19,7 +19,7 @@ featureToggleFrontend.controller('FeatureCategoryController', ['$scope', '$timeo
         if (!$scope.isFeatureUnique(featureName)){
             return "Feature name must be unique in this application";
         }
-        if (!/^[a-z0-9.]+$/i.test(featureName)){
+        if (!/^[a-z0-9._-]+$/i.test(featureName)){
             return "Feature name must be alphanumeric with no spaces";
         }
     };

@@ -1,4 +1,4 @@
-.panel.panel-default(ng-cloak,ng-controller="FeatureCategoryController")
+.panel.panel-default(ng-cloak,ng-controller="FeatureCategoryController",data-category-id="{{category.id}}")
   .panel-heading
     h3.panel-title {{category.name}}
   .panel-body(ng-hide="loadingFeatures")
