@@ -1,29 +1,28 @@
 var Etcd = require('node-etcd'),
     etcd = new Etcd();
 
-describe("New Toggle", function () {
+describe("Update toggle in simple feature", function () {
 	var protractorInstance = protractor.getInstance();
 
     var switchCss = ".switch-primary.ats-switch > div";
 
-
-    var removeAllToggles = function(done){
+    var removeAllFeatures = function(done){
         etcd.rmdir('v1', { recursive: true }, function(){
             done();
         });
     };
 
 	beforeEach(function(done) {
-        removeAllToggles(function() {
-            etcd.set("v1/toggles/TestApp/TestToggle", false, function () {
-                browser.get('/#!/applications/TestApp');
+        removeAllFeatures(function() {
+            etcd.set("v1/toggles/TestApp/TestFeature", false, function () {
+                browser.get('/#!/applications/TestApp/TestFeature');
                 done();
             });
         });
 	});
 
     afterEach(function(done){
-        removeAllToggles(done);
+        removeAllFeatures(done);
     });
 
     var getSwitch = function(){
