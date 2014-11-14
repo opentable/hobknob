@@ -9,7 +9,7 @@
           th Toggle
           th
       trbody
-        tr(ng-repeat="toggle in toggles")
+        tr(ng-repeat="toggle in toggles", data-toggle-name="{{toggle.name}}")
           td {{toggle.name}}
           td 
             .pull-right
