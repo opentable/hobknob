@@ -133,7 +133,7 @@ describe("New Toggle", function () {
         });
     });
 
-    _.each(["Toggle With Spaces", "Under_score", "Slash/es", "Back\\SlashesToo", "Weird@Chars"], function(invalidToggleName){
+    _.each(["Toggle With Spaces", "Under_score", "Slash/es", "Back\\SlashesToo", "Weird@Chars", "Dash-es"], function(invalidToggleName){
         it("should not accept a invalid toggle name: " + invalidToggleName, function(){
             addNewToggle(invalidToggleName);
             assertAddToggleFormIsDisplayed(true);

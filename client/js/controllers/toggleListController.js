@@ -47,7 +47,7 @@ featureToggleFrontend.controller('ToggleListController', ['$scope', '$timeout', 
         if (_.any($scope.toggles, function(toggle) { return toggle.name.toLowerCase() == toggleName.toLowerCase(); })) {
             return "Toggle already exists";
         }
-        if (!/^[a-z0-9.]+$/i.test(toggleName)){
+        if (!/^[a-z0-9.\w-]+$/i.test(toggleName)){
             return "Toggle name must be alphanumeric with no spaces";
         }
     };
