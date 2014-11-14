@@ -5,7 +5,7 @@ var config = {
     },
     baseUrl: 'http://127.0.0.1:3006/',
     framework: 'jasmine',
-    specs: ['**/up*mul*.spec.js'],
+    specs: ['**/*.spec.js'],
     jasmineNodeOpts: {
         showColors: true,
         defaultTimeoutInterval: 30000,
