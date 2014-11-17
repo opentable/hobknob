@@ -6,15 +6,15 @@
 Hobknob is a feature toggle front-end built on top of [etcd](https://github.com/coreos/etcd).
 It allows users to create and modify feature toggles, which can then be accesesed in your applications.
 
-### Applications
-Hobknob groups features by application. The hobknob client libraries are initialised with the application name, and the toggle values are accessed by feature name.
+### Convention
+Features in Hobknob are grouped by application. Each application can have many, uniquely named features. Each feature will either have one on/off toggle or many on/off toggles (see `Categories` below). This gives us a simple way to identify toggles - `ApplicationName/FeatureName[/SecondaryKey]`.
 
 ### Categories
 Sometimes we need more granularity when toggling features, for example, a feature might be turned on for the .com website but not for the .co.uk website.
 
 Hobknob has the concept of feature categories, where you can define secondary keys for each feature. This gives you the ability to set and get toggle values for `App/Feature/SecondaryKey`.
 
-For the above example, we could define a category called 'Domain Feature Toggles' and set the list of possible key values as ['com', 'couk', 'fr', 'de', ...]. Then we could set `App/Feature/com` to true and `App/Feature/couk' to false.
+For the above example, we could define a category called 'Domain Feature Toggles' and set the list of possible key values as `['com', 'couk', 'fr', 'de', ...]`. Then we could set `App/Feature/com` to true and `App/Feature/couk` to false.
 
 ### Audit
 An audit log of all changes is created in etcd and is visible un the UI. When using the authentication mode, usernames will be auditted alongside the changes.
@@ -99,7 +99,7 @@ Example:
             "id": 1,
             "name": "Domain Features",
             "description": "Use when you want your features to be toggled separately for different domains (e.g. com, couk, fr, ...)",
-            "values": ["com", "couk", "de", "fr"]
+            "values": ["com", "couk", "de", "fr"] // must define values when id != 0
         }
     ]
 }
