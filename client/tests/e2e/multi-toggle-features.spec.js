@@ -33,10 +33,6 @@ describe("Multi toggle features", function () {
         removeAllFeatures(done);
     });
 
-    var getSwitch = function(toggleName){
-        return element(by.css("tr[data-toggle-name='" + toggleName + "'] " + switchCss));
-    };
-
     var expectedToggleToBeValue = function(toggleName, state){
         expect(getSwitch(toggleName).getAttribute('class')).toMatch(state ? 'switch-on' : 'switch-off');
     };
@@ -80,6 +76,14 @@ describe("Multi toggle features", function () {
         expect(element(by.cssContainingText("tr > td", toggleName)).isDisplayed()).toBe(true);
     };
 
+    var getSwitch = function(toggleName){
+        return element(by.css('.switch-primary[data-toggle="' + toggleName + '"] > div'));
+    };
+    
+    var assertToggleValue = function(toggleName, expectedValue){
+        expect(getSwitch(toggleName).getAttribute('class')).toMatch(expectedValue ? 'switch-on' : 'switch-off');
+    };
+    
     var assertToggleCount = function(expectedToggleCount){
         var toggles = element.all(by.repeater('toggle in toggles'));
         expect(toggles.count()).toBe(expectedToggleCount);
@@ -110,6 +114,11 @@ describe("Multi toggle features", function () {
         assertToggleHasBeenAdded("de");
     });
 
+    it("should initialise a newly added toggle with a false value", function(){
+        addNewToggle("de");
+        assertToggleValue("de", false);
+    });
+
     it("should suggest a toggle when Add Toggle is clicked", function(){
         clickAddToggleButton();
         expect(element.all(by.options("toggleSuggestion for toggleSuggestion in toggleSuggestions")).first().getText()).toBe("de");
@@ -131,4 +140,26 @@ describe("Multi toggle features", function () {
         expect(element(by.css(addToggleButtonCss)).isDisplayed()).toBe(false);
     });
 
+    it("should be able to set a toggle from off to on", function(){
+        getSwitch("com").click();
+        assertToggleValue("com", true);
+    });
+
+    it("should display the correct toggle state after the browser is refreshed", function(){
+        getSwitch("com").click();
+        protractorInstance.refresh();
+        assertToggleValue("com", true);
+    });
+
+    it("should be able to set a toggle from on to off", function(){
+        getSwitch("com").click();
+        getSwitch("com").click();
+        assertToggleValue("com", false);
+    });
+
+    it("should only change the toggle that is clicked", function(){
+        getSwitch("com").click();
+        assertToggleValue("com", true);
+        assertToggleValue("couk", false);
+    });
 });
