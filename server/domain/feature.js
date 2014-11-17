@@ -213,13 +213,7 @@ var addSimpleFeature = function(path, applicationName, featureName, metaData, re
            }
         });
 
-        var metaPath = path + '/@meta';
-        etcd.client.set(metaPath, JSON.stringify(metaData), function(err){
-           if (err){
-               console.log(err); // todo: better logging
-           }
-            cb();
-        });
+        cb();
     });
 };
 
