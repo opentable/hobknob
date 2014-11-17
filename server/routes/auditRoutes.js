@@ -1,11 +1,11 @@
 var audit = require('./../audit');
 
 module.exports = {
-    getToggleAuditTrail: function(req, res){
+    getFeatureAuditTrail: function(req, res){
         var applicationName = req.params.applicationName;
-        var toggleName = req.params.toggleName;
+        var featureName = req.params.featureName;
 
-        audit.getToggleAuditTrail(applicationName, toggleName, function(err, auditTrail){
+        audit.getFeatureAuditTrail(applicationName, featureName, function(err, auditTrail){
             if (err) {
                 if (err.errorCode == 100) { // key not found
                     res.send([]);

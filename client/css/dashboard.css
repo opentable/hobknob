@@ -177,3 +177,22 @@
     margin-top: 0;
     margin-bottom: 30px;
 }
+
+.tick {
+    color: #32CD32;
+    font-size: xx-large;
+}
+
+.cross {
+    color: #DC143C;
+    font-size: xx-large;
+}
+
+.dash {
+    color: #5F9EA0;
+    font-size: xx-large;
+}
+
+.category-description {
+    margin-bottom: 30px;
+}

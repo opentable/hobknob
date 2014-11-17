@@ -5,7 +5,36 @@ angular.module("config", [])
   "etcdHost": "127.0.0.1",
   "etcdPort": "4001",
   "hobknobHost": "localhost",
-  "hobknobPort": "3006"
+  "hobknobPort": "3006",
+  "categories": [
+    {
+      "id": 0,
+      "name": "Simple Features",
+      "description": "Use when you want your feature to be either on or off"
+    },
+    {
+      "id": 1,
+      "name": "Domain Features",
+      "description": "Use when you want your features to be toggled separately for different domains (e.g. com, couk, fr, etc...)",
+      "values": [
+        "com",
+        "couk",
+        "de",
+        "fr"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Locale Features",
+      "description": "Use when you want your features to be toggled separately for different locales (e.g. en-GB, en-US, fr-FR, etc...)",
+      "values": [
+        "en-GB",
+        "en-US",
+        "fr-FR",
+        "de-DE"
+      ]
+    }
+  ]
 })
 
 ;

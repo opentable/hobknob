@@ -9,13 +9,13 @@ featureToggleFrontend.config(function($routeProvider, $locationProvider, $httpPr
             controller: 'DashboardController',
             templateUrl: 'partials/dashboard'
         }).
-        when('/applications/:appName', {
-            controller: 'ApplicationController',
+        when('/applications/:applicationName', {
+            controller: 'ApplicationViewController',
             templateUrl: 'partials/application'
         }).
-        when('/applications/:appName/:toggleName', {
-            controller: 'ApplicationController',
-            templateUrl: 'partials/toggle'
+        when('/applications/:applicationName/:featureName', {
+            controller: 'ApplicationViewController',
+            templateUrl: 'partials/feature'
         });
 
     $httpProvider.defaults.headers.put = { "Content-Type": "application/json" };

@@ -4,8 +4,22 @@
 [<img src="http://standards-badges.herokuapp.com/image?serviceStatusEndpoint=0&logSchema=0&githubReadme=1">](http://standards-badges.herokuapp.com/?serviceStatusEndpoint=0&logSchema=0&githubReadme=1)
 
 Hobknob is a feature toggle front-end built on top of [etcd](https://github.com/coreos/etcd).
-It allows users to create, maintain, and set feature toggles. It will also keep an audit of all changes. 
+It allows users to create and modify feature toggles, which can then be accesesed in your applications.
 
+### Convention
+Features in Hobknob are grouped by application. Each application can have many, uniquely named features. Each feature will either have one on/off toggle or many on/off toggles (see `Categories` below). This gives us a simple way to identify toggles - `ApplicationName/FeatureName[/SecondaryKey]`.
+
+### Categories
+Sometimes we need more granularity when toggling features, for example, a feature might be turned on for the .com website but not for the .co.uk website.
+
+Hobknob has the concept of feature categories, where you can define secondary keys for each feature. This gives you the ability to set and get toggle values for `App/Feature/SecondaryKey`.
+
+For the above example, we could define a category called 'Domain Feature Toggles' and set the list of possible key values as `['com', 'couk', 'fr', 'de', ...]`. Then we could set `App/Feature/com` to true and `App/Feature/couk` to false.
+
+### Audit
+An audit log of all changes is created in etcd and is visible un the UI. When using the authentication mode, usernames will be auditted alongside the changes.
+
+### Etcd
 Etcd is a good fit for feature toggles. It has a good http API to query the state of the toggle, and an eventing system to notify consumers of changes.
 More information on etcd can be found here: [etcd](https://github.com/coreos/etcd).
 
@@ -14,8 +28,8 @@ More information on etcd can be found here: [etcd](https://github.com/coreos/etc
 ### Application View
 ![Application View](screenshots/ApplicationView.png)
 
-### Toggle View
-![Toggle View](screenshots/ToggleView.png)
+### Feature View
+![Feature View](screenshots/FeatureView.png)
 
 ### Running the application
 
@@ -64,6 +78,31 @@ We've integrated protractor for end-to-end testing. To start these tests run:
 ```sh
 # Make sure you have the app running first
 $ npm test
+```
+
+## Configuring Feature Categories
+You can define the feature categories in the confuration file (config/config.json). Note, category id 0 is reserved for the simple, single value feature toggle category (however, you can still specify it in the config to set the name and description).
+
+Example:
+
+```javascript
+{
+    ...
+
+    "categories": [
+        {
+            "id": 0, // id = 0 is reserved for the simple feature category only. Name and description are optional
+            "name": "Simple Features",
+            "description": "Use when you want your feature to be either on or off"
+        },
+        {
+            "id": 1,
+            "name": "Domain Features",
+            "description": "Use when you want your features to be toggled separately for different domains (e.g. com, couk, fr, ...)",
+            "values": ["com", "couk", "de", "fr"] // must define values when id != 0
+        }
+    ]
+}
 ```
 
 ## Configuring Authentication

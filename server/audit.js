@@ -25,8 +25,8 @@ module.exports = {
         });
     },
 
-    getToggleAuditTrail: function(applicationName, toggleName, callback){
-        var path = 'v1/audit/toggle/' + applicationName + '/' + toggleName;
+    getFeatureAuditTrail: function(applicationName, featureName, callback){
+        var path = 'v1/audit/feature/' + applicationName + '/' + featureName;
         etcd.client.get(path, {recursive: true}, function(err, result){
             if (err) {
                 callback(err);
@@ -61,16 +61,17 @@ module.exports = {
         });
     },
 
-    addToggleAudit: function(req, applicationName, toggleName, value, action, callback){
+    addFeatureAudit: function(req, applicationName, featureName, toggleName, value, action, callback){
         var audit = {
             user: getUserDetails(req),
+            toggleName: toggleName,
             value: value,
             action: action,
             dateModified: new Date().toISOString() // todo: should be UTC time
         };
         var auditJson = JSON.stringify(audit);
 
-        var path = 'v1/audit/toggle/' + applicationName + '/' + toggleName;
+        var path = 'v1/audit/feature/' + applicationName + '/' + featureName;
         etcd.client.post(path, auditJson, function(err){
             if (err) {
                 callback(err);

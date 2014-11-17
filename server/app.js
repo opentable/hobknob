@@ -5,8 +5,9 @@ var express = require("express"),
     loadBalancerRoutes = require("./routes/loadbalancerRoutes"),
     authenticateRoutes = require("./routes/authenticateRoutes"),
     authorisationRoutes = require("./routes/authorisationRoutes"),
-    toggleRoutes = require("./routes/toggleRoutes"),
     auditRoutes = require("./routes/auditRoutes"),
+    applicationRoutes = require("./routes/applicationRoutes"),
+    featureRoutes = require("./routes/featureRoutes"),
     path = require("path"),
     acl = require("./acl"),
     config = require('./../config/config.json');
@@ -102,19 +103,15 @@ app.get('/auth/google/callback',
   }
 );
 
-app.get('/api/applications', toggleRoutes.getApplications);
-app.get('/api/applications/:applicationName', toggleRoutes.getApplication);
-app.put('/api/applications', ensureAuthenticated, toggleRoutes.addApplication);
-app.post('/api/applications/:applicationName', ensureAuthenticated, authoriseUserForThisApplication, toggleRoutes.addToggle);
-app.put('/api/applications/:applicationName/:toggleName', ensureAuthenticated, authoriseUserForThisApplication, toggleRoutes.updateToggle);
-app.delete('/api/applications/:applicationName/:toggleName', ensureAuthenticated, authoriseUserForThisApplication, toggleRoutes.deleteToggle);
+applicationRoutes.registerRoutes(app, ensureAuthenticated);
+featureRoutes.registerRoutes(app, ensureAuthenticated, authoriseUserForThisApplication);
 
 app.post('/api/applications/:applicationName/users', ensureAuthenticated, authoriseUserForThisApplication, authorisationRoutes.grant);
 app.get('/api/applications/:applicationName/users', authorisationRoutes.getUsers);
 app.delete('/api/applications/:applicationName/users/:userEmail', ensureAuthenticated, authoriseUserForThisApplication, authorisationRoutes.revoke);
 app.get('/api/applications/:applicationName/users/:userEmail', authorisationRoutes.assert);
 
-app.get('/api/audit/toggle/:applicationName/:toggleName', auditRoutes.getToggleAuditTrail);
+app.get('/api/audit/feature/:applicationName/:featureName', auditRoutes.getFeatureAuditTrail);
 app.get('/api/audit/application/:applicationName', auditRoutes.getApplicationAuditTrail);
 
 console.log("Starting up feature toggle dashboard on port " + app.get('port'));

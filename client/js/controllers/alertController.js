@@ -15,7 +15,6 @@ featureToggleFrontend.controller('AlertController', ['$scope', '$rootScope', fun
             class: "alert-danger"
         };
 
-        console.log(message);
         if (err){
             console.log(err);
         }
