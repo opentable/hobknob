@@ -49,4 +49,8 @@ describe("Update toggle in simple feature", function () {
         getSwitch().click();
         expectedToggleToBeValue(false);
     });
+    
+    it("should not display the Add Toggle button", function(){
+        expect(element(by.css("#toggles .add-form > button")).isDisplayed()).toBe(false);
+    });
 });
