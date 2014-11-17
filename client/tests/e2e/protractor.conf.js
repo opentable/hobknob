@@ -1,5 +1,4 @@
 var config = {
-    allScriptsTimeout: 99999,
     capabilities: {
         'browserName': 'chrome'
     },
