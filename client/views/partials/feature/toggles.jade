@@ -3,10 +3,12 @@
     h3.panel-title
       | Toggles
   .panel-body
-    table.table.table-striped
+    p(ng-hide="toggles.length")
+      em No toggles added yet
+    table.table.table-striped(ng-show="toggles.length")
       trhead
         tr
-          th Toggle
+          th Name
           th
       trbody
         tr(ng-repeat="toggle in toggles", data-toggle-name="{{toggle.name}}")
