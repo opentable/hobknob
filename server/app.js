@@ -103,13 +103,13 @@ app.get('/auth/google/callback',
   }
 );
 
-applicationRoutes.registerRoutes(app, ensureAuthenticated);
-featureRoutes.registerRoutes(app, ensureAuthenticated, authoriseUserForThisApplication);
-
 app.post('/api/applications/:applicationName/users', ensureAuthenticated, authoriseUserForThisApplication, authorisationRoutes.grant);
 app.get('/api/applications/:applicationName/users', authorisationRoutes.getUsers);
 app.delete('/api/applications/:applicationName/users/:userEmail', ensureAuthenticated, authoriseUserForThisApplication, authorisationRoutes.revoke);
 app.get('/api/applications/:applicationName/users/:userEmail', authorisationRoutes.assert);
+
+applicationRoutes.registerRoutes(app, ensureAuthenticated);
+featureRoutes.registerRoutes(app, ensureAuthenticated, authoriseUserForThisApplication);
 
 app.get('/api/audit/feature/:applicationName/:featureName', auditRoutes.getFeatureAuditTrail);
 app.get('/api/audit/application/:applicationName', auditRoutes.getApplicationAuditTrail);
