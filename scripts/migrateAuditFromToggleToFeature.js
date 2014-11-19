@@ -1,6 +1,6 @@
 var _ = require('underscore'),
     Etcd = require('node-etcd'),
-    client = new Etcd('hobknob-etcd-qa.otenv.com', 4001);
+    client = new Etcd('localhost', 4001);
 
 client.get('/v1/audit/toggle', { recursive: true }, function(err, rootNode){
     if (err) {
