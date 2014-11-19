@@ -15,7 +15,7 @@ angular.module("config", [])
     {
       "id": 1,
       "name": "Domain Features",
-      "description": "Use when you want your features to be toggled separately for different domains (e.g. com, couk, fr, etc...)",
+      "description": "Use when you want your features to be toggled separately for different domains (e.g. com, couk, fr, ...)",
       "values": [
         "com",
         "couk",
@@ -26,7 +26,7 @@ angular.module("config", [])
     {
       "id": 2,
       "name": "Locale Features",
-      "description": "Use when you want your features to be toggled separately for different locales (e.g. en-GB, en-US, fr-FR, etc...)",
+      "description": "Use when you want your features to be toggled separately for different locales (e.g. en-GB, en-US, fr-FR, ...)",
       "values": [
         "en-GB",
         "en-US",

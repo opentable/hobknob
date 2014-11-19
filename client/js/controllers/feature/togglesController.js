@@ -1,5 +1,5 @@
 
-featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'toggleService', 'focus', 'ENV', function($scope, $timeout, toggleService, focus, ENV) {
+featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'toggleService', 'focus', 'ENV', '$rootScope', function($scope, $timeout, toggleService, focus, ENV, $rootScope) {
 
     $scope.adding = false;
     $scope.newToggleName = '';
@@ -14,7 +14,10 @@ featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'to
     $scope.updateThisToggle = function(toggle){
         $timeout(function(){
             toggleService.updateFeatureToggle($scope.applicationName, $scope.featureName,
-                $scope.isMultiToggle, toggle.name, toggle.value, null, 
+                $scope.isMultiToggle, toggle.name, toggle.value,
+                function(){
+                    $rootScope.$broadcast('toggleUpdated', toggle, $scope.isMultiToggle);
+                },
                 function(data){
                     $scope.$emit('error', "Failed to update toggle", new Error(data));
                 });
