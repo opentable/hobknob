@@ -26,6 +26,7 @@
     "bootstrap-social": "~4.6.0",
     "font-awesome": "~4.1.0",
     "underscore": "~1.7.0",
-    "validator-js": "~3.22.0"
+    "validator-js": "~3.22.0",
+    "moment": "~2.8.4"
   }
 }
