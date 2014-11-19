@@ -6,7 +6,7 @@ featureToggleFrontend.controller('ApplicationOwnersController', ['$scope', 'auth
     $scope.loadingUsers = true;
 
     var loadUsers = function() {
-        if (!$scope.requiresAuthorisation) return;
+        if (!$scope.requiresAuthentication) return;
 
         authorisationService.getUsers($scope.applicationName,
             function(users){
