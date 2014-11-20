@@ -1,6 +1,13 @@
+// Use this script to migrate the audit from /v1/audit/toggle/* to /v1/audit/feature/*
+// This script copies the audit trail only.
+
+var etcdHost = process.argv[2] || 'localhost';
+var etcdPort = parseInt(process.argv[3]) || 4001;
+console.log("Migrating audit data. Etcd host: " + etcdHost + ", port: " + etcdPort);
+
 var _ = require('underscore'),
     Etcd = require('node-etcd'),
-    client = new Etcd('localhost', 4001);
+    client = new Etcd(etcdHost, etcdPort);
 
 client.get('/v1/audit/toggle', { recursive: true }, function(err, rootNode){
     if (err) {
