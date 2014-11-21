@@ -211,3 +211,14 @@ There are several clients for different languages.
 - https://github.com/opentable/hobknob-client-java
 - https://github.com/opentable/hobknob-client-go
 
+## Release Notes
+
+### 2.0.x Breaking audit trail changes
+
+Feature audits are now stored in the following etcd directory: `http://etcd_host:etcd_port/v2/keys/v1/audit/feature/`.
+
+Use the included script to migrate the audit trail made in versions of Hobknob prior to release 2.0.
+
+```sh
+node scripts/migrate_etcd_audit_2.0.js <etcd_host> <etcd_port>
+```
