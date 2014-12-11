@@ -1,6 +1,7 @@
 var etcd = require('./etcd'),
     _ = require('underscore'),
-    config = require('./../config/config.json');
+    config = require('./../config/config.json'),
+    replicationHook = require('./src/hooks/auditReplication');
 
 var getUserDetails = function(req){
   return config.RequiresAuth ? req.user._json : { name: 'Anonymous'};
@@ -57,7 +58,19 @@ module.exports = {
                 callback(err);
                 return;
             }
-            callback();
+
+            var auditNotification = {
+                applicationName: applicationName,
+                audit: audit
+            };
+
+            replicationHook.applicationAuditNotification(auditNotification, function(err) {
+                if (err){
+                    callback(err);
+                    return;
+                }
+                callback();
+            });
         });
     },
 
@@ -77,7 +90,20 @@ module.exports = {
                 callback(err);
                 return;
             }
-            callback();
+
+            var auditNotification = {
+                applicationName: applicationName,
+                featureName: featureName,
+                audit: audit
+            };
+
+            replicationHook.featureAuditNotification(auditNotification, function(err) {
+                if (err){
+                    callback(err);
+                    return;
+                }
+                callback();
+            });
         });
     }
 };
