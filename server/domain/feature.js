@@ -56,6 +56,10 @@ var getMultiFeature = function(name, node, metaData, categories){
 
 var getFeature = function(node, categories) {
     var name = getNodeName(node);
+    if (name == '@meta') {
+        return null;
+    }
+    
     var metaData = getMetaData(node);
     if (isMultiFeature(metaData)) {
         return getMultiFeature(name, node, metaData, categories);
@@ -76,7 +80,9 @@ var getCategoriesWithFeatureValues = function(applicationNode){
     var categories = category.getCategoriesFromConfig();
     _.each(applicationNode.nodes, function(featureNode) {
         var feature = getFeature(featureNode, categories);
-        categories[feature.categoryId].features.push(feature);
+        if (feature){
+            categories[feature.categoryId].features.push(feature);
+        }
     });
     return categories;
 };

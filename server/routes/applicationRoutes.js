@@ -16,7 +16,29 @@ var addApplication = function(req, res){
         });
 };
 
+var getApplicationMetaData = function(req, res){
+    var applicationName = req.params.applicationName;
+    application.getApplicationMetaData(applicationName,
+        function(err, metaData){
+            if (err) throw err;
+            res.send(metaData);
+        });
+};
+
+var saveApplicationMetaData = function(req, res){
+    var applicationName = req.params.applicationName;
+    var metaDataKey = req.params.metaDataKey;
+    var metaDataValue = req.body.value;
+    application.saveApplicationMetaData(applicationName, metaDataKey, metaDataValue,
+        function(err){
+            if (err) throw err;
+            res.send(200);
+        });
+};
+
 module.exports.registerRoutes = function(app, authenticate){
     app.get('/api/applications', getApplications);
     app.put('/api/applications', authenticate, addApplication);
+    app.get('/api/applications/:applicationName/_meta', getApplicationMetaData);
+    app.put('/api/applications/:applicationName/_meta/:metaDataKey', saveApplicationMetaData);
 };

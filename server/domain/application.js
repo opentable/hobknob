@@ -10,11 +10,10 @@ module.exports = {
         etcd.client.get('v1/toggles/', {recursive: false}, function(err, result){
             if (err) {
                 if (err.errorCode == 100) { // key not found
-                    cb(null, []);
+                    return cb(null, []);
                 } else {
-                    cb(err);
+                    return cb(err);
                 }
-                return;
             }
 
             var applications = _.map(result.node.nodes || [], function(node)
@@ -30,8 +29,7 @@ module.exports = {
         var path = 'v1/toggles/' + applicationName;
         etcd.client.mkdir(path, function(err){
             if (err) {
-                cb(err);
-                return;
+                return cb(err);
             }
 
             audit.addApplicationAudit(req, applicationName, 'Created', function(){
@@ -53,6 +51,31 @@ module.exports = {
             } else {
                 cb();
             }
+        });
+    },
+
+    getApplicationMetaData: function(applicationName, cb){
+        etcd.client.get('v1/toggles/' + applicationName + '/@meta' , {recursive: true}, function(err, result){
+            if (err) {
+                if (err.errorCode == 100) { // key not found
+                    cb(null, {});
+                } else {
+                    cb(err);
+                }
+                return;
+            }
+            var metaDataKeyValues = _.map(result.node.nodes, function(subNode){
+                var metaDataKey = _.last(subNode.key.split('/'));
+                return [metaDataKey, subNode.value];
+            });
+            cb(null, _.object(metaDataKeyValues));
+        });
+    },
+
+    saveApplicationMetaData: function(applicationName, metaDataKey, metaDataValue, cb){
+        var path = 'v1/toggles/' + applicationName + '/@meta/' + metaDataKey;
+        etcd.client.set(path, metaDataValue, function(err){
+            return cb(err);
         });
     }
 };
