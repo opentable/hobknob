@@ -71,7 +71,7 @@ featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'to
         if (githubRepoUrl){
             _.each($scope.toggles, function(toggle){
                 var searchPhrase = feature.isMultiToggle ? $scope.featureName + '+AND+' + toggle.name : $scope.featureName;
-                toggle.githubSearchUrl = githubRepoUrl + '/search?utf8=✓&type=Code&q=' + searchPhrase + '+AND+getOrDefault';
+                toggle.githubSearchUrl = githubRepoUrl + '/search?utf8=✓&type=Code&q=' + searchPhrase;
             });
         }
     };
