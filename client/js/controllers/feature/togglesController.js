@@ -1,5 +1,5 @@
 
-featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'toggleService', 'focus', 'ENV', '$rootScope', function($scope, $timeout, toggleService, focus, ENV, $rootScope) {
+featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'toggleService', 'applicationService', 'focus', 'ENV', '$rootScope', function($scope, $timeout, toggleService, applicationService, focus, ENV, $rootScope) {
 
     $scope.adding = false;
     $scope.newToggleName = '';
@@ -66,6 +66,17 @@ featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'to
             });
     };
 
+    var addGithubSearchDataToToggles = function(feature, metaData){
+        var githubRepoUrl = metaData.githubRepoUrl || 'https://github.com/opentable/' + $scope.applicationName;
+        if (_.last(githubRepoUrl) === '/'){
+            githubRepoUrl = githubRepoUrl.substring(0, githubRepoUrl.length - 1);
+        }
+        _.each($scope.toggles, function(toggle){
+            var searchPhrase = feature.isMultiToggle ? $scope.featureName + '+AND+' + toggle.name : $scope.featureName;
+            toggle.githubSearchUrl = githubRepoUrl + '/search?utf8=✓&type=Code&q=' + searchPhrase;
+        });
+    };
+
     (function loadFeatureToggles() {
         $scope.toggles = [];
         $scope.loadingToggles = true;
@@ -77,10 +88,18 @@ featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'to
                 $scope.isMultiToggle = feature.isMultiToggle;
                 $scope.toggleSuggestions = feature.toggleSuggestions;
                 $scope.loadingToggles = false;
+
+                applicationService.getApplicationMetaData($scope.applicationName, function(err, metaData){
+                    if (err){
+                        return $scope.$emit('error', "Failed to get Github search data for these toggles", new Error(err));
+                    }
+                    addGithubSearchDataToToggles(feature, metaData);
+                });
             },
             function(data){
                 $scope.$emit('error', "Failed to load this feature toggle", new Error(data));
                 $scope.loadingToggles = false;
             });
     })();
+
 }]);

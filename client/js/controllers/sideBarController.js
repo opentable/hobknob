@@ -1,4 +1,4 @@
-featureToggleFrontend.controller('SideBarController', ['$scope', 'toggleService', 'authorisationService', '$location', 'focus', 'CurrentUser', function($scope, toggleService, authorisationService, $location, focus, CurrentUser) {
+featureToggleFrontend.controller('SideBarController', ['$scope', 'applicationService', 'authorisationService', '$location', 'focus', 'CurrentUser', function($scope, applicationService, authorisationService, $location, focus, CurrentUser) {
 
     $scope.applications = [];
     $scope.newApplicationName = '';
@@ -7,7 +7,7 @@ featureToggleFrontend.controller('SideBarController', ['$scope', 'toggleService'
     $scope.CurrentUser = CurrentUser;
 
     var loadApplications = function(){
-        toggleService.getApplications(
+        applicationService.getApplications(
             function(data){
                 $scope.applications = data;
             },
@@ -48,7 +48,7 @@ featureToggleFrontend.controller('SideBarController', ['$scope', 'toggleService'
             return;
         }
 
-        toggleService.addApplication(applicationName,
+        applicationService.addApplication(applicationName,
             function(status){
                 if (status === 201) { // created
                     $scope.applications.push(applicationName);

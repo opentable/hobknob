@@ -14,9 +14,11 @@ describe("Update toggle in simple feature", function () {
 
 	beforeEach(function(done) {
         removeAllFeatures(function() {
-            etcd.set("v1/toggles/TestApp/TestFeature", false, function () {
-                browser.get('/#!/applications/TestApp/TestFeature');
-                done();
+            etcd.set("v1/toggles/TestApp/@meta/githubRepoUrl", "https://github.com/opentable/hobknob", function () {
+                etcd.set("v1/toggles/TestApp/TestFeature", false, function () {
+                    browser.get('/#!/applications/TestApp/TestFeature');
+                    done();
+                });
             });
         });
 	});
@@ -52,5 +54,9 @@ describe("Update toggle in simple feature", function () {
     
     it("should not display the Add Toggle button", function(){
         expect(element(by.css("#toggles .add-form > button")).isDisplayed()).toBe(false);
+    });
+
+    it("should have a find your code link next to the toggle", function(){
+        expect(element(by.css(".find-your-code")).getAttribute('href')).toBe("https://github.com/opentable/hobknob/search?utf8=%E2%9C%93&type=Code&q=TestFeature");
     });
 });

@@ -3,28 +3,6 @@ angular.module('featureToggleFrontend').factory('toggleService', ['ENV', '$http'
 
     var exports = {};
 
-    exports.getApplications = function (success, error) {
-        var path = '/api/applications';
-        return $http.get(path)
-            .success(function(data){
-                success(data);
-            })
-            .error(function(data){
-                error(data);
-            });
-    };
-
-    exports.addApplication = function (name, success, error) {
-        var path = '/api/applications';
-        $http.put(path, { name: name })
-            .success(function(data, status){
-                success(status);
-            })
-            .error(function(data){
-                error(data);
-            });
-    };
-
     exports.getFeatureCategories = function (applicationName, success, error) {
         var path = '/api/applications/' + applicationName;
         $http.get(path)

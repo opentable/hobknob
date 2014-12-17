@@ -12,7 +12,11 @@
           th
       trbody
         tr(ng-repeat="toggle in toggles", data-toggle-name="{{toggle.name}}")
-          td {{toggle.name}}
+          td
+            span {{toggle.name}}
+            |  
+            a.find-your-code(href="{{toggle.githubSearchUrl}}", target="_blank", tooltip="Find this toogle in your code")
+              i.fa.fa-search
           td 
             .pull-right
               toggle-switch(model="toggle.value" on-change="updateThisToggle(toggle)" ng-disabled="userHasPermissionsLoaded && !userHasPermissions" data-toggle="{{toggle.name}}").switch-primary
