@@ -6,5 +6,5 @@
     form(role="form")
       .form-group
         label(for="github-url") Girhub Repo Url
-        input.form-control(type="text", id="github-url", placeholder="e.g. https://github.com/opentable/{{applicationName}}", ng-model="githubRepoUrl")
-      button.btn.btn-default(ng-click="saveGithubRepoUrl()") Save
+        input#github-repo-url.form-control(type="text", placeholder="e.g. https://github.com/opentable/{{applicationName}}", ng-model="githubRepoUrl")
+      button#save-github-repo-url.btn.btn-default(ng-click="saveGithubRepoUrl()") Save
