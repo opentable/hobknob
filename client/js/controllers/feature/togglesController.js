@@ -67,13 +67,14 @@ featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'to
     };
 
     var addGithubSearchDataToToggles = function(feature, metaData){
-        var githubRepoUrl = metaData.githubRepoUrl;
-        if (githubRepoUrl){
-            _.each($scope.toggles, function(toggle){
-                var searchPhrase = feature.isMultiToggle ? $scope.featureName + '+AND+' + toggle.name : $scope.featureName;
-                toggle.githubSearchUrl = githubRepoUrl + '/search?utf8=✓&type=Code&q=' + searchPhrase;
-            });
+        var githubRepoUrl = metaData.githubRepoUrl || 'https://github.com/opentable/' + $scope.applicationName;
+        if (_.last(githubRepoUrl) === '/'){
+            githubRepoUrl = githubRepoUrl.substring(0, githubRepoUrl.length - 1);
         }
+        _.each($scope.toggles, function(toggle){
+            var searchPhrase = feature.isMultiToggle ? $scope.featureName + '+AND+' + toggle.name : $scope.featureName;
+            toggle.githubSearchUrl = githubRepoUrl + '/search?utf8=✓&type=Code&q=' + searchPhrase;
+        });
     };
 
     (function loadFeatureToggles() {

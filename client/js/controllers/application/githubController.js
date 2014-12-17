@@ -17,7 +17,7 @@ featureToggleFrontend.controller('GithubController', ['$scope', 'applicationServ
             if (err){
                 $scope.$emit('error', "Failed to save the github repo url", new Error(data));
             } else {
-                $scope.$emit('info', 'Successfully updated the Github repo url.');
+                $scope.$emit('success', 'Successfully updated the Github repo url.');
             }
         });
     };
