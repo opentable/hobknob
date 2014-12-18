@@ -14,7 +14,7 @@ describe("Update toggle in simple feature", function () {
 
 	beforeEach(function(done) {
         removeAllFeatures(function() {
-            etcd.set("v1/toggles/TestApp/@meta/githubRepoUrl", "https://github.com/opentable/hobknob", function () {
+            etcd.set("v1/metadata/TestApp/githubRepoUrl", "https://github.com/opentable/hobknob", function () {
                 etcd.set("v1/toggles/TestApp/TestFeature", false, function () {
                     browser.get('/#!/applications/TestApp/TestFeature');
                     done();

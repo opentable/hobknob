@@ -55,7 +55,7 @@ module.exports = {
     },
 
     getApplicationMetaData: function(applicationName, cb){
-        etcd.client.get('v1/toggles/' + applicationName + '/@meta' , {recursive: true}, function(err, result){
+        etcd.client.get('v1/metadata/' + applicationName , {recursive: true}, function(err, result){
             if (err) {
                 if (err.errorCode == 100) { // key not found
                     cb(null, {});
@@ -73,7 +73,7 @@ module.exports = {
     },
 
     saveApplicationMetaData: function(applicationName, metaDataKey, metaDataValue, cb){
-        var path = 'v1/toggles/' + applicationName + '/@meta/' + metaDataKey;
+        var path = 'v1/metadata/' + applicationName + '/' + metaDataKey;
         etcd.client.set(path, metaDataValue, function(err){
             return cb(err);
         });
