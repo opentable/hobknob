@@ -22,5 +22,8 @@
             "description": "Use when you want your features to be toggled separately for different locales (e.g. en-GB, en-US, fr-FR, ...)",
             "values": ["en-GB", "en-US", "fr-FR", "de-DE"]
         }
-    ]
+    ],
+    "plugin" : {
+        "path": "../server/examplePlugin.js"
+    }
 }

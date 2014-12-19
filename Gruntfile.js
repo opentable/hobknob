@@ -64,6 +64,12 @@ module.exports = function(grunt) {
                 '!client/public/**/*.js',
                 '!client/js/common/lib/**/*.js',
             ]
+        },
+
+       simplemocha: {
+          test: {
+            src: ['server/tests/**/*.js'],
+          }
         }
     });
 
@@ -73,5 +79,5 @@ module.exports = function(grunt) {
     grunt.registerTask('default', 'build');
     grunt.registerTask('build', ['copyConfigToClient', 'jshint']);
     grunt.registerTask('copyConfigToClient', ['ngconstant:copyConfigToClient']);
-    grunt.registerTask('test', ['jshint', 'protractor:run']);
+    grunt.registerTask('test', ['jshint', 'simplemocha', 'protractor:run']);
 };
