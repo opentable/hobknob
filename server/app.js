@@ -28,6 +28,10 @@ if (config.loggingMiddleware && config.loggingMiddleware.path) {
     app.use(express.logger("dev"));
 }
 
+if (config.plugin && config.plugin.path) {
+    require(config.plugin.path)(app);
+}
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
