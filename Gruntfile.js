@@ -62,13 +62,13 @@ module.exports = function(grunt) {
                 'server/**/*.js',
                 'client/**/*.js',
                 '!client/public/**/*.js',
-                '!client/js/common/lib/**/*.js',
+                '!client/js/common/lib/**/*.js'
             ]
         },
 
        simplemocha: {
           test: {
-            src: ['server/tests/**/*.js'],
+            src: ['server/tests/**/*.js']
           }
         }
     });

@@ -2,6 +2,7 @@ featureToggleFrontend.controller('FeatureCategoryController', ['$scope', '$timeo
 
     $scope.adding = false;
     $scope.newFeatureName = '';
+    $scope.newFeatureDescription = '';
     $scope.setAddingFeatureState = function(state){
         $scope.adding = state;
         if (state){
@@ -27,16 +28,16 @@ featureToggleFrontend.controller('FeatureCategoryController', ['$scope', '$timeo
     $scope.addFeature = function() {
         var categoryId = $scope.category.id;
         var featureName = $scope.newFeatureName.trim();
-
+        var featureDescription = $scope.newFeatureDescription.trim();
         var validationError = validateNewFeature(featureName);
         if (validationError){
             $scope.$emit('error', validationError);
             return;
         }
 
-        toggleService.addFeature($scope.applicationName, categoryId, featureName,
+        toggleService.addFeature($scope.applicationName, categoryId, featureName, featureDescription,
             function(){
-                $scope.addFakeFeature(featureName, categoryId);
+                $scope.addFakeFeature(featureName, featureDescription, categoryId);
                 $scope.setAddingFeatureState(false);
                 $scope.$emit('success', featureName + " was successfully added");
             },

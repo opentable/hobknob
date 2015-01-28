@@ -8,7 +8,8 @@ _.each([0, 1], function(categoryId){
 
         var categoryPanelCss = ".panel[data-category-id='" + categoryId + "'] ";
         var addFeatureButtonCss = categoryPanelCss + ".add-form > button";
-        var addFeatureNameInputCss = categoryPanelCss + ".add-form input";
+        var addFeatureNameInputCss = categoryPanelCss + ".add-form #name-input";
+        var addFeatureDescriptionInputCss = categoryPanelCss + ".add-form #desc-input";
         var cancelAddFeatureButtonCss = categoryPanelCss + ".add-form form button[type=button]";
         var submitAddFeatureButtonCss = categoryPanelCss + ".add-form form button[type=submit]";
 
@@ -45,6 +46,12 @@ _.each([0, 1], function(categoryId){
             browser.waitForAngular();
         };
 
+        var enterNewFeatureDescription = function(newFeatureDescription){
+            var featureDescriptionInput = element(by.css(addFeatureDescriptionInputCss));
+            featureDescriptionInput.sendKeys(newFeatureDescription);
+            browser.waitForAngular();
+        };
+
         var clickSubmitNewFeatureButton = function(){
             var submitNewFeatureButton = element(by.css(submitAddFeatureButtonCss));
             submitNewFeatureButton.click();
@@ -60,20 +67,23 @@ _.each([0, 1], function(categoryId){
         var assertAddFeatureFormIsDisplayed = function(isDisplayed){
             expect(element(by.css(addFeatureButtonCss)).isDisplayed()).toBe(!isDisplayed);
             expect(element(by.css(addFeatureNameInputCss)).isDisplayed()).toBe(isDisplayed);
+            expect(element(by.css(addFeatureDescriptionInputCss)).isDisplayed()).toBe(isDisplayed);
             expect(element(by.css(cancelAddFeatureButtonCss)).isDisplayed()).toBe(isDisplayed);
             expect(element(by.css(submitAddFeatureButtonCss)).isDisplayed()).toBe(isDisplayed);
         };
 
-        var addNewFeature = function(newFeatureName){
+        var addNewFeature = function(newFeatureName, newFeatureDescription){
             clickAddFeatureButton();
             enterNewFeatureName(newFeatureName);
+            enterNewFeatureDescription(newFeatureDescription);
             clickSubmitNewFeatureButton();
         };
 
-        var assertFeatureHasBeenAdded = function(featureName){
+        var assertFeatureHasBeenAdded = function(featureName, featureDescription){
             var features = element.all(by.repeater('feature in category.features'));
             expect(features.count()).toBe(2);
             expect(features.get(0).element(by.binding('feature.name')).getText()).toBe(featureName);
+            expect(features.get(0).element(by.binding('feature.description')).getText()).toBe(featureDescription);
         };
 
         it("should display the New Feature button", function(){
