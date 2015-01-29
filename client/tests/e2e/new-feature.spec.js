@@ -103,25 +103,25 @@ _.each([0, 1], function(categoryId){
         });
 
         it("should hide the add new feature form when a feature has been added", function(){
-            addNewFeature("TestFeature");
+            addNewFeature("TestFeature", "TestDescription");
             assertAddFeatureFormIsDisplayed(false);
         });
 
         it("should display a newly added feature once it has been added", function(){
-            addNewFeature("TestFeature");
-            assertFeatureHasBeenAdded("TestFeature");
+            addNewFeature("TestFeature", "TestDescription");
+            assertFeatureHasBeenAdded("TestFeature", "TestDescription");
         });
 
         it("should display a newly added feature once it has been added and the browser has been refreshed", function(){
-            addNewFeature("TestFeature");
+            addNewFeature("TestFeature", "TestDescription");
             browser.get('/#!/applications/TestApp', function(){
-                assertFeatureHasBeenAdded("TestFeature");
+                assertFeatureHasBeenAdded("TestFeature", "TestDescription");
             });
         });
 
         it("should not allow a feature to be created with the same name as one already", function(){
-            addNewFeature("TestFeature");
-            addNewFeature("TestFeature");
+            addNewFeature("TestFeature", "TestDescription");
+            addNewFeature("TestFeature", "TestDescription");
 
             assertAddFeatureFormIsDisplayed(true);
             expect(element.all(by.repeater('feature in category.features')).count()).toBe(2);
@@ -129,8 +129,8 @@ _.each([0, 1], function(categoryId){
         });
 
         it("should not allow a feature to be created with the same name as one already - case insensitive", function(){
-            addNewFeature("TestFeature");
-            addNewFeature("TESTFeature");
+            addNewFeature("TestFeature", "TestDescription");
+            addNewFeature("TestFeature", "TestDescription");
 
             assertAddFeatureFormIsDisplayed(true);
             expect(element.all(by.repeater('feature in category.features')).count()).toBe(2);
@@ -147,8 +147,8 @@ _.each([0, 1], function(categoryId){
 
         _.each(["FeatureWithNumbers123", "1StartsWithNumber", "Dots.AndMoreDot.s", "Under_scores", "Dashes-here"], function(validFeatureName){
             it("should accept a valid feature name: " + validFeatureName, function() {
-                addNewFeature(validFeatureName);
-                assertFeatureHasBeenAdded(validFeatureName);
+                addNewFeature(validFeatureName, "TestDescription");
+                assertFeatureHasBeenAdded(validFeatureName, "TestDescription");
             });
         });
 
