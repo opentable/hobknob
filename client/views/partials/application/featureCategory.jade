@@ -9,11 +9,13 @@
       trhead
         tr
           th Name
+          th Description
           th.col-md-1(ng-repeat="column in category.columns") {{column}}
       trbody
         tr(ng-repeat="feature in category.features | orderBy: 'name'")
           td
-            a(href="/#!/applications/{{applicationName}}/{{feature.name}}") {{feature.name}} - {{feature.description}}
+            a(href="/#!/applications/{{applicationName}}/{{feature.name}}") {{feature.name}}
+          td {{feature.description}}
           td(ng-repeat="value in feature.values track by $index")
             span.tick.fa.fa-check-circle(ng-show="value")
             span.cross.fa.fa-times-circle(ng-show="value == false")
