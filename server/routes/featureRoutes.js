@@ -35,7 +35,6 @@ var addFeature = function(req, res){
 
     feature.addFeature(applicationName, featureName, featureDescription, categoryId, req, function(err){
         if (err) throw err;
-        console.log(featureDescription);
         res.send(201);
     });
 };

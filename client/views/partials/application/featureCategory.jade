@@ -24,7 +24,9 @@
       button.btn.btn-success(type="button",ng-click="setAddingFeatureState(true)",ng-hide="adding") New Feature
       div
         form(ng-submit="addFeature()")
-          input.form-control(type="text",id="name-input", ng-model="newFeatureName",placeholder="Feature Name",focus-on="newFeatureName",ng-show="adding")
-          input.form-control(type="text",id="desc-input", ng-model="newFeatureDescription",placeholder="Feature Description",focus-on="newFeatureDescription",ng-show="adding")
+          p
+            input.form-control(type="text",id="name-input", ng-model="newFeatureName",placeholder="Feature Name",focus-on="newFeatureName",ng-show="adding")
+          p
+            input.form-control(type="text",id="desc-input", ng-model="newFeatureDescription",placeholder="Feature Description",focus-on="newFeatureDescription",ng-show="adding")
           button.btn.btn-warning.pull-right(type="button",ng-click="setAddingFeatureState(false)",ng-show="adding") Cancel
           button.btn.btn-success.pull-right(type="submit",ng-show="adding") Add
