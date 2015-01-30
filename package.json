@@ -31,14 +31,14 @@
     "underscore": "^1.7.0",
     "body-parser": "^1.9.0",
     "validator": "^3.21.0",
-    "string": "^2.2.0",
-    "grunt-cli": "~0.1.13"
+    "string": "^2.2.0"
   },
   "devDependencies": {
     "forever-monitor": "~1.2.3",
     "grunt": "~0.4.2",
     "matchdep": "~0.3.0",
     "shelljs": "~0.2.6",
+    "grunt-cli": "~0.1.13",
     "grunt-contrib-copy": "~0.5.0",
     "grunt-ng-constant": "^0.5.0",
     "node-etcd": "^2.1.1",
