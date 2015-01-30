@@ -30,17 +30,18 @@ var getNodeName = function(node) {
     return splitKey[splitKey.length - 1];
 };
 
-var getSimpleFeature = function(name, node){
+var getSimpleFeature = function(name, node, description){
     var value = node.value && node.value.toLowerCase() === 'true';
     return {
         name: name,
+        description: description,
         values: [ value ],
         categoryId: 0,
         fullPath: etcdBaseUrl + 'v1/toggles/' + name
     };
 };
 
-var getMultiFeature = function(name, node, metaData, categories){
+var getMultiFeature = function(name, node, metaData, categories, description){
     var category = categories[metaData.categoryId];
     var values = _.map(category.columns, function(column) {
         var columnNode = _.find(node.nodes, function(c) { return c.key == node.key + '/' + column; });
@@ -48,23 +49,26 @@ var getMultiFeature = function(name, node, metaData, categories){
     });
     return {
         name: name,
+        description: description,
         values: values,
         categoryId: metaData.categoryId,
         fullPath: etcdBaseUrl + 'v1/toggles/' + name
     };
 };
 
-var getFeature = function(node, categories) {
+var getFeature = function(node, categories, descriptionMap) {
     var name = getNodeName(node);
     if (name == '@meta') {
         return null;
     }
-    
+
+    var description = descriptionMap[name];
+
     var metaData = getMetaData(node);
     if (isMultiFeature(metaData)) {
-        return getMultiFeature(name, node, metaData, categories);
+        return getMultiFeature(name, node, metaData, categories, description);
     } else {
-        return getSimpleFeature(name, node);
+        return getSimpleFeature(name, node, description);
     }
 };
 
@@ -76,10 +80,10 @@ var handleEtcdNotFoundError = function(err, cb){
     }
 };
 
-var getCategoriesWithFeatureValues = function(applicationNode){
+var getCategoriesWithFeatureValues = function(applicationNode, descriptionsMap){
     var categories = category.getCategoriesFromConfig();
     _.each(applicationNode.nodes, function(featureNode) {
-        var feature = getFeature(featureNode, categories);
+        var feature = getFeature(featureNode, categories, descriptionsMap);
         if (feature){
             categories[feature.categoryId].features.push(feature);
         }
@@ -113,6 +117,14 @@ var trimEmptyCategoryColumns = function(categories){
     });
 };
 
+var getDescriptionsMap = function(node){
+    var descriptions = _.map(node.nodes, function(descriptionNode){
+        return [getNodeName(descriptionNode), descriptionNode.value];
+    });
+
+    return _.object(descriptions);
+};
+
 module.exports.getFeatureCategories = function(applicationName, cb){
 
     var path = 'v1/toggles/' + applicationName;
@@ -123,11 +135,19 @@ module.exports.getFeatureCategories = function(applicationName, cb){
             return;
         }
 
-        var categories = getCategoriesWithFeatureValues(result.node);
-        trimEmptyCategoryColumns(categories);
+        etcd.client.get('v1/metadata/' + applicationName + '/descriptions', function(descriptionError, descriptionResult){
+            if(descriptionError){
+                console.log(descriptionError);
+            }
 
-        cb(null, {
-            categories: categories
+            var descriptionsMap = !descriptionError ? getDescriptionsMap(descriptionResult.node) : {};
+
+            var categories = getCategoriesWithFeatureValues(result.node, descriptionsMap);
+            trimEmptyCategoryColumns(categories);
+
+            cb(null, {
+                categories: categories
+            });
         });
     });
 };
@@ -188,13 +208,25 @@ module.exports.getFeature = function(applicationName, featureName, cb) {
     });
 };
 
-var addMultiFeature = function(path, applicationName, featureName, metaData, req, cb){
+var addFeatureDescription = function(applicationName, featureName, featureDescription){
+    var descriptionPath = 'v1/metadata/' + applicationName + '/descriptions/' + featureName;
+
+    etcd.client.set(descriptionPath, featureDescription, function(err){
+        if (err){
+            console.log(err); // todo: better logging
+        }
+    });
+};
+
+var addMultiFeature = function(path, applicationName, featureName, featureDescription, metaData, req, cb){
     var metaPath = path + '/@meta';
     etcd.client.set(metaPath, JSON.stringify(metaData), function(err){
         if (err) {
             cb(err);
             return;
         }
+
+        addFeatureDescription(applicationName, featureName, featureDescription);
 
         audit.addFeatureAudit(req, applicationName, featureName, null, null, 'Feature Created', function(err){ 
            if (err){
@@ -206,12 +238,14 @@ var addMultiFeature = function(path, applicationName, featureName, metaData, req
     });
 };
 
-var addSimpleFeature = function(path, applicationName, featureName, metaData, req, cb){
+var addSimpleFeature = function(path, applicationName, featureName, featureDescription, metaData, req, cb){
     etcd.client.set(path, false, function(err){
         if (err) {
             cb(err);
             return;
         }
+
+        addFeatureDescription(applicationName, featureName, featureDescription);
 
         audit.addFeatureAudit(req, applicationName, featureName, null, false, 'Created', function(err){
            if (err){
@@ -223,7 +257,7 @@ var addSimpleFeature = function(path, applicationName, featureName, metaData, re
     });
 };
 
-module.exports.addFeature = function(applicationName, featureName, categoryId, req, cb){
+module.exports.addFeature = function(applicationName, featureName, featureDescription, categoryId, req, cb){
     var metaData = {
         categoryId: categoryId
     };
@@ -233,9 +267,9 @@ module.exports.addFeature = function(applicationName, featureName, categoryId, r
     var isMulti = isMultiFeature(metaData);
 
     if (isMulti){
-        addMultiFeature(path, applicationName, featureName, metaData, req, cb);
+        addMultiFeature(path, applicationName, featureName, featureDescription, metaData, req, cb);
     } else {
-        addSimpleFeature(path, applicationName, featureName, metaData, req, cb);
+        addSimpleFeature(path, applicationName, featureName, featureDescription, metaData, req, cb);
     }
 };
 

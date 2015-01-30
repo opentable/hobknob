@@ -30,9 +30,10 @@ var getFeature = function(req, res) {
 var addFeature = function(req, res){
     var applicationName = req.params.applicationName;
     var featureName = req.body.featureName;
+    var featureDescription = req.body.featureDescription;
     var categoryId = req.body.categoryId;
 
-    feature.addFeature(applicationName, featureName, categoryId, req, function(err){
+    feature.addFeature(applicationName, featureName, featureDescription, categoryId, req, function(err){
         if (err) throw err;
         res.send(201);
     });

@@ -34,7 +34,10 @@ angular.module("config", [])
         "de-DE"
       ]
     }
-  ]
+  ],
+  "plugin": {
+    "path": "../server/examplePlugin.js"
+  }
 })
 
 ;

@@ -16,7 +16,7 @@ featureToggleFrontend.controller('FeatureCategoriesController', ['$scope', '$tim
         });
     };
 
-    $scope.addFakeFeature = function(featureName, categoryId){
+    $scope.addFakeFeature = function(featureName, featureDescription, categoryId){
         var category = _.find($scope.categories, function(category) { 
             return category.id === categoryId; 
         });
@@ -25,6 +25,7 @@ featureToggleFrontend.controller('FeatureCategoriesController', ['$scope', '$tim
  
         category.features.push({
             name: featureName,
+            description: featureDescription,
             values: toggleValues
         });
     };
