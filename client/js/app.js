@@ -1,4 +1,4 @@
-var featureToggleFrontend = angular.module('featureToggleFrontend', ['ngResource', 'ngRoute', 'ui.bootstrap', 'config', 'toggle-switch']);
+var featureToggleFrontend = angular.module('featureToggleFrontend', ['ngResource', 'ngRoute', 'ui.bootstrap', 'config', 'toggle-switch', 'xeditable']);
 
 featureToggleFrontend.config(function($routeProvider, $locationProvider, $httpProvider) {
     'use strict';
@@ -20,4 +20,8 @@ featureToggleFrontend.config(function($routeProvider, $locationProvider, $httpPr
 
     $httpProvider.defaults.headers.put = { "Content-Type": "application/json" };
     $httpProvider.defaults.headers.post = { "Content-Type": "application/json" };
+});
+
+featureToggleFrontend.run(function(editableOptions){
+    editableOptions.theme = 'bs3';
 });

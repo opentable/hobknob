@@ -79,12 +79,14 @@ featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'to
 
     (function loadFeatureToggles() {
         $scope.toggles = [];
+        $scope.description = '';
         $scope.loadingToggles = true;
         $scope.isMultiToggle = false;
 
         toggleService.getFeature($scope.applicationName, $scope.featureName,
             function(feature){
                 $scope.toggles = feature.toggles;
+                $scope.description = feature.featureDescription;
                 $scope.isMultiToggle = feature.isMultiToggle;
                 $scope.toggleSuggestions = feature.toggleSuggestions;
                 $scope.loadingToggles = false;

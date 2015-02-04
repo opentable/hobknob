@@ -187,23 +187,34 @@ module.exports.getFeature = function(applicationName, featureName, cb) {
             return;
         }
 
-        var metaData = getMetaData(result.node);
-        var isMulti = isMultiFeature(metaData);
+        etcd.client.get('v1/metadata/' + applicationName + '/descriptions', function(descriptionError, descriptionResult){
+            if(descriptionError){
+                console.log(descriptionError);
+            }
 
-        var toggles, toggleSuggestions;
-        if (isMulti){
-            toggles = getMultiFeatureToggles(result.node);
-            toggleSuggestions = getToggleSuggestions(metaData, toggles);
-        } else {
-            toggles = getSimpleFeatureToggle(featureName, result.node);
-        }
+            var descriptionsMap = !descriptionError ? getDescriptionsMap(descriptionResult.node) : {};
+            var featureDescription = getFeature(result.node, category.getCategoriesFromConfig(), descriptionsMap).description;
 
-        cb(null, {
-            applicationName: applicationName,
-            featureName: featureName,
-            toggles: toggles,
-            isMultiToggle: isMulti,
-            toggleSuggestions: toggleSuggestions
+            var metaData = getMetaData(result.node);
+            var isMulti = isMultiFeature(metaData);
+
+            var toggles, toggleSuggestions;
+            if (isMulti){
+                toggles = getMultiFeatureToggles(result.node);
+                toggleSuggestions = getToggleSuggestions(metaData, toggles);
+            } else {
+                toggles = getSimpleFeatureToggle(featureName, result.node);
+
+            }
+
+            cb(null, {
+                applicationName: applicationName,
+                featureName: featureName,
+                featureDescription: featureDescription,
+                toggles: toggles,
+                isMultiToggle: isMulti,
+                toggleSuggestions: toggleSuggestions
+            });
         });
     });
 };

@@ -9,6 +9,7 @@
       trhead
         tr
           th Name
+          th Description
           th
       trbody
         tr(ng-repeat="toggle in toggles", data-toggle-name="{{toggle.name}}")
@@ -17,6 +18,8 @@
             |  
             a.find-your-code(href="{{toggle.githubSearchUrl}}", target="_blank", tooltip="Find this toogle in your code")
               i.fa.fa-search
+          td
+            span(editable-text="description"){{ description || "empty" }}
           td 
             .pull-right
               toggle-switch(model="toggle.value" on-change="updateThisToggle(toggle)" ng-disabled="userHasPermissionsLoaded && !userHasPermissions" data-toggle="{{toggle.name}}").switch-primary
