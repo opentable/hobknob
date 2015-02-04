@@ -42,12 +42,25 @@ var addFeature = function(req, res){
 var updateFeatureToggle = function(req, res){
     var applicationName = req.params.applicationName;
     var featureName = req.params.featureName;
-    var value = req.body.value;
 
-    feature.updateFeatureToggle(applicationName, featureName, value, req, function(err){
-        if (err) throw err;
-        res.send(200);
-    });
+    if(req.body.newFeatureDescription) {
+        var newFeatureDescription = req.body.newFeatureDescription;
+
+        feature.updateFeatureDescription(applicationName, featureName, newFeatureDescription, req, function(err){
+            console.log('test');
+            if (err) throw err;
+            res.send(200);
+        });
+    }
+
+    else if(typeof req.body.value !== 'undefined'){
+        var value = req.body.value;
+
+        feature.updateFeatureToggle(applicationName, featureName, value, req, function(err){
+            if (err) throw err;
+            res.send(200);
+        });
+    }
 };
 
 var addFeatureToggle = function(req, res){

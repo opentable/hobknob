@@ -45,4 +45,14 @@ featureToggleFrontend.controller('FeatureCategoryController', ['$scope', '$timeo
                 $scope.$emit('error', "Failed to add feature", new Error(data));
             });
     };
+
+    $scope.updateFeatureDescription = function(featureName, newFeatureDescription){
+        toggleService.updateFeatureDescription($scope.applicationName, featureName, newFeatureDescription,
+            function(){
+                $scope.$emit('success', featureName + "'s description was successfully added");
+            },
+            function(data){
+                $scope.$emit('error', "Failed to update feature", new Error(data));
+            });
+    };
 }]);

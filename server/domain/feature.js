@@ -302,6 +302,11 @@ module.exports.updateFeatureToggle = function(applicationName, featureName, valu
     });
 };
 
+module.exports.updateFeatureDescription = function(applicationName, featureName, newFeatureDescription, req, cb){
+    addFeatureDescription(applicationName, featureName, newFeatureDescription);
+    cb();
+};
+
 module.exports.addFeatureToggle = function(applicationName, featureName, toggleName, req, cb){
     var path = 'v1/toggles/' + applicationName + '/' + featureName +  '/' + toggleName;
     etcd.client.set(path, false, function(err){
