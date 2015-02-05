@@ -47,7 +47,6 @@ var updateFeatureToggle = function(req, res){
         var newFeatureDescription = req.body.newFeatureDescription;
 
         feature.updateFeatureDescription(applicationName, featureName, newFeatureDescription, req, function(err){
-            console.log('test');
             if (err) throw err;
             res.send(200);
         });
