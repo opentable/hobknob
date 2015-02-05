@@ -197,3 +197,7 @@
 .category-description {
     margin-bottom: 30px;
 }
+
+td {
+    height: 52px;
+}
