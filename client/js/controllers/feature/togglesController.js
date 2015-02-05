@@ -24,6 +24,18 @@ featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'to
         });
     };
 
+    $scope.updateToggleDescription = function(featureName, newFeatureDescription){
+        console.log(featureName);
+        toggleService.updateFeatureDescription($scope.applicationName, featureName, newFeatureDescription,
+            function(){
+                $scope.description = newFeatureDescription;
+                $scope.$emit('success', featureName + "'s description was successfully updated");
+            },
+            function(data){
+                $scope.$emit('error', "Failed to update feature", new Error(data));
+            });
+    };
+
     var validateNewToggle = function(toggleName){
         if (!toggleName){
             return "Must enter an toggle name";

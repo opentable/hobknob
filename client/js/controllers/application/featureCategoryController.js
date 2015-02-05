@@ -49,7 +49,7 @@ featureToggleFrontend.controller('FeatureCategoryController', ['$scope', '$timeo
     $scope.updateFeatureDescription = function(featureName, newFeatureDescription){
         toggleService.updateFeatureDescription($scope.applicationName, featureName, newFeatureDescription,
             function(){
-                $scope.$emit('success', featureName + "'s description was successfully added");
+                $scope.$emit('success', featureName + "'s description was successfully updated");
             },
             function(data){
                 $scope.$emit('error', "Failed to update feature", new Error(data));
