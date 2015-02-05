@@ -27,6 +27,7 @@
     "font-awesome": "~4.1.0",
     "underscore": "~1.7.0",
     "validator-js": "~3.22.0",
-    "moment": "~2.8.4"
+    "moment": "~2.8.4",
+    "angular-xeditable": "~0.1.8"
   }
 }
