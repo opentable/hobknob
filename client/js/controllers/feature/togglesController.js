@@ -25,7 +25,6 @@ featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'to
     };
 
     $scope.updateToggleDescription = function(featureName, newFeatureDescription){
-        console.log(featureName);
         toggleService.updateFeatureDescription($scope.applicationName, featureName, newFeatureDescription,
             function(){
                 $scope.description = newFeatureDescription;
