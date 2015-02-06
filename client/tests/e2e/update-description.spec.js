@@ -34,7 +34,7 @@ describe('Update a feature description', function () {
         return element(by.css(descCss));
     };
 
-    var expectDescToHaveText = function(state){
+    var expectDescToHaveText = function(){
         expect(getDesc().getText()).toMatch('edited text');
     };
 
@@ -42,6 +42,6 @@ describe('Update a feature description', function () {
         getDesc().click();
         element(by.css(editableInputCss)).sendKeys('edited text');
         protractorInstance.actions().sendKeys(protractor.Key.ENTER).perform();
-        expectDescToHaveText(true);
+        expectDescToHaveText();
     });
 });
