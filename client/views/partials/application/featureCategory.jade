@@ -16,7 +16,7 @@
           td
             a(href="/#!/applications/{{applicationName}}/{{feature.name}}") {{feature.name}}
           td
-            span(editable-text="feature.description" onaftersave="updateFeatureDescription(feature.name, feature.description)") {{ feature.description || "empty" }}
+            span {{ feature.description || "empty" }}
           td(ng-repeat="value in feature.values track by $index")
             span.tick.fa.fa-check-circle(ng-show="value")
             span.cross.fa.fa-times-circle(ng-show="value == false")
