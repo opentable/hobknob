@@ -60,7 +60,7 @@ angular.module('featureToggleFrontend').factory('toggleService', ['ENV', '$http'
 
     exports.updateFeatureDescription = function(applicationName, featureName, newFeatureDescription, success, error) {
         var path = '/api/applications/' + applicationName + '/' + featureName;
-        $http.put(path, { newFeatureDescription: newFeatureDescription })
+        $http({method: 'PATCH', url: path, data: { newFeatureDescription: newFeatureDescription }})
             .success(function(data, status){
                 if (success) success(status);
             })

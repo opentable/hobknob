@@ -39,7 +39,7 @@ var addFeature = function(req, res){
     });
 };
 
-var updateFeature = function(req, res){
+var updateFeatureDescription = function(req, res){
     var applicationName = req.params.applicationName;
     var featureName = req.params.featureName;
     var newFeatureDescription = req.body.newFeatureDescription;
@@ -100,7 +100,7 @@ module.exports.registerRoutes = function(app, authenticate, authorise){
     app.get('/api/applications/:applicationName/:featureName', getFeature);
     app.post('/api/applications/:applicationName', authenticate, authorise, addFeature);
     app.put('/api/applications/:applicationName/:featureName', authenticate, authorise, updateFeatureToggle);
-    app.patch('/api/applications/:applicationName/:featureName', authenticate, authorise, updateFeature);
+    app.patch('/api/applications/:applicationName/:featureName', authenticate, authorise, updateFeatureDescription);
     app.post('/api/applications/:applicationName/:featureName', authenticate, authorise, addFeatureToggle);
     app.put('/api/applications/:applicationName/:featureName/:toggleName', authenticate, authorise, updateFeatureMultiToggle);
     app.delete('/api/applications/:applicationName/:featureName', authenticate, authorise, deleteFeature);

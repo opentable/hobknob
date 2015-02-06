@@ -202,13 +202,14 @@ module.exports.getFeature = function(applicationName, featureName, cb) {
     });
 };
 
-var addFeatureDescription = function(applicationName, featureName, featureDescription){
+var addFeatureDescription = function(applicationName, featureName, featureDescription, cb){
     var descriptionPath = 'v1/metadata/' + applicationName + '/descriptions/' + featureName;
 
     etcd.client.set(descriptionPath, featureDescription, function(err){
         if (err){
             console.log(err); // todo: better logging
         }
+        if (cb) cb();
     });
 };
 
@@ -316,9 +317,8 @@ module.exports.updateFeatureToggle = function(applicationName, featureName, valu
     });
 };
 
-module.exports.updateFeature = function(applicationName, featureName, newFeatureDescription, req, cb){
-    addFeatureDescription(applicationName, featureName, newFeatureDescription);
-    cb();
+module.exports.updateFeatureDescription = function(applicationName, featureName, newFeatureDescription, cb){
+    addFeatureDescription(applicationName, featureName, newFeatureDescription, cb);
 };
 
 module.exports.addFeatureToggle = function(applicationName, featureName, toggleName, req, cb){
