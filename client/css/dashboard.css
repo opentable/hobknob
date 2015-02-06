@@ -201,3 +201,16 @@
 td {
     height: 52px;
 }
+
+span.editable {
+    color: #000000;
+    font-style: normal;
+    text-decoration: none;
+    border-bottom: none;
+}
+
+span.editable:hover {
+    color: #2a6496;
+    font-style: normal;
+    text-decoration: underline;
+}
