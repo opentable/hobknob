@@ -13,7 +13,7 @@ var getFeatureCategories = function(req, res){
         });
 };
 
-var getFeature = function(req, res) {
+var getFeature = function(req, res){
     var applicationName = req.params.applicationName;
     var featureName = req.params.featureName;
 
@@ -39,7 +39,7 @@ var addFeature = function(req, res){
     });
 };
 
-var updateFeature = function(req, res) {
+var updateFeature = function(req, res){
     var applicationName = req.params.applicationName;
     var featureName = req.params.featureName;
     var newFeatureDescription = req.body.newFeatureDescription;

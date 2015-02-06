@@ -187,33 +187,16 @@ module.exports.getFeature = function(applicationName, featureName, cb) {
             return;
         }
 
-        etcd.client.get('v1/metadata/' + applicationName + '/descriptions', function(descriptionError, descriptionResult){
-            if(descriptionError){
-                console.log(descriptionError);
-            }
-
-            var descriptionsMap = !descriptionError ? getDescriptionsMap(descriptionResult.node) : {};
-            var featureDescription = getFeature(result.node, category.getCategoriesFromConfig(), descriptionsMap).description;
-
-            var metaData = getMetaData(result.node);
-            var isMulti = isMultiFeature(metaData);
-
-            var toggles, toggleSuggestions;
-            if (isMulti){
-                toggles = getMultiFeatureToggles(result.node);
-                toggleSuggestions = getToggleSuggestions(metaData, toggles);
-            } else {
-                toggles = getSimpleFeatureToggle(featureName, result.node);
-
-            }
-
-            cb(null, {
-                applicationName: applicationName,
-                featureName: featureName,
-                featureDescription: featureDescription,
-                toggles: toggles,
-                isMultiToggle: isMulti,
-                toggleSuggestions: toggleSuggestions
+        getFeatureDescription(applicationName, result, function(err, featureDescription){
+            getFeatureToggles(featureName, result, function(err, toggles, toggleSuggestions, isMulti){
+                cb(null, {
+                    applicationName: applicationName,
+                    featureName: featureName,
+                    featureDescription: featureDescription,
+                    toggles: toggles,
+                    isMultiToggle: isMulti,
+                    toggleSuggestions: toggleSuggestions
+                });
             });
         });
     });
@@ -227,6 +210,37 @@ var addFeatureDescription = function(applicationName, featureName, featureDescri
             console.log(err); // todo: better logging
         }
     });
+};
+
+var getFeatureDescription = function(applicationName, feature, cb){
+    var descriptionPath = 'v1/metadata/' + applicationName + '/descriptions';
+
+    etcd.client.get(descriptionPath, function(error, result){
+        if(error){
+            console.log(error);
+        }
+
+        var descriptionsMap = !error ? getDescriptionsMap(result.node) : {};
+        var featureDescription = getFeature(feature.node, category.getCategoriesFromConfig(), descriptionsMap).description;
+
+        cb(null, featureDescription);
+    });
+};
+
+var getFeatureToggles = function(featureName, feature, cb){
+    var metaData = getMetaData(feature.node);
+    var isMulti = isMultiFeature(metaData);
+
+    var toggles, toggleSuggestions;
+    if (isMulti){
+        toggles = getMultiFeatureToggles(feature.node);
+        toggleSuggestions = getToggleSuggestions(metaData, toggles);
+    } else {
+        toggles = getSimpleFeatureToggle(featureName, feature.node);
+
+    }
+
+    cb(null, toggles, toggleSuggestions, isMulti);
 };
 
 var addMultiFeature = function(path, applicationName, featureName, featureDescription, metaData, req, cb){
