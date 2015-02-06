@@ -39,27 +39,26 @@ var addFeature = function(req, res){
     });
 };
 
+var updateFeature = function(req, res) {
+    var applicationName = req.params.applicationName;
+    var featureName = req.params.featureName;
+    var newFeatureDescription = req.body.newFeatureDescription;
+
+    feature.updateFeatureDescription(applicationName, featureName, newFeatureDescription, req, function(err){
+        if (err) throw err;
+        res.send(200);
+    });
+};
+
 var updateFeatureToggle = function(req, res){
     var applicationName = req.params.applicationName;
     var featureName = req.params.featureName;
+    var value = req.body.value;
 
-    if(req.body.newFeatureDescription) {
-        var newFeatureDescription = req.body.newFeatureDescription;
-
-        feature.updateFeatureDescription(applicationName, featureName, newFeatureDescription, req, function(err){
-            if (err) throw err;
-            res.send(200);
-        });
-    }
-
-    else if(typeof req.body.value !== 'undefined'){
-        var value = req.body.value;
-
-        feature.updateFeatureToggle(applicationName, featureName, value, req, function(err){
-            if (err) throw err;
-            res.send(200);
-        });
-    }
+    feature.updateFeatureToggle(applicationName, featureName, value, req, function(err){
+        if (err) throw err;
+        res.send(200);
+    });
 };
 
 var addFeatureToggle = function(req, res){
@@ -101,6 +100,7 @@ module.exports.registerRoutes = function(app, authenticate, authorise){
     app.get('/api/applications/:applicationName/:featureName', getFeature);
     app.post('/api/applications/:applicationName', authenticate, authorise, addFeature);
     app.put('/api/applications/:applicationName/:featureName', authenticate, authorise, updateFeatureToggle);
+    app.patch('/api/applications/:applicationName/:featureName', authenticate, authorise, updateFeature);
     app.post('/api/applications/:applicationName/:featureName', authenticate, authorise, addFeatureToggle);
     app.put('/api/applications/:applicationName/:featureName/:toggleName', authenticate, authorise, updateFeatureMultiToggle);
     app.delete('/api/applications/:applicationName/:featureName', authenticate, authorise, deleteFeature);

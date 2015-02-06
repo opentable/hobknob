@@ -302,7 +302,7 @@ module.exports.updateFeatureToggle = function(applicationName, featureName, valu
     });
 };
 
-module.exports.updateFeatureDescription = function(applicationName, featureName, newFeatureDescription, req, cb){
+module.exports.updateFeature = function(applicationName, featureName, newFeatureDescription, req, cb){
     addFeatureDescription(applicationName, featureName, newFeatureDescription);
     cb();
 };
