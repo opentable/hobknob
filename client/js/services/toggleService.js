@@ -58,6 +58,17 @@ angular.module('featureToggleFrontend').factory('toggleService', ['ENV', '$http'
             });
     };
 
+    exports.updateFeatureDescription = function(applicationName, featureName, newFeatureDescription, success, error) {
+        var path = '/api/applications/' + applicationName + '/' + featureName;
+        $http({method: 'PATCH', url: path, data: { newFeatureDescription: newFeatureDescription }})
+            .success(function(data, status){
+                if (success) success(status);
+            })
+            .error(function(data){
+                if (error) error(data);
+            });
+    };
+
     exports.deleteFeature = function(applicationName, toggleName, callback){
         var path = '/api/applications/' + applicationName + '/' + toggleName;
         $http.delete(path)

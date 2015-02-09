@@ -15,7 +15,8 @@
         tr(ng-repeat="feature in category.features | orderBy: 'name'")
           td
             a(href="/#!/applications/{{applicationName}}/{{feature.name}}") {{feature.name}}
-          td {{feature.description}}
+          td
+            span {{ feature.description || "" }}
           td(ng-repeat="value in feature.values track by $index")
             span.tick.fa.fa-check-circle(ng-show="value")
             span.cross.fa.fa-times-circle(ng-show="value == false")

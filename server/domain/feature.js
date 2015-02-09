@@ -187,35 +187,61 @@ module.exports.getFeature = function(applicationName, featureName, cb) {
             return;
         }
 
-        var metaData = getMetaData(result.node);
-        var isMulti = isMultiFeature(metaData);
-
-        var toggles, toggleSuggestions;
-        if (isMulti){
-            toggles = getMultiFeatureToggles(result.node);
-            toggleSuggestions = getToggleSuggestions(metaData, toggles);
-        } else {
-            toggles = getSimpleFeatureToggle(featureName, result.node);
-        }
-
-        cb(null, {
-            applicationName: applicationName,
-            featureName: featureName,
-            toggles: toggles,
-            isMultiToggle: isMulti,
-            toggleSuggestions: toggleSuggestions
+        getFeatureDescription(applicationName, result, function(err, featureDescription){
+            getFeatureToggles(featureName, result, function(err, toggles, toggleSuggestions, isMulti){
+                cb(null, {
+                    applicationName: applicationName,
+                    featureName: featureName,
+                    featureDescription: featureDescription,
+                    toggles: toggles,
+                    isMultiToggle: isMulti,
+                    toggleSuggestions: toggleSuggestions
+                });
+            });
         });
     });
 };
 
-var addFeatureDescription = function(applicationName, featureName, featureDescription){
+var addFeatureDescription = function(applicationName, featureName, featureDescription, cb){
     var descriptionPath = 'v1/metadata/' + applicationName + '/descriptions/' + featureName;
 
     etcd.client.set(descriptionPath, featureDescription, function(err){
         if (err){
             console.log(err); // todo: better logging
         }
+        if (cb) cb();
     });
+};
+
+var getFeatureDescription = function(applicationName, feature, cb){
+    var descriptionPath = 'v1/metadata/' + applicationName + '/descriptions';
+
+    etcd.client.get(descriptionPath, function(error, result){
+        if(error){
+            console.log(error);
+        }
+
+        var descriptionsMap = !error ? getDescriptionsMap(result.node) : {};
+        var featureDescription = getFeature(feature.node, category.getCategoriesFromConfig(), descriptionsMap).description;
+
+        cb(null, featureDescription);
+    });
+};
+
+var getFeatureToggles = function(featureName, feature, cb){
+    var metaData = getMetaData(feature.node);
+    var isMulti = isMultiFeature(metaData);
+
+    var toggles, toggleSuggestions;
+    if (isMulti){
+        toggles = getMultiFeatureToggles(feature.node);
+        toggleSuggestions = getToggleSuggestions(metaData, toggles);
+    } else {
+        toggles = getSimpleFeatureToggle(featureName, feature.node);
+
+    }
+
+    cb(null, toggles, toggleSuggestions, isMulti);
 };
 
 var addMultiFeature = function(path, applicationName, featureName, featureDescription, metaData, req, cb){
@@ -289,6 +315,10 @@ module.exports.updateFeatureToggle = function(applicationName, featureName, valu
 
         cb();
     });
+};
+
+module.exports.updateFeatureDescription = function(applicationName, featureName, newFeatureDescription, req, cb){
+    addFeatureDescription(applicationName, featureName, newFeatureDescription, cb);
 };
 
 module.exports.addFeatureToggle = function(applicationName, featureName, toggleName, req, cb){
