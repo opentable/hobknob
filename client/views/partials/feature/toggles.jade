@@ -3,10 +3,10 @@
     h3.panel-title
       | Toggles
   .panel-body
+    p
+      span(editable-text="description" onaftersave="updateToggleDescription(featureName, description)") {{ description || "Add description" }}
     p(ng-hide="toggles.length")
       em No toggles added yet
-    p
-      span(editable-text="description" onaftersave="updateToggleDescription(featureName, description)") {{ description || "add description" }}
     table.table.table-striped(ng-show="toggles.length")
       trhead
         tr
