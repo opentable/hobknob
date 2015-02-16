@@ -1,0 +1,5 @@
+node_modules
+public/bower_components
+screenshots
+logs
+server/tests

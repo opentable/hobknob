@@ -1,14 +1,12 @@
-FROM node:0.10
+FROM dockerfile/nodejs
 
-RUN apt-get update -q
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy build-essential curl
+ADD package.json /tmp/package.json
+RUN cd /tmp && npm install -g grunt-cli && npm install bower -g && npm install
 
-ADD . /opt/hobknob
-WORKDIR /opt/hobknob
-RUN npm install bower -g
-RUN npm install forever -g
-RUN npm install
+ADD . /var/www/hobknob
+RUN cp -a /tmp/node_modules /var/www/hobknob/
+
+WORKDIR /var/www/hobknob
 RUN bower install --allow-root
-
 EXPOSE 3006
-CMD ["forever", "-o out.log",  "-e err.log", "/opt/hobknob/server/app.js"]
+CMD ["node", "server/app.js"]
