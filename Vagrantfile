@@ -2,19 +2,24 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
+  config.vm.box = "hashicorp/precise64"
 
-    config.vm.box = "Ubuntu precise 64 virtualbox"
-    config.vm.box_url = "http://files.vagrantup.com/precise64.box"
-    config.vm.network :forwarded_port, guest: 3006, host: 3006
-    config.vm.network :forwarded_port, guest: 4001, host: 4001
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+  end
 
-    config.vm.provision "docker" do |d|
-        d.pull_images "coreos/etcd"
-        d.run "coreos/etcd", args: "-p 4001:4001", demonize: true
-    end
+  # "Fix" for error 'stdin: is not a tty' (see https://github.com/mitchellh/vagrant/issues/1673)
+  config.vm.provision :shell, inline: 'apt-get purge -y chef*'
+  config.vm.provision :shell, inline: 'sed -i \'s/^mesg n$/tty -s \&\& mesg n/g\' /root/.profile'
+ 
+  config.vm.network :forwarded_port, guest: 3006, host: 3006
 
-    config.vm.provision "docker" do |d|
-        d.build_image "/vagrant", args: '-t hobknob'
-        d.run "hobknob", args: "-p 3006:3006", demonize: true
-    end
-end
+  config.vm.provision "docker" do |d|
+    d.pull_images "coreos/etcd"
+    d.run "coreos/etcd", args: "-p 4001:4001", demonize: true
+  end
+  config.vm.provision "docker" do |d|
+    d.build_image "/vagrant", args: '-t hobknob'
+    d.run "hobknob", args: "-p 3006:3006 --net=host", demonize: true
+  end
+end 
