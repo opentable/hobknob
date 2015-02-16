@@ -148,7 +148,7 @@ describe("Sidebar - add new application", function () {
         });
     }
 
-    _.each(["more spaces in this one", "Slash/es", "Back\\SlashesToo", "Dots.NotHere", "Weird@Chars"], function(badToggleName){
+    _.each(["more spaces in this one", "Slash/es", "Back\\SlashesToo", "Weird@Chars"], function(badToggleName){
         it("should not accept bad application name: " + badToggleName, function(){
             addApplication(badToggleName, 1000);
 

@@ -33,7 +33,7 @@ featureToggleFrontend.controller('SideBarController', ['$scope', 'applicationSer
         if (_.any($scope.applications, function(application) { return application.toLowerCase() == applicationName.toLowerCase(); })) {
             return "Application already exists";
         }
-        if (!/^[a-z0-9-_]+$/i.test(applicationName)){
+        if (!/^[a-z0-9-_.]+$/i.test(applicationName)){
             return "Application name must be alphanumeric with no spaces";
         }
     };
