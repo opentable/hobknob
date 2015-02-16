@@ -1,6 +1,7 @@
 ![Alt OpenTable](http://www.opentable.com/img/common/opentable_logo_reg.png)Hobknob
 ======================
 
+[![Build Status](https://travis-ci.org/opentable/hobknob.svg?branch=master)](https://travis-ci.org/opentable/hobknob)
 [<img src="http://standards-badges.herokuapp.com/image?serviceStatusEndpoint=0&logSchema=0&githubReadme=1">](http://standards-badges.herokuapp.com/?serviceStatusEndpoint=0&logSchema=0&githubReadme=1)
 
 Hobknob is a feature toggle front-end built on top of [etcd](https://github.com/coreos/etcd).
