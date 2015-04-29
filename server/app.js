@@ -99,7 +99,7 @@ app.get('/auth/google',
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/oops' }),
   function(req, res) {
-    res.redirect('/');
+    res.redirect('/#!/');
   }
 );
 
