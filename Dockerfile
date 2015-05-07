@@ -1,4 +1,4 @@
-FROM dockerfile/nodejs
+FROM node:latest
 
 ADD package.json /tmp/package.json
 RUN cd /tmp && npm install -g grunt-cli && npm install bower -g && npm install
