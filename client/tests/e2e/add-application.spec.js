@@ -3,9 +3,6 @@ var Etcd = require('node-etcd'),
     _ = require('underscore');
 
 describe("Sidebar - add new application", function () {
-
-    var protractorInstance = protractor.getInstance();
-
     var addApplicationButtonCss = '#sidebar-wrapper .add-form > button';
     var applicationNameInputCss = '#addApplicationInput';
     var cancelApplicationFormButtonCss = '#sidebar-wrapper .add-form form button[type=button]';

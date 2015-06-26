@@ -1,6 +1,4 @@
 describe("Dashboard", function () {
-	var protractorInstance = protractor.getInstance();
-
 	beforeEach(function() {
 	    browser.get('/#!/');
 	});
