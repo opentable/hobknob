@@ -4,8 +4,6 @@ var Etcd = require('node-etcd'),
 
 _.each([0, 1], function(categoryId){
     describe("New Feature. CategoryId: " + categoryId, function () {
-        var protractorInstance = protractor.getInstance();
-
         var categoryPanelCss = ".panel[data-category-id='" + categoryId + "'] ";
         var addFeatureButtonCss = categoryPanelCss + ".add-form > button";
         var addFeatureNameInputCss = categoryPanelCss + ".add-form #name-input";

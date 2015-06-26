@@ -3,8 +3,6 @@ var Etcd = require('node-etcd'),
     _ = require('underscore');
 
 describe("Delete Feature", function () {
-	var protractorInstance = protractor.getInstance();
-
     var deleteFeatureButtonCss = '[ng-click="deleteFeature()"]';
 
     var removeAllFeatures = function(done){

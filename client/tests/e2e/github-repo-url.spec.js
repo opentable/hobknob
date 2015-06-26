@@ -3,8 +3,6 @@ var Etcd = require('node-etcd'),
     _ = require('underscore');
 
 describe("Saving Github Repo Url", function () {
-    var protractorInstance = protractor.getInstance();
-
     var githubRepoUrlInputCss = '#github-repo-url';
     var githubRepoUrlSaveButtonCss = '#save-github-repo-url';
     var alertCss = '.alert-success';
