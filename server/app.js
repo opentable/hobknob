@@ -10,7 +10,8 @@ var express = require("express"),
     featureRoutes = require("./routes/featureRoutes"),
     path = require("path"),
     acl = require("./acl"),
-    config = require('./../config/config.json');
+    config = require('./../config/config.json'),
+    _ = require('underscore');
 
 var passport = require("./auth").init(config);
 
@@ -80,6 +81,17 @@ var authoriseUserForThisApplication = function(req, res, next) {
     });
 };
 
+var passportGoogleAuthenticateParams = function() {
+    var defaultParams = {
+        scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']
+    };
+    
+    var conf = (config.AuthProviders && config.AuthProviders.GoogleAuth && config.AuthProviders.GoogleAuth.authentication) || {};
+
+    return _.extend(defaultParams, conf);
+};
+
+
 app.use(express.static(path.join(__dirname, "/../client")));
 app.get('/login', authenticateRoutes.login);
 app.get("/", ensureAuthenticatedOrRedirectToLogin, dashboardRoutes.dashboard);
@@ -87,17 +99,14 @@ app.get('/partials/:name', dashboardRoutes.partials);
 app.get('/logout', authenticateRoutes.logout);
 
 app.get('/auth/google',
-  passport.authenticate('google',
-  {
-      scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']
-  }),
+  passport.authenticate('google', passportGoogleAuthenticateParams()),
   function(req, res){
     // The request will be redirected to Google for authentication
   }
 );
 
 app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/oops' }),
+  passport.authenticate('google', { failureRedirect: '/oops', failureFlash: true }),
   function(req, res) {
     res.redirect('/#!/');
   }
