@@ -131,6 +131,30 @@ This configuration is shared with Angular so you need to run the following:
 $ grunt 
 ```
 
+#### Extra Authentication params (ie: `hd` param for domain limitation on Google Auth)
+
+You can add an `authentication` object to the `GoogleAuth` object in your config in order to use extra parameters, like the `hd` Google Auth param. This will limit the valid Google accounts to a specific domain (for Google Apps).
+
+
+```
+{
+  "RequiresAuth": true,
+  "AuthProviders":{
+    "GoogleAuth": {
+      "GoogleClientId": "somecientid.apps.googleusercontent.com",
+      "GoogleClientSecret": "somesecretkey",
+      "authentication":{  
+        "hd":"example.com"
+      }
+    }
+  }
+}
+```
+
+
+see https://developers.google.com/identity/protocols/OpenIDConnect#hd-param
+
+
 ### Access Control List
 When authentication is enabled, you can control who is allowed to add, update, or delete toggles per application.
  
