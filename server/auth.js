@@ -6,7 +6,9 @@ module.exports.init = function(config){
     if (config.AuthProviders.GoogleAuth) {
       var GOOGLE_CLIENT_ID = config.AuthProviders.GoogleAuth.GoogleClientId;
       var GOOGLE_CLIENT_SECRET = config.AuthProviders.GoogleAuth.GoogleClientSecret;
-      var googleCallbackURL = (config.hobknobPort) ? "http://" + config.hobknobHost + ":" + config.hobknobPort + "/auth/google/callback" : "http://" + config.hobknobHost + "/auth/google/callback";
+      var protocolSection = (config.hobknobProtocol) ? config.hobknobProtocol : "http";
+      var portSection = (config.hobknobPort) ? ":" + config.hobknobPort : '';
+      var googleCallbackURL = protocolSection + "://" + config.hobknobHost + portSection + "/auth/google/callback";
 
       passport.use(new googleStrategy({
         clientID: GOOGLE_CLIENT_ID,
