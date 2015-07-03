@@ -20,7 +20,6 @@
     "angular": "~1.2.14",
     "angular-resource": "~1.2.14",
     "angular-route": "~1.2.14",
-    "angular-toggle-switch": "~0.3.0",
     "angular-bootstrap-toggle-switch": "0.5.2",
     "angular-bootstrap": "~0.11.0",
     "bootstrap-social": "~4.6.0",
