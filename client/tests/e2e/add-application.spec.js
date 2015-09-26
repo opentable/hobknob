@@ -3,9 +3,6 @@ var Etcd = require('node-etcd'),
     _ = require('underscore');
 
 describe("Sidebar - add new application", function () {
-
-    var protractorInstance = protractor.getInstance();
-
     var addApplicationButtonCss = '#sidebar-wrapper .add-form > button';
     var applicationNameInputCss = '#addApplicationInput';
     var cancelApplicationFormButtonCss = '#sidebar-wrapper .add-form form button[type=button]';
@@ -19,9 +16,8 @@ describe("Sidebar - add new application", function () {
 
     beforeEach(function(done) {
         removeAllToggles(function(){
-            browser.get('/#!/').then(function(){
-                done();
-            });
+            browser.get('/#!/');
+            done();
         });
     });
 
@@ -94,11 +90,10 @@ describe("Sidebar - add new application", function () {
 
     it("should show a newly added application when the browser is refreshed", function() {
         addApplication("newTestApp");
-        browser.get('/#!/', function(){
-            var applicationLinks = getApplicationLinks();
-            expect(applicationLinks.count()).toEqual(1);
-            expect(applicationLinks.first().getText()).toEqual('newTestApp');
-        });
+        browser.get('/#!/');
+        var applicationLinks = getApplicationLinks();
+        expect(applicationLinks.count()).toEqual(1);
+        expect(applicationLinks.first().getText()).toEqual('newTestApp');
     });
 
     it("should not be allowed to add the same application more than once", function() {

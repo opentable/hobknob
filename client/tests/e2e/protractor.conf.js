@@ -3,7 +3,7 @@ var config = {
         'browserName': 'chrome'
     },
     baseUrl: 'http://127.0.0.1:3006/',
-    framework: 'jasmine',
+    framework: 'jasmine2',
     specs: ['**/*.spec.js'],
     jasmineNodeOpts: {
         showColors: true,

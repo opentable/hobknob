@@ -2,8 +2,6 @@ var Etcd = require('node-etcd'),
     etcd = new Etcd();
 
 describe("Multi toggle features", function () {
-	var protractorInstance = protractor.getInstance();
-
     var switchCss = ".switch-primary.ats-switch > div";
     var addToggleButtonCss = "#toggles .add-form > button";
     var selectToggleCss = "#toggles .add-form select";
@@ -147,7 +145,7 @@ describe("Multi toggle features", function () {
 
     it("should display the correct toggle state after the browser is refreshed", function(){
         getSwitch("com").click();
-        protractorInstance.refresh();
+        browser.refresh();
         assertToggleValue("com", true);
     });
 

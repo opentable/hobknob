@@ -8,6 +8,8 @@ before_install:
 - npm install -g -q grunt-cli
 install:
 - npm install -q
+before_script:
+- ./node_modules/protractor/bin/webdriver-manager update
 script:
 - ./scripts/testserver.sh
 - ./scripts/etcd.sh

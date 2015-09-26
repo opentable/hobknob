@@ -2,10 +2,6 @@ var Etcd = require('node-etcd'),
     etcd = new Etcd();
 
 describe("Update toggle in simple feature", function () {
-	var protractorInstance = protractor.getInstance();
-
-    var switchCss = ".switch-primary.ats-switch > div";
-
     var removeAllFeatures = function(done){
         etcd.rmdir('v1', { recursive: true }, function(){
             done();
@@ -28,7 +24,7 @@ describe("Update toggle in simple feature", function () {
     });
 
     var getSwitch = function(){
-        return element(by.css(switchCss));
+        return element(by.css(".switch-primary.toggle-switch > div"));
     };
 
     var expectedToggleToBeValue = function(state){
@@ -42,7 +38,7 @@ describe("Update toggle in simple feature", function () {
 
     it("should display the correct toggle state after the browser is refreshed", function(){
         getSwitch().click();
-        protractorInstance.refresh();
+        browser.refresh();
         expectedToggleToBeValue(true);
     });
 
