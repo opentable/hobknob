@@ -28,5 +28,8 @@
     "validator-js": "~3.22.0",
     "moment": "~2.8.4",
     "angular-xeditable": "~0.1.8"
+  },
+  "resolutions": {
+    "angular": "1.2.14"
   }
 }
