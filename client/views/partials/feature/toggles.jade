@@ -21,7 +21,7 @@
               i.fa.fa-search
           td 
             .pull-right
-              input(type="checkbox" ng-model="toggle.value" ng-change="updateThisToggle(toggle)" ng-disabled="userHasPermissionsLoaded && !userHasPermissions" data-toggle="{{toggle.name}}").switch-primary
+              toggle-switch( ng-model="toggle.value" ng-change="updateThisToggle(toggle)" ng-disabled="userHasPermissionsLoaded && !userHasPermissions" data-toggle="{{toggle.name}}").switch-primary
     .add-form(ng-show="isMultiToggle && userHasPermissionsLoaded && userHasPermissions && toggleSuggestions.length > 0")
       button.btn.btn-success(type="button",ng-click="setAddingToggleState(true)",ng-hide="adding") Add Toggle
       div
