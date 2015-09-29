@@ -2,8 +2,6 @@ var Etcd = require('node-etcd'),
     etcd = new Etcd();
 
 describe('Update a feature description', function () {
-    var protractorInstance = protractor.getInstance();
-
     var descCss = '.editable';
     var editableInputCss = '.editable-input';
 
@@ -41,7 +39,7 @@ describe('Update a feature description', function () {
     it('should be able to update a description to the expected value', function(){
         getDesc().click();
         element(by.css(editableInputCss)).sendKeys('edited text');
-        protractorInstance.actions().sendKeys(protractor.Key.ENTER).perform();
+        browser.actions().sendKeys(protractor.Key.ENTER).perform();
         expectDescToHaveText();
     });
 });

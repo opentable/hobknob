@@ -4,8 +4,6 @@ var Etcd = require('node-etcd'),
 
 _.each([0, 1], function(categoryId){
     describe("New Feature. CategoryId: " + categoryId, function () {
-        var protractorInstance = protractor.getInstance();
-
         var categoryPanelCss = ".panel[data-category-id='" + categoryId + "'] ";
         var addFeatureButtonCss = categoryPanelCss + ".add-form > button";
         var addFeatureNameInputCss = categoryPanelCss + ".add-form #name-input";
@@ -114,9 +112,8 @@ _.each([0, 1], function(categoryId){
 
         it("should display a newly added feature once it has been added and the browser has been refreshed", function(){
             addNewFeature("TestFeature", "TestDescription");
-            browser.get('/#!/applications/TestApp', function(){
-                assertFeatureHasBeenAdded("TestFeature", "TestDescription");
-            });
+            browser.get('/#!/applications/TestApp');
+            assertFeatureHasBeenAdded("TestFeature", "TestDescription");
         });
 
         it("should not allow a feature to be created with the same name as one already", function(){
