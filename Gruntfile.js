@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     "use strict";
 
     grunt.initConfig({
@@ -56,10 +56,10 @@ module.exports = function(grunt) {
             ]
         },
 
-       simplemocha: {
-          test: {
-            src: ['server/tests/**/*.js']
-          }
+        simplemocha: {
+            test: {
+                src: ['server/tests/**/*.js']
+            }
         }
     });
 

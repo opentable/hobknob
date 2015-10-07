@@ -30,7 +30,7 @@ if (config.loggingMiddleware && config.loggingMiddleware.path) {
 }
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(express.cookieParser("featuretoggle"));
 app.use(require("./session").init(config, express));
@@ -39,32 +39,32 @@ app.use(passport.session());
 app.use(app.router);
 
 app.use(express.static(path.join(__dirname, '/../public')));
-app.use('/bower_components',  express.static(path.join(__dirname, '/../public/bower_components')));
+app.use('/bower_components', express.static(path.join(__dirname, '/../public/bower_components')));
 
 app.get('/_lbstatus', loadBalancerRoutes.lbstatus);
-app.get('/service-status', function(req, res) {
-  res.status(200).end();
+app.get('/service-status', function (req, res) {
+    res.status(200).end();
 });
 
-var isAuthenticated = function(req) {
+var isAuthenticated = function (req) {
     return !config.RequiresAuth || req.isAuthenticated();
 };
 
-var ensureAuthenticatedOrRedirectToLogin = function(req, res, next) {
-  if (isAuthenticated(req)) {
-    return next();
-  }
-  res.redirect('/login');
+var ensureAuthenticatedOrRedirectToLogin = function (req, res, next) {
+    if (isAuthenticated(req)) {
+        return next();
+    }
+    res.redirect('/login');
 };
 
-var ensureAuthenticated = function(req, res, next) {
+var ensureAuthenticated = function (req, res, next) {
     if (isAuthenticated(req)) {
         return next();
     }
     res.send(403);
 };
 
-var authoriseUserForThisApplication = function(req, res, next) {
+var authoriseUserForThisApplication = function (req, res, next) {
     if (!config.RequiresAuth) {
         next();
         return;
@@ -72,8 +72,8 @@ var authoriseUserForThisApplication = function(req, res, next) {
 
     var applicationName = req.params.applicationName;
     var userEmail = req.user._json.email;
-    acl.assert(userEmail, applicationName, function(err, isAuthroised){
-        if (err || !isAuthroised){
+    acl.assert(userEmail, applicationName, function (err, isAuthroised) {
+        if (err || !isAuthroised) {
             res.send(403);
         } else {
             next();
@@ -81,11 +81,11 @@ var authoriseUserForThisApplication = function(req, res, next) {
     });
 };
 
-var passportGoogleAuthenticateParams = function() {
+var passportGoogleAuthenticateParams = function () {
     var defaultParams = {
         scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']
     };
-    
+
     var conf = (config.AuthProviders && config.AuthProviders.GoogleAuth && config.AuthProviders.GoogleAuth.authentication) || {};
 
     return _.extend(defaultParams, conf);
@@ -99,17 +99,17 @@ app.get('/partials/:name', dashboardRoutes.partials);
 app.get('/logout', authenticateRoutes.logout);
 
 app.get('/auth/google',
-  passport.authenticate('google', passportGoogleAuthenticateParams()),
-  function(req, res){
-    // The request will be redirected to Google for authentication
-  }
+    passport.authenticate('google', passportGoogleAuthenticateParams()),
+    function (req, res) {
+        // The request will be redirected to Google for authentication
+    }
 );
 
 app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/oops', failureFlash: true }),
-  function(req, res) {
-    res.redirect('/#!/');
-  }
+    passport.authenticate('google', {failureRedirect: '/oops', failureFlash: true}),
+    function (req, res) {
+        res.redirect('/#!/');
+    }
 );
 
 if (config.plugin && config.plugin.path) {
