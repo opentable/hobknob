@@ -4,6 +4,7 @@ var config = {
         'version': '',
         'platform': 'ANY'
     },
+    baseUrl: 'http://127.0.0.1:3006/',
     framework: 'jasmine2',
     specs: ['**/*.spec.js'],
     jasmineNodeOpts: {
@@ -14,15 +15,12 @@ var config = {
     }
 };
 
-if (process.env.SAUCE_USERNAME != undefined) {
-	config.sauceUser = process.env.SAUCE_USERNAME;
-	config.sauceKey = process.env.SAUCE_ACCESS_KEY;
+if (process.env.TRAVIS != undefined) {
     config.capabilities = {
-        'browserName': 'chrome',
+        'browserName': 'firefox',
         'version': '',
         'platform': 'ANY',
         'build': process.env.TRAVIS_BUILD_NUMBER,
-        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
         'name': 'Hobknob Tests'
     };
 }
