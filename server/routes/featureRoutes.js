@@ -1,3 +1,5 @@
+'use strict';
+
 var feature = require('./../domain/feature');
 
 var getFeatureCategories = function (req, res) {
@@ -17,10 +19,10 @@ var getFeature = function (req, res) {
     var applicationName = req.params.applicationName;
     var featureName = req.params.featureName;
 
-    feature.getFeature(applicationName, featureName, function (err, feature) {
+    feature.getFeature(applicationName, featureName, function (err, foundFeature) {
         if (err) throw err;
-        if (feature) {
-            res.send(feature);
+        if (foundFeature) {
+            res.send(foundFeature);
         } else {
             res.send(404);
         }

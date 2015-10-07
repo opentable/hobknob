@@ -1,19 +1,21 @@
-var etcd = require('../etcd'),
-    _ = require('underscore'),
-    config = require('./../../config/config.json'),
-    acl = require('./../acl'),
-    audit = require('./../audit'),
-    etcdBaseUrl = "http://" + config.etcdHost + ":" + config.etcdPort + '/v2/keys/';
+'use strict';
+
+var etcd = require('../etcd');
+var _ = require('underscore');
+var config = require('./../../config/config.json');
+var acl = require('./../acl');
+var audit = require('./../audit');
+var etcdBaseUrl = 'http://' + config.etcdHost + ':' + config.etcdPort + '/v2/keys/';
 
 module.exports = {
     getApplications: function (cb) {
         etcd.client.get('v1/toggles/', {recursive: false}, function (err, result) {
             if (err) {
-                if (err.errorCode == 100) { // key not found
+                if (err.errorCode === 100) { // key not found
                     return cb(null, []);
-                } else {
-                    return cb(err);
                 }
+
+                return cb(err);
             }
 
             var applications = _.map(result.node.nodes || [], function (node) {
@@ -40,9 +42,9 @@ module.exports = {
             // todo: not sure if this is correct
             if (config.RequiresAuth) {
                 var userEmail = req.user._json.email; // todo: need better user management
-                acl.grant(userEmail, applicationName, function (err) {
-                    if (err) {
-                        cb(err);
+                acl.grant(userEmail, applicationName, function (grantErr) {
+                    if (grantErr) {
+                        cb(grantErr);
                         return;
                     }
                     cb();
@@ -56,7 +58,7 @@ module.exports = {
     getApplicationMetaData: function (applicationName, cb) {
         etcd.client.get('v1/metadata/' + applicationName, {recursive: true}, function (err, result) {
             if (err) {
-                if (err.errorCode == 100) { // key not found
+                if (err.errorCode === 100) { // key not found
                     cb(null, {});
                 } else {
                     cb(err);

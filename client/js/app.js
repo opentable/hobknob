@@ -1,8 +1,8 @@
+'use strict';
+
 var featureToggleFrontend = angular.module('featureToggleFrontend', ['ngResource', 'ngRoute', 'ui.bootstrap', 'toggle-switch', 'config', 'xeditable']);
 
 featureToggleFrontend.config(function ($routeProvider, $locationProvider, $httpProvider) {
-    'use strict';
-
     $locationProvider.hashPrefix('!');
     $routeProvider.
     when('/', {
@@ -18,8 +18,8 @@ featureToggleFrontend.config(function ($routeProvider, $locationProvider, $httpP
         templateUrl: 'partials/feature'
     });
 
-    $httpProvider.defaults.headers.put = {"Content-Type": "application/json"};
-    $httpProvider.defaults.headers.post = {"Content-Type": "application/json"};
+    $httpProvider.defaults.headers.put = {'Content-Type': 'application/json'};
+    $httpProvider.defaults.headers.post = {'Content-Type': 'application/json'};
 });
 
 featureToggleFrontend.run(function (editableOptions) {

@@ -1,6 +1,6 @@
-angular.module('featureToggleFrontend').factory('applicationService', ['$http', function ($http) {
-    'use strict';
+'use strict';
 
+angular.module('featureToggleFrontend').factory('applicationService', ['$http', function ($http) {
     var exports = {};
 
     exports.getApplications = function (success, error) {

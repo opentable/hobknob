@@ -1,5 +1,6 @@
-featureToggleFrontend.controller('FeatureCategoryController', ['$scope', '$timeout', 'toggleService', 'focus', 'ENV', function ($scope, $timeout, toggleService, focus, ENV) {
+'use strict';
 
+featureToggleFrontend.controller('FeatureCategoryController', ['$scope', '$timeout', 'toggleService', 'focus', 'ENV', function ($scope, $timeout, toggleService, focus, ENV) {
     $scope.adding = false;
     $scope.newFeatureName = '';
     $scope.newFeatureDescription = '';
@@ -15,13 +16,13 @@ featureToggleFrontend.controller('FeatureCategoryController', ['$scope', '$timeo
 
     var validateNewFeature = function (featureName) {
         if (!featureName) {
-            return "Must enter an feature name";
+            return 'Must enter an feature name';
         }
         if (!$scope.isFeatureUnique(featureName)) {
-            return "Feature name must be unique in this application";
+            return 'Feature name must be unique in this application';
         }
         if (!/^[a-z0-9._-]+$/i.test(featureName)) {
-            return "Feature name must be alphanumeric with no spaces";
+            return 'Feature name must be alphanumeric with no spaces';
         }
     };
 
@@ -39,20 +40,20 @@ featureToggleFrontend.controller('FeatureCategoryController', ['$scope', '$timeo
             function () {
                 $scope.addFakeFeature(featureName, featureDescription, categoryId);
                 $scope.setAddingFeatureState(false);
-                $scope.$emit('success', featureName + " was successfully added");
+                $scope.$emit('success', featureName + ' was successfully added');
             },
             function (data) {
-                $scope.$emit('error', "Failed to add feature", new Error(data));
+                $scope.$emit('error', 'Failed to add feature', new Error(data));
             });
     };
 
     $scope.updateFeatureDescription = function (featureName, newFeatureDescription) {
         toggleService.updateFeatureDescription($scope.applicationName, featureName, newFeatureDescription,
             function () {
-                $scope.$emit('success', featureName + "'s description was successfully updated");
+                $scope.$emit('success', featureName + '\'s description was successfully updated');
             },
             function (data) {
-                $scope.$emit('error', "Failed to update feature", new Error(data));
+                $scope.$emit('error', 'Failed to update feature', new Error(data));
             });
     };
 }]);

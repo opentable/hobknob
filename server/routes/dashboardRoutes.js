@@ -1,3 +1,5 @@
+'use strict';
+
 var config = require('./../../config/config.json');
 
 exports.dashboard = function (req, res) {

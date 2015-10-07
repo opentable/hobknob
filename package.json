@@ -1,49 +1,49 @@
 {
-    "name": "hobknob",
-    "version": "2.2.5",
-    "description": "Front end for managing feature toggles in etcd",
-    "scripts": {
-        "prestart": "bower cache clean --config.interactive=false && bower install --config.interactive=false",
-        "start": "node server/app.js",
-        "pretest": "node node_modules/protractor/bin/webdriver-manager update",
-        "test": "grunt test"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/opentable/hobknob.git"
-    },
-    "author": "Ryan Tomlinson <tomlinsonryan@gmail.com>",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/opentable/hobknob/issues"
-    },
-    "dependencies": {
-        "express": "~3.4.8",
-        "express3-handlebars": "~0.5.2",
-        "js-yaml": "~3.4.2",
-        "config": "^1.16.0",
-        "request": "~2.64.0",
-        "jade": "^1.11.0",
-        "passport": "^0.3.0",
-        "passport-google-oauth": "^0.2.0",
-        "express-session": "^1.11.3",
-        "node-etcd": "^4.2.1",
-        "underscore": "^1.8.3",
-        "body-parser": "^1.14.0",
-        "validator": "^4.0.6",
-        "string": "^3.3.1"
-    },
-    "devDependencies": {
-        "forever-monitor": "~1.7.0",
-        "grunt": "~0.4.5",
-        "matchdep": "~1.0.0",
-        "shelljs": "~0.5.3",
-        "grunt-cli": "~0.1.13",
-        "grunt-contrib-copy": "~0.8.1",
-        "grunt-ng-constant": "^1.1.0",
-        "grunt-contrib-jshint": "^0.11.3",
-        "protractor": "2.4.0",
-        "grunt-protractor-runner": "2.1.0",
-        "grunt-simple-mocha": "^0.4.0"
-    }
+  "name": "hobknob",
+  "version": "2.2.5",
+  "description": "Front end for managing feature toggles in etcd",
+  "scripts": {
+    "prestart": "bower cache clean --config.interactive=false && bower install --config.interactive=false",
+    "start": "node server/app.js",
+    "pretest": "node node_modules/protractor/bin/webdriver-manager update",
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/opentable/hobknob.git"
+  },
+  "author": "Ryan Tomlinson <tomlinsonryan@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/opentable/hobknob/issues"
+  },
+  "dependencies": {
+    "express": "~3.4.8",
+    "express3-handlebars": "~0.5.2",
+    "js-yaml": "~3.4.2",
+    "config": "^1.16.0",
+    "request": "~2.64.0",
+    "jade": "^1.11.0",
+    "passport": "^0.3.0",
+    "passport-google-oauth": "^0.2.0",
+    "express-session": "^1.11.3",
+    "node-etcd": "^4.2.1",
+    "underscore": "^1.8.3",
+    "body-parser": "^1.14.0",
+    "validator": "^4.0.6",
+    "string": "^3.3.1"
+  },
+  "devDependencies": {
+    "forever-monitor": "~1.7.0",
+    "grunt": "~0.4.5",
+    "grunt-cli": "~0.1.13",
+    "grunt-contrib-copy": "~0.8.1",
+    "grunt-eslint": "^17.2.0",
+    "grunt-ng-constant": "^1.1.0",
+    "grunt-protractor-runner": "2.1.0",
+    "grunt-simple-mocha": "^0.4.0",
+    "matchdep": "~1.0.0",
+    "protractor": "2.4.0",
+    "shelljs": "~0.5.3"
+  }
 }

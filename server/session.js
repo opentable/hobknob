@@ -1,15 +1,21 @@
+'use strict';
+
 module.exports.init = function (config, express) {
     var session = require('express-session');
+    var sessionMiddleware;
+    var useConnectEtcdSession;
+    var useConnectRedisSession;
 
-    var sessionMiddleware, useConnectEtcdSession, useConnectRedisSession;
     try {
-        useConnectEtcdSession = require.resolve("connect-etcd");
+        useConnectEtcdSession = require.resolve('connect-etcd');
     } catch (e) {
+        console.log(e);
     }
 
     try {
-        useConnectRedisSession = require.resolve("connect-redis");
+        useConnectRedisSession = require.resolve('connect-redis');
     } catch (e) {
+        console.log(e);
     }
 
     if (useConnectEtcdSession) {

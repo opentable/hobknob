@@ -1,23 +1,24 @@
-var express = require("express"),
-    app = express(),
-    bodyParser = require('body-parser'),
-    dashboardRoutes = require("./routes/dashboardRoutes"),
-    loadBalancerRoutes = require("./routes/loadbalancerRoutes"),
-    authenticateRoutes = require("./routes/authenticateRoutes"),
-    authorisationRoutes = require("./routes/authorisationRoutes"),
-    auditRoutes = require("./routes/auditRoutes"),
-    applicationRoutes = require("./routes/applicationRoutes"),
-    featureRoutes = require("./routes/featureRoutes"),
-    path = require("path"),
-    acl = require("./acl"),
-    config = require('./../config/config.json'),
-    _ = require('underscore');
+'use strict';
 
-var passport = require("./auth").init(config);
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
+var dashboardRoutes = require('./routes/dashboardRoutes');
+var loadBalancerRoutes = require('./routes/loadbalancerRoutes');
+var authenticateRoutes = require('./routes/authenticateRoutes');
+var authorisationRoutes = require('./routes/authorisationRoutes');
+var auditRoutes = require('./routes/auditRoutes');
+var applicationRoutes = require('./routes/applicationRoutes');
+var featureRoutes = require('./routes/featureRoutes');
+var path = require('path');
+var acl = require('./acl');
+var config = require('./../config/config.json');
+var _ = require('underscore');
+var passport = require('./auth').init(config);
 
-app.set('views', __dirname + '/../client/views');
-app.set("view engine", "jade");
-app.set("port", process.env.PORT || 3006);
+app.set('views', path.join(__dirname, '/../client/views'));
+app.set('view engine', 'jade');
+app.set('port', process.env.PORT || 3006);
 
 app.use(express.json());       // to support JSON-encoded bodies
 app.use(express.urlencoded()); // to support URL-encoded bodies
@@ -26,14 +27,14 @@ app.use(express.favicon());
 if (config.loggingMiddleware && config.loggingMiddleware.path) {
     app.use(require(config.loggingMiddleware.path)(config.loggingMiddleware.settings));
 } else {
-    app.use(express.logger("dev"));
+    app.use(express.logger('dev'));
 }
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.use(express.cookieParser("featuretoggle"));
-app.use(require("./session").init(config, express));
+app.use(express.cookieParser('featuretoggle'));
+app.use(require('./session').init(config, express));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(app.router);
@@ -92,9 +93,9 @@ var passportGoogleAuthenticateParams = function () {
 };
 
 
-app.use(express.static(path.join(__dirname, "/../client")));
+app.use(express.static(path.join(__dirname, '/../client')));
 app.get('/login', authenticateRoutes.login);
-app.get("/", ensureAuthenticatedOrRedirectToLogin, dashboardRoutes.dashboard);
+app.get('/', ensureAuthenticatedOrRedirectToLogin, dashboardRoutes.dashboard);
 app.get('/partials/:name', dashboardRoutes.partials);
 app.get('/logout', authenticateRoutes.logout);
 
@@ -127,6 +128,6 @@ featureRoutes.registerRoutes(app, ensureAuthenticated, authoriseUserForThisAppli
 app.get('/api/audit/feature/:applicationName/:featureName', auditRoutes.getFeatureAuditTrail);
 app.get('/api/audit/application/:applicationName', auditRoutes.getApplicationAuditTrail);
 
-console.log("Starting up feature toggle dashboard on port " + app.get('port'));
+console.log('Starting up feature toggle dashboard on port ' + app.get('port'));
 
-app.listen(app.get("port"));
+app.listen(app.get('port'));

@@ -1,8 +1,7 @@
+'use strict';
+
 angular.module('featureToggleFrontend')
-
     .factory('CurrentUser', function ($window, ENV) {
-        'use strict';
-
         function CurrentUser() {
             if (ENV.RequiresAuth === true) {
                 var data = $window.user._json;
@@ -18,7 +17,7 @@ angular.module('featureToggleFrontend')
         CurrentUser.prototype = {
 
             getPicture: function () {
-                return this.picture || "/img/user-blue.jpeg";
+                return this.picture || '/img/user-blue.jpeg';
             },
 
             getUser: function () {
@@ -26,7 +25,7 @@ angular.module('featureToggleFrontend')
             },
 
             getFullName: function () {
-                return this.name || "Anonymous";
+                return this.name || 'Anonymous';
             },
 
             requiresAuthentication: function () {
@@ -36,5 +35,4 @@ angular.module('featureToggleFrontend')
         };
 
         return new CurrentUser();
-
     });

@@ -1,5 +1,7 @@
-var ldap = require('ldapjs'),
-    client;
+'use strict';
+
+var ldap = require('ldapjs');
+var client;
 
 exports.initLdap = function (ip) {
     client = ldap.createClient({

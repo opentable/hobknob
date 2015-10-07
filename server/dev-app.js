@@ -1,15 +1,17 @@
-var forever = require("forever-monitor");
+'use strict';
 
-var child = new (forever.Monitor)("server/app.js", {
+var forever = require('forever-monitor');
+
+var child = new (forever.Monitor)('server/app.js', {
     max: -1,
     silent: false,
     options: [],
     watch: true,
-    watchDirectory: "./"
+    watchDirectory: './'
 });
 
-child.on("exit", function () {
-    console.log("app.js has exited");
+child.on('exit', function () {
+    console.log('app.js has exited');
 });
 
 child.start();

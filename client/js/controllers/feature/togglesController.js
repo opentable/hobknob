@@ -1,5 +1,6 @@
-featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'toggleService', 'applicationService', 'focus', 'ENV', '$rootScope', function ($scope, $timeout, toggleService, applicationService, focus, ENV, $rootScope) {
+'use strict';
 
+featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'toggleService', 'applicationService', 'focus', 'ENV', '$rootScope', function ($scope, $timeout, toggleService, applicationService, focus, ENV, $rootScope) {
     $scope.adding = false;
     $scope.newToggleName = '';
     $scope.setAddingToggleState = function (state) {
@@ -18,7 +19,7 @@ featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'to
                     $rootScope.$broadcast('toggleUpdated', toggle, $scope.isMultiToggle);
                 },
                 function (data) {
-                    $scope.$emit('error', "Failed to update toggle", new Error(data));
+                    $scope.$emit('error', 'Failed to update toggle', new Error(data));
                 });
         });
     };
@@ -27,24 +28,24 @@ featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'to
         toggleService.updateFeatureDescription($scope.applicationName, featureName, newFeatureDescription,
             function () {
                 $scope.description = newFeatureDescription;
-                $scope.$emit('success', featureName + "'s description was successfully updated");
+                $scope.$emit('success', featureName + '\'s description was successfully updated');
             },
             function (data) {
-                $scope.$emit('error', "Failed to update feature", new Error(data));
+                $scope.$emit('error', 'Failed to update feature', new Error(data));
             });
     };
 
     var validateNewToggle = function (toggleName) {
         if (!toggleName) {
-            return "Must enter an toggle name";
+            return 'Must enter an toggle name';
         }
         if (!_.contains($scope.toggleSuggestions, toggleName)) {
-            return "Not a valid toggle name. Please use the autocomplete box to get valid values.";
+            return 'Not a valid toggle name. Please use the autocomplete box to get valid values.';
         }
         if (_.any($scope.toggles, function (toggle) {
                 return toggle.name === toggleName;
             })) {
-            return "Toggle name must be unique in this application";
+            return 'Toggle name must be unique in this application';
         }
     };
 
@@ -71,10 +72,10 @@ featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'to
             function () {
                 addFakeToggle(toggleName);
                 $scope.setAddingToggleState(false);
-                $scope.$emit('success', toggleName + " was successfully added");
+                $scope.$emit('success', toggleName + ' was successfully added');
             },
             function (data) {
-                $scope.$emit('error', "Failed to add feature", new Error(data));
+                $scope.$emit('error', 'Failed to add feature', new Error(data));
             });
     };
 
@@ -105,15 +106,14 @@ featureToggleFrontend.controller('TogglesController', ['$scope', '$timeout', 'to
 
                 applicationService.getApplicationMetaData($scope.applicationName, function (err, metaData) {
                     if (err) {
-                        return $scope.$emit('error', "Failed to get Github search data for these toggles", new Error(err));
+                        return $scope.$emit('error', 'Failed to get Github search data for these toggles', new Error(err));
                     }
                     addGithubSearchDataToToggles(feature, metaData);
                 });
             },
             function (data) {
-                $scope.$emit('error', "Failed to load this feature toggle", new Error(data));
+                $scope.$emit('error', 'Failed to load this feature toggle', new Error(data));
                 $scope.loadingToggles = false;
             });
     })();
-
 }]);
