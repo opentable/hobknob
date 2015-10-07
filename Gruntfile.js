@@ -46,16 +46,6 @@ module.exports = function (grunt) {
             run: {}
         },
 
-        jshint: {
-            all: [
-                'Gruntfile.js',
-                'server/**/*.js',
-                'client/**/*.js',
-                '!client/public/**/*.js',
-                '!client/js/common/lib/**/*.js'
-            ]
-        },
-
         eslint: {
             target: [
                 'Gruntfile.js',
