@@ -23,7 +23,7 @@ if (process.env.SAUCE_USERNAME != undefined) {
         'version': '',
         'platform': 'ANY',
         'build': process.env.TRAVIS_BUILD_NUMBER,
-        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+        'tunnelIdentifier': process.env.TRAVIS_JOB_NUMBER,
         'name': 'Hobknob Tests'
     };
 }
