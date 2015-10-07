@@ -39,7 +39,7 @@ module.exports = function(grunt) {
                 keepAlive: true,
                 noColor: false,
                 args: {
-                    seleniumServerJar: 'node_modules/protractor/selenium/selenium-server-standalone-2.45.0.jar',
+                    seleniumServerJar: 'node_modules/protractor/selenium/selenium-server-standalone-2.47.1.jar',
                     chromeDriver: 'node_modules/protractor/selenium/chromedriver'
                 }
             },
