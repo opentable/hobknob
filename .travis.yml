@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- '4.1.2'
+- '0.12'
 addons:
   sauce_connect: true
 before_install:
@@ -17,5 +17,5 @@ script:
 env:
   global:
   - secure: ZxldMUNPjm7T/zGthCGvL2kbPLapcaJAj1VXYFw3he9TW4FG0H+E4u6/NEPSG5OdtG530NizguKJlbigmAN16eKaD+1MPkvBAY274RdFKBVv3Lemb1impM7VZC/zMOfDqmIPXYSzvp0Qgw1McS3W1x0Ub2arPS0CwW83LjackCQ=
-  - secure: HJPtTG1LvHDn4YR2xieiOCa9qqaueo57c7YxghZSqEsp9Iecnb72l5nSa42ZsgBPnYiU7YYtI581B3qq66iUTU2KlB2ibFCg6yCfgHOvF3x8lEdbbQm+o2aQZbXeTGTZWYSxULEk4hLflFcI+9FvtcZKCFHB1cDvZ6euroVWe+g= 
+  - secure: HJPtTG1LvHDn4YR2xieiOCa9qqaueo57c7YxghZSqEsp9Iecnb72l5nSa42ZsgBPnYiU7YYtI581B3qq66iUTU2KlB2ibFCg6yCfgHOvF3x8lEdbbQm+o2aQZbXeTGTZWYSxULEk4hLflFcI+9FvtcZKCFHB1cDvZ6euroVWe+g=
 sudo: false
