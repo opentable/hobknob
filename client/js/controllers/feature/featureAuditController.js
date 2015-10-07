@@ -1,14 +1,16 @@
-featureToggleFrontend.controller('FeatureAuditController', ['$scope', 'auditService', 'CurrentUser', function($scope, auditService, CurrentUser) {
+featureToggleFrontend.controller('FeatureAuditController', ['$scope', 'auditService', 'CurrentUser', function ($scope, auditService, CurrentUser) {
 
     $scope.auditTrail = [];
 
-    $scope.$on('toggleUpdated', function(event, toggle, isMultiToggle){
+    $scope.$on('toggleUpdated', function (event, toggle, isMultiToggle) {
         addFakeAudit(toggle.name, toggle.value, 'Updated', isMultiToggle);
     });
 
-    var addFakeAudit = function(toggleName, value, action, isMultiToggle){
+    var addFakeAudit = function (toggleName, value, action, isMultiToggle) {
 
-        var newCreatedIndex = $scope.auditTrail ? _.max($scope.auditTrail, function(audit){ return audit.createdIndex;}).createdIndex + 1 : 1;
+        var newCreatedIndex = $scope.auditTrail ? _.max($scope.auditTrail, function (audit) {
+            return audit.createdIndex;
+        }).createdIndex + 1 : 1;
 
         var fakeAudit = {
             user: {
@@ -25,10 +27,10 @@ featureToggleFrontend.controller('FeatureAuditController', ['$scope', 'auditServ
     };
 
     auditService.getFeatureAuditTrail($scope.applicationName, $scope.featureName,
-        function(data){
+        function (data) {
             $scope.auditTrail = data;
         },
-        function(data){
+        function (data) {
             $scope.$emit('error', 'Error loading audit trail', new Error(data));
         });
 }]);

@@ -1,40 +1,40 @@
 angular.module('featureToggleFrontend')
 
-.factory('CurrentUser', function($window, ENV) {
-  'use strict';
+    .factory('CurrentUser', function ($window, ENV) {
+        'use strict';
 
-  function CurrentUser(){
-    if (ENV.RequiresAuth === true) {
-      var data = $window.user._json;
-      angular.extend(this, data);
-    }
-  }
+        function CurrentUser() {
+            if (ENV.RequiresAuth === true) {
+                var data = $window.user._json;
+                angular.extend(this, data);
+            }
+        }
 
-  // todo: what does this do?
-  CurrentUser.create = function(data){
-    return new CurrentUser(data);
-  };
+        // todo: what does this do?
+        CurrentUser.create = function (data) {
+            return new CurrentUser(data);
+        };
 
-  CurrentUser.prototype = {
+        CurrentUser.prototype = {
 
-    getPicture: function() {
-      return this.picture || "/img/user-blue.jpeg";
-    },
+            getPicture: function () {
+                return this.picture || "/img/user-blue.jpeg";
+            },
 
-    getUser: function() {
-      return this;
-    },
+            getUser: function () {
+                return this;
+            },
 
-    getFullName: function() {
-      return this.name || "Anonymous";
-    },
+            getFullName: function () {
+                return this.name || "Anonymous";
+            },
 
-    requiresAuthentication: function() {
-      return ENV.RequiresAuth;
-    }
+            requiresAuthentication: function () {
+                return ENV.RequiresAuth;
+            }
 
-  };
+        };
 
-  return new CurrentUser();
+        return new CurrentUser();
 
-});
+    });

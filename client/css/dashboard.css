@@ -63,7 +63,7 @@
 .sidebar-nav li > a:hover {
     text-decoration: none;
     color: #fff;
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .sidebar-nav li > a:active,
@@ -86,13 +86,13 @@
     top: 0px;
 }
 
-.sidebar-nav .logo{
+.sidebar-nav .logo {
     float: left;
     width: 250px;
     padding-left: 0px;
 }
 
-.sidebar-nav .logo img{
+.sidebar-nav .logo img {
     height: 25px;
     vertical-align: middle;
 }
@@ -109,7 +109,7 @@
 
 .sidebar-nav .profile .media-object {
     width: 57px;
-    margin-left:10px;
+    margin-left: 10px;
     float: left;
 }
 
@@ -128,8 +128,7 @@
     color: #8B91A0;
 }
 
-
-@media(min-width:768px) {
+@media (min-width: 768px) {
     #wrapper {
         padding-left: 250px;
     }
@@ -156,7 +155,7 @@
     }
 }
 
-.add-form{
+.add-form {
     width: 400px;
 }
 
@@ -165,11 +164,11 @@
     width: 240px;
 }
 
-.add-form > div button{
+.add-form > div button {
     margin: 10px 0 0 10px;
 }
 
-.sign-in{
+.sign-in {
     margin: 60px 5px 0 5px;
     width: 240px;
 }

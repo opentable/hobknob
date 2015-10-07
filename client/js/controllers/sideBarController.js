@@ -1,4 +1,4 @@
-featureToggleFrontend.controller('SideBarController', ['$scope', 'applicationService', 'authorisationService', '$location', 'focus', 'CurrentUser', function($scope, applicationService, authorisationService, $location, focus, CurrentUser) {
+featureToggleFrontend.controller('SideBarController', ['$scope', 'applicationService', 'authorisationService', '$location', 'focus', 'CurrentUser', function ($scope, applicationService, authorisationService, $location, focus, CurrentUser) {
 
     $scope.applications = [];
     $scope.newApplicationName = '';
@@ -6,63 +6,65 @@ featureToggleFrontend.controller('SideBarController', ['$scope', 'applicationSer
 
     $scope.CurrentUser = CurrentUser;
 
-    var loadApplications = function(){
+    var loadApplications = function () {
         applicationService.getApplications(
-            function(data){
+            function (data) {
                 $scope.applications = data;
             },
-            function(data){
+            function (data) {
                 $scope.$emit('error', "Failed to load applications", new Error(data));
             });
     };
 
-    $scope.setAddingApplicationState = function(state){
+    $scope.setAddingApplicationState = function (state) {
         $scope.adding = state;
-        if (state){
+        if (state) {
             focus('newApplicationName');
         }
-        else{
+        else {
             $scope.newApplicationName = '';
         }
     };
 
-    var validateNewApplication = function(applicationName){
-        if (!applicationName){
+    var validateNewApplication = function (applicationName) {
+        if (!applicationName) {
             return "Must enter an application name";
         }
-        if (_.any($scope.applications, function(application) { return application.toLowerCase() == applicationName.toLowerCase(); })) {
+        if (_.any($scope.applications, function (application) {
+                return application.toLowerCase() == applicationName.toLowerCase();
+            })) {
             return "Application already exists";
         }
-        if (!/^[a-z0-9-_.]+$/i.test(applicationName)){
+        if (!/^[a-z0-9-_.]+$/i.test(applicationName)) {
             return "Application name must be alphanumeric with no spaces";
         }
     };
 
-    $scope.addApplication = function(){
+    $scope.addApplication = function () {
         var applicationName = $scope.newApplicationName;
 
         var validationError = validateNewApplication(applicationName);
-        if (validationError){
+        if (validationError) {
             console.log(validationError);
             $scope.$emit('error', validationError);
             return;
         }
 
         applicationService.addApplication(applicationName,
-            function(status){
+            function (status) {
                 if (status === 201) { // created
                     $scope.applications.push(applicationName);
                     $location.path('/applications/' + applicationName);
                 }
                 $scope.setAddingApplicationState(false);
             },
-            function(data){
+            function (data) {
                 $scope.$emit('error', "Failed to add application", new Error(data));
             });
     };
 
 
-    $scope.isActive = function(applicationName) {
+    $scope.isActive = function (applicationName) {
         var appUrlPart = '/applications/' + applicationName;
         return $location.path() === appUrlPart || $location.path().indexOf(appUrlPart + '/') > -1;
     };

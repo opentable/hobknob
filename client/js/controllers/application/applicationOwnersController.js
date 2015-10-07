@@ -1,73 +1,75 @@
-featureToggleFrontend.controller('ApplicationOwnersController', ['$scope', 'authorisationService', 'focus', function($scope, authorisationService, focus) {
+featureToggleFrontend.controller('ApplicationOwnersController', ['$scope', 'authorisationService', 'focus', function ($scope, authorisationService, focus) {
 
     $scope.users = [];
     $scope.addingUser = false;
     $scope.newUserEmail = '';
     $scope.loadingUsers = true;
 
-    var loadUsers = function() {
+    var loadUsers = function () {
         if (!$scope.requiresAuthentication) return;
 
         authorisationService.getUsers($scope.applicationName,
-            function(users){
+            function (users) {
                 $scope.users = users;
                 $scope.loadingUsers = false;
             },
-            function(data){
+            function (data) {
                 $scope.$emit('error', "Failed to load application owners", new Error(data));
                 $scope.loadingUsers = false;
 
             });
     };
 
-    $scope.setAddingUserState = function(state){
+    $scope.setAddingUserState = function (state) {
         $scope.addingUser = state;
-        if (state){
+        if (state) {
             focus('newUserEmail');
         }
-        else{
+        else {
             $scope.newUserEmail = '';
         }
     };
 
-    var validateNewUser = function(email){
-        if (!validator.isEmail(email)){
+    var validateNewUser = function (email) {
+        if (!validator.isEmail(email)) {
             return "Invalid email address";
         }
-        if (_.any($scope.users, function(existingUser) { return existingUser == email; })) {
+        if (_.any($scope.users, function (existingUser) {
+                return existingUser == email;
+            })) {
             return "This user is already added to this application";
         }
     };
 
-    $scope.grantUser = function() {
+    $scope.grantUser = function () {
         var email = $scope.newUserEmail;
 
         var validationError = validateNewUser(email);
-        if (validationError){
+        if (validationError) {
             $scope.$emit('error', validationError);
             return;
         }
 
         authorisationService.grant($scope.applicationName, email,
-            function(){
+            function () {
                 $scope.users.push(email);
                 $scope.setAddingUserState(false);
                 $scope.$emit('success', email + " was successfully made an application owner");
             },
-            function(data){
+            function (data) {
                 $scope.$emit('error', "Failed to add user to the application owners", new Error(data));
             });
     };
 
-    $scope.revokeUser = function(email) {
+    $scope.revokeUser = function (email) {
         authorisationService.revoke($scope.applicationName, email,
-            function(){
+            function () {
                 var index = $scope.users.indexOf(email);
                 if (index > -1) {
                     $scope.users.splice(index, 1);
                 }
             },
-            function(data){
+            function (data) {
                 $scope.$emit('error', "Failed to remove user from the application owners", new Error(data));
             });
     };

@@ -1,15 +1,15 @@
 var ldap = require('ldapjs'),
     client;
 
-exports.initLdap = function(ip) {
-   client = ldap.createClient({
+exports.initLdap = function (ip) {
+    client = ldap.createClient({
         url: ip
     });
 };
 
-exports.login = function(username, password, callback) { 
+exports.login = function (username, password, callback) {
     client.bind(username, password, function (err) {
-        if (err){
+        if (err) {
             console.log('error in auth: ' + err);
             callback(false);
             return;

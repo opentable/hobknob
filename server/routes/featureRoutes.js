@@ -1,11 +1,11 @@
 var feature = require('./../domain/feature');
 
-var getFeatureCategories = function(req, res){
+var getFeatureCategories = function (req, res) {
     feature.getFeatureCategories(req.params.applicationName,
-        function(err, application){
+        function (err, application) {
             if (err) throw err;
 
-            if (application){
+            if (application) {
                 res.send(application);
             } else {
                 res.send(404);
@@ -13,13 +13,13 @@ var getFeatureCategories = function(req, res){
         });
 };
 
-var getFeature = function(req, res){
+var getFeature = function (req, res) {
     var applicationName = req.params.applicationName;
     var featureName = req.params.featureName;
 
-    feature.getFeature(applicationName, featureName, function(err, feature){
+    feature.getFeature(applicationName, featureName, function (err, feature) {
         if (err) throw err;
-        if (feature){
+        if (feature) {
             res.send(feature);
         } else {
             res.send(404);
@@ -27,75 +27,75 @@ var getFeature = function(req, res){
     });
 };
 
-var addFeature = function(req, res){
+var addFeature = function (req, res) {
     var applicationName = req.params.applicationName;
     var featureName = req.body.featureName;
     var featureDescription = req.body.featureDescription;
     var categoryId = req.body.categoryId;
 
-    feature.addFeature(applicationName, featureName, featureDescription, categoryId, req, function(err){
+    feature.addFeature(applicationName, featureName, featureDescription, categoryId, req, function (err) {
         if (err) throw err;
         res.send(201);
     });
 };
 
-var updateFeatureDescription = function(req, res){
+var updateFeatureDescription = function (req, res) {
     var applicationName = req.params.applicationName;
     var featureName = req.params.featureName;
     var newFeatureDescription = req.body.newFeatureDescription;
 
-    feature.updateFeatureDescription(applicationName, featureName, newFeatureDescription, req, function(err){
+    feature.updateFeatureDescription(applicationName, featureName, newFeatureDescription, req, function (err) {
         if (err) throw err;
         res.send(200);
     });
 };
 
-var updateFeatureToggle = function(req, res){
+var updateFeatureToggle = function (req, res) {
     var applicationName = req.params.applicationName;
     var featureName = req.params.featureName;
     var value = req.body.value;
 
-    feature.updateFeatureToggle(applicationName, featureName, value, req, function(err){
+    feature.updateFeatureToggle(applicationName, featureName, value, req, function (err) {
         if (err) throw err;
         res.send(200);
     });
 };
 
-var addFeatureToggle = function(req, res){
+var addFeatureToggle = function (req, res) {
     var applicationName = req.params.applicationName;
     var featureName = req.params.featureName;
     var toggleName = req.body.toggleName;
 
-    feature.addFeatureToggle(applicationName, featureName, toggleName, req, function(err){
+    feature.addFeatureToggle(applicationName, featureName, toggleName, req, function (err) {
         if (err) throw err;
         res.send(200);
     });
 };
 
-var updateFeatureMultiToggle = function(req, res){
+var updateFeatureMultiToggle = function (req, res) {
     var applicationName = req.params.applicationName;
     var featureName = req.params.featureName;
     var toggleName = req.params.toggleName;
     var value = req.body.value;
 
-    feature.updateFeatureMultiToggle(applicationName, featureName, toggleName, value, req, function(err){
+    feature.updateFeatureMultiToggle(applicationName, featureName, toggleName, value, req, function (err) {
         if (err) throw err;
         res.send(200);
     });
 };
 
-var deleteFeature = function(req, res){
+var deleteFeature = function (req, res) {
     var applicationName = req.params.applicationName;
     var featureName = req.params.featureName;
 
-    feature.deleteFeature(applicationName, featureName, req, function(err){
+    feature.deleteFeature(applicationName, featureName, req, function (err) {
         if (err) throw err;
         res.send(200);
     });
 };
 
 
-module.exports.registerRoutes = function(app, authenticate, authorise){
+module.exports.registerRoutes = function (app, authenticate, authorise) {
     app.get('/api/applications/:applicationName', getFeatureCategories);
     app.get('/api/applications/:applicationName/:featureName', getFeature);
     app.post('/api/applications/:applicationName', authenticate, authorise, addFeature);

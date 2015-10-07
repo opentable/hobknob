@@ -3,39 +3,20 @@ var etcd = require('./etcd'),
     config = require('./../config/config.json'),
     replicationHook = require('./src/hooks/auditReplication');
 
-var getUserDetails = function(req){
-  return config.RequiresAuth ? req.user._json : { name: 'Anonymous'};
+var getUserDetails = function (req) {
+    return config.RequiresAuth ? req.user._json : {name: 'Anonymous'};
 };
 
 module.exports = {
-    getApplicationAuditTrail: function(applicationName, callback){
+    getApplicationAuditTrail: function (applicationName, callback) {
         var path = 'v1/audit/application/' + applicationName;
-        etcd.client.get(path, {recursive: true}, function(err, result){
+        etcd.client.get(path, {recursive: true}, function (err, result) {
             if (err) {
                 callback(err);
                 return;
             }
 
-            var auditTrail = _.map(result.node.nodes || [], function(node)
-                {
-                    var auditJson = JSON.parse(node.value);
-                    auditJson.createdIndex = node.createdIndex;
-                    return auditJson;
-                });
-            callback(null, auditTrail);
-        });
-    },
-
-    getFeatureAuditTrail: function(applicationName, featureName, callback){
-        var path = 'v1/audit/feature/' + applicationName + '/' + featureName;
-        etcd.client.get(path, {recursive: true}, function(err, result){
-            if (err) {
-                callback(err);
-                return;
-            }
-
-            var auditTrail = _.map(result.node.nodes || [], function(node)
-            {
+            var auditTrail = _.map(result.node.nodes || [], function (node) {
                 var auditJson = JSON.parse(node.value);
                 auditJson.createdIndex = node.createdIndex;
                 return auditJson;
@@ -44,7 +25,24 @@ module.exports = {
         });
     },
 
-    addApplicationAudit: function(req, applicationName, action, callback){
+    getFeatureAuditTrail: function (applicationName, featureName, callback) {
+        var path = 'v1/audit/feature/' + applicationName + '/' + featureName;
+        etcd.client.get(path, {recursive: true}, function (err, result) {
+            if (err) {
+                callback(err);
+                return;
+            }
+
+            var auditTrail = _.map(result.node.nodes || [], function (node) {
+                var auditJson = JSON.parse(node.value);
+                auditJson.createdIndex = node.createdIndex;
+                return auditJson;
+            });
+            callback(null, auditTrail);
+        });
+    },
+
+    addApplicationAudit: function (req, applicationName, action, callback) {
         var audit = {
             user: getUserDetails(req),
             action: action,
@@ -53,7 +51,7 @@ module.exports = {
         var auditJson = JSON.stringify(audit);
 
         var path = 'v1/audit/application/' + applicationName;
-        etcd.client.post(path, auditJson, function(err){
+        etcd.client.post(path, auditJson, function (err) {
             if (err) {
                 callback(err);
                 return;
@@ -64,8 +62,8 @@ module.exports = {
                 audit: audit
             };
 
-            replicationHook.applicationAuditNotification(auditNotification, function(err) {
-                if (err){
+            replicationHook.applicationAuditNotification(auditNotification, function (err) {
+                if (err) {
                     callback(err);
                     return;
                 }
@@ -74,7 +72,7 @@ module.exports = {
         });
     },
 
-    addFeatureAudit: function(req, applicationName, featureName, toggleName, value, action, callback){
+    addFeatureAudit: function (req, applicationName, featureName, toggleName, value, action, callback) {
         var audit = {
             user: getUserDetails(req),
             toggleName: toggleName,
@@ -85,7 +83,7 @@ module.exports = {
         var auditJson = JSON.stringify(audit);
 
         var path = 'v1/audit/feature/' + applicationName + '/' + featureName;
-        etcd.client.post(path, auditJson, function(err){
+        etcd.client.post(path, auditJson, function (err) {
             if (err) {
                 callback(err);
                 return;
@@ -97,8 +95,8 @@ module.exports = {
                 audit: audit
             };
 
-            replicationHook.featureAuditNotification(auditNotification, function(err) {
-                if (err){
+            replicationHook.featureAuditNotification(auditNotification, function (err) {
+                if (err) {
                     callback(err);
                     return;
                 }

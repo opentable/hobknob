@@ -1,22 +1,22 @@
 doctype html
 html(lang='en')
-  head
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    title Opentable Feature Toggles
-    link(href='/bower_components/bootstrap/dist/css/bootstrap.min.css', media='all', rel='stylesheet')
-    link(href='/css/dashboard.css', media='all', rel='stylesheet')
-    link(href='/css/toggleswitch.css', media='all', rel='stylesheet')
-    link(href='/bower_components/bootstrap-social/bootstrap-social.css', media='all', rel='stylesheet')
-    link(href='/bower_components/font-awesome/css/font-awesome.css', media='all', rel='stylesheet')
-    script(src='/bower_components/jquery/dist/jquery.min.js')
-  body(ng-app='featureToggleFrontend')
-    #wrapper
-      #sidebar-wrapper
-        ul.sidebar-nav
-          li.sidebar-brand
-            a.navbar-brand.logo(href='/')
-              img(src='/img/opentable-hr-mono.png')
-        a(href='/auth/google').btn.btn-block.btn-social.btn-google-plus.sign-in
-          i.fa.fa-google-plus
-          | Sign in with Google
-    script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
+    head
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        title Opentable Feature Toggles
+        link(href='/bower_components/bootstrap/dist/css/bootstrap.min.css', media='all', rel='stylesheet')
+        link(href='/css/dashboard.css', media='all', rel='stylesheet')
+        link(href='/css/toggleswitch.css', media='all', rel='stylesheet')
+        link(href='/bower_components/bootstrap-social/bootstrap-social.css', media='all', rel='stylesheet')
+        link(href='/bower_components/font-awesome/css/font-awesome.css', media='all', rel='stylesheet')
+        script(src='/bower_components/jquery/dist/jquery.min.js')
+    body(ng-app='featureToggleFrontend')
+        #wrapper
+            #sidebar-wrapper
+                ul.sidebar-nav
+                    li.sidebar-brand
+                        a.navbar-brand.logo(href='/')
+                            img(src='/img/opentable-hr-mono.png')
+                a(href='/auth/google').btn.btn-block.btn-social.btn-google-plus.sign-in
+                    i.fa.fa-google-plus
+                    | Sign in with Google
+        script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')

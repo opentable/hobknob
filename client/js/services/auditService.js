@@ -1,26 +1,26 @@
-angular.module('featureToggleFrontend').factory('auditService', ['ENV', '$http', function(ENV, $http) {
+angular.module('featureToggleFrontend').factory('auditService', ['ENV', '$http', function (ENV, $http) {
     'use strict';
 
     var exports = {};
 
-    exports.getFeatureAuditTrail = function(applicationName, featureName, success, error){
+    exports.getFeatureAuditTrail = function (applicationName, featureName, success, error) {
         var path = '/api/audit/feature/' + applicationName + '/' + featureName;
         $http.get(path)
-            .success(function(data){
+            .success(function (data) {
                 success(data);
             })
-            .error(function(data){
+            .error(function (data) {
                 error(data);
             });
     };
 
-    exports.getApplicationAuditTrail = function(applicationName, success, error){
+    exports.getApplicationAuditTrail = function (applicationName, success, error) {
         var path = '/api/audit/application/' + applicationName;
         $http.get(path)
-            .success(function(data){
+            .success(function (data) {
                 success(data);
             })
-            .error(function(data){
+            .error(function (data) {
                 error(data);
             });
     };

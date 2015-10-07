@@ -1,17 +1,18 @@
 var etcd = require('./etcd'),
     _ = require('underscore');
 
-var EtcdAclStore = function() { };
+var EtcdAclStore = function () {
+};
 
-EtcdAclStore.prototype.grant = function(userEmail, resource, callback) {
-    etcd.client.set('v1/toggleAcl/' + resource + '/' + userEmail, userEmail, function(err){
+EtcdAclStore.prototype.grant = function (userEmail, resource, callback) {
+    etcd.client.set('v1/toggleAcl/' + resource + '/' + userEmail, userEmail, function (err) {
         if (err) callback(err);
         callback();
     });
 };
 
-EtcdAclStore.prototype.assert = function(userEmail, resource, callback) {
-    etcd.client.get('v1/toggleAcl/' + resource + '/' + userEmail, function(err){
+EtcdAclStore.prototype.assert = function (userEmail, resource, callback) {
+    etcd.client.get('v1/toggleAcl/' + resource + '/' + userEmail, function (err) {
         if (err) {
             if (err.errorCode == 100) { // key not found
                 callback(null, false);
@@ -24,8 +25,8 @@ EtcdAclStore.prototype.assert = function(userEmail, resource, callback) {
     });
 };
 
-EtcdAclStore.prototype.revoke = function(userEmail, resource, callback) {
-    etcd.client.delete('v1/toggleAcl/' + resource + '/' + userEmail, function(err){
+EtcdAclStore.prototype.revoke = function (userEmail, resource, callback) {
+    etcd.client.delete('v1/toggleAcl/' + resource + '/' + userEmail, function (err) {
         if (err) {
             if (err.errorCode == 100) { // key not found
                 callback();
@@ -38,10 +39,10 @@ EtcdAclStore.prototype.revoke = function(userEmail, resource, callback) {
     });
 };
 
-EtcdAclStore.prototype.getAllUsers = function(resource, callback) {
-    etcd.client.get('v1/toggleAcl/' + resource, { recursive: true }, function(err, result){
+EtcdAclStore.prototype.getAllUsers = function (resource, callback) {
+    etcd.client.get('v1/toggleAcl/' + resource, {recursive: true}, function (err, result) {
         if (err) {
-            if (err.errorCode == 100){ // key not found
+            if (err.errorCode == 100) { // key not found
                 callback(null, []);
             } else {
                 callback(err);
@@ -49,7 +50,7 @@ EtcdAclStore.prototype.getAllUsers = function(resource, callback) {
             return;
         }
 
-        var users = _.map(result.node.nodes || [], function(node){
+        var users = _.map(result.node.nodes || [], function (node) {
             return node.value;
         });
         callback(null, users);

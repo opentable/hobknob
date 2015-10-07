@@ -1,42 +1,42 @@
 var application = require('./../domain/application');
 
-var getApplications = function(req, res){
+var getApplications = function (req, res) {
     application.getApplications(
-        function(err, applications){
+        function (err, applications) {
             if (err) throw err;
             res.send(applications);
         });
 };
 
-var addApplication = function(req, res){
+var addApplication = function (req, res) {
     application.addApplication(req.body.name, req,
-        function(err){
+        function (err) {
             if (err) throw err;
             res.send(201);
         });
 };
 
-var getApplicationMetaData = function(req, res){
+var getApplicationMetaData = function (req, res) {
     var applicationName = req.params.applicationName;
     application.getApplicationMetaData(applicationName,
-        function(err, metaData){
+        function (err, metaData) {
             if (err) throw err;
             res.send(metaData);
         });
 };
 
-var saveApplicationMetaData = function(req, res){
+var saveApplicationMetaData = function (req, res) {
     var applicationName = req.params.applicationName;
     var metaDataKey = req.params.metaDataKey;
     var metaDataValue = req.body.value;
     application.saveApplicationMetaData(applicationName, metaDataKey, metaDataValue,
-        function(err){
+        function (err) {
             if (err) throw err;
             res.send(200);
         });
 };
 
-module.exports.registerRoutes = function(app, authenticate){
+module.exports.registerRoutes = function (app, authenticate) {
     app.get('/api/applications', getApplications);
     app.put('/api/applications', authenticate, addApplication);
     app.get('/api/applications/:applicationName/_meta', getApplicationMetaData);

@@ -7,13 +7,15 @@ var etcd = require('../etcd'),
     etcdBaseUrl = "http://" + config.etcdHost + ":" + config.etcdPort + '/v2/keys/',
     S = require('string');
 
-var isMetaNode = function(node) {
+var isMetaNode = function (node) {
     return S(node.key).endsWith('@meta');
 };
 
-var getMetaData = function(featureNode) {
-    var metaNode =  _.find(featureNode.nodes, function(n) { return isMetaNode(n); });
-    if (metaNode){
+var getMetaData = function (featureNode) {
+    var metaNode = _.find(featureNode.nodes, function (n) {
+        return isMetaNode(n);
+    });
+    if (metaNode) {
         return JSON.parse(metaNode.value);
     }
     return {
@@ -21,30 +23,32 @@ var getMetaData = function(featureNode) {
     };
 };
 
-var isMultiFeature = function(metaData) {
+var isMultiFeature = function (metaData) {
     return metaData.categoryId !== category.simpleCategoryId;
 };
 
-var getNodeName = function(node) {
+var getNodeName = function (node) {
     var splitKey = node.key.split('/');
     return splitKey[splitKey.length - 1];
 };
 
-var getSimpleFeature = function(name, node, description){
+var getSimpleFeature = function (name, node, description) {
     var value = node.value && node.value.toLowerCase() === 'true';
     return {
         name: name,
         description: description,
-        values: [ value ],
+        values: [value],
         categoryId: 0,
         fullPath: etcdBaseUrl + 'v1/toggles/' + name
     };
 };
 
-var getMultiFeature = function(name, node, metaData, categories, description){
+var getMultiFeature = function (name, node, metaData, categories, description) {
     var category = categories[metaData.categoryId];
-    var values = _.map(category.columns, function(column) {
-        var columnNode = _.find(node.nodes, function(c) { return c.key == node.key + '/' + column; });
+    var values = _.map(category.columns, function (column) {
+        var columnNode = _.find(node.nodes, function (c) {
+            return c.key == node.key + '/' + column;
+        });
         return columnNode && columnNode.value && columnNode.value.toLowerCase() === 'true';
     });
     return {
@@ -56,7 +60,7 @@ var getMultiFeature = function(name, node, metaData, categories, description){
     };
 };
 
-var getFeature = function(node, categories, descriptionMap) {
+var getFeature = function (node, categories, descriptionMap) {
     var name = getNodeName(node);
     if (name == '@meta') {
         return null;
@@ -72,44 +76,44 @@ var getFeature = function(node, categories, descriptionMap) {
     }
 };
 
-var handleEtcdNotFoundError = function(err, cb){
-    if (err.errorCode === 100){ // key not found
+var handleEtcdNotFoundError = function (err, cb) {
+    if (err.errorCode === 100) { // key not found
         cb();
     } else {
         cb(err);
     }
 };
 
-var getCategoriesWithFeatureValues = function(applicationNode, descriptionsMap){
+var getCategoriesWithFeatureValues = function (applicationNode, descriptionsMap) {
     var categories = category.getCategoriesFromConfig();
-    _.each(applicationNode.nodes, function(featureNode) {
+    _.each(applicationNode.nodes, function (featureNode) {
         var feature = getFeature(featureNode, categories, descriptionsMap);
-        if (feature){
+        if (feature) {
             categories[feature.categoryId].features.push(feature);
         }
     });
     return categories;
 };
 
-var trimEmptyCategoryColumns = function(categories){
-    var featureHasValueAtIndex = function(index){
-        return function(feature){
+var trimEmptyCategoryColumns = function (categories) {
+    var featureHasValueAtIndex = function (index) {
+        return function (feature) {
             return feature.values[index] !== null && feature.values[index] !== undefined;
         };
     };
-    _.each(categories, function(category){
-        if (category.id !== 0){
+    _.each(categories, function (category) {
+        if (category.id !== 0) {
             var columnsToRemove = [];
-            for(var i = 0; i < category.columns.length; i++){
+            for (var i = 0; i < category.columns.length; i++) {
                 var aFeatureHasColumnValue = _.some(category.features, featureHasValueAtIndex(i));
-                if (!aFeatureHasColumnValue){
+                if (!aFeatureHasColumnValue) {
                     columnsToRemove.push(category.columns[i]);
                 }
             }
-            _.each(columnsToRemove, function(columnName){
+            _.each(columnsToRemove, function (columnName) {
                 var columnIndex = _.indexOf(category.columns, columnName);
                 category.columns.splice(columnIndex, 1);
-                _.each(category.features, function(feature){
+                _.each(category.features, function (feature) {
                     feature.values.splice(columnIndex, 1);
                 });
             });
@@ -117,26 +121,26 @@ var trimEmptyCategoryColumns = function(categories){
     });
 };
 
-var getDescriptionsMap = function(node){
-    var descriptions = _.map(node.nodes, function(descriptionNode){
+var getDescriptionsMap = function (node) {
+    var descriptions = _.map(node.nodes, function (descriptionNode) {
         return [getNodeName(descriptionNode), descriptionNode.value];
     });
 
     return _.object(descriptions);
 };
 
-module.exports.getFeatureCategories = function(applicationName, cb){
+module.exports.getFeatureCategories = function (applicationName, cb) {
 
     var path = 'v1/toggles/' + applicationName;
-    etcd.client.get(path, {recursive: true}, function(err, result){
+    etcd.client.get(path, {recursive: true}, function (err, result) {
 
         if (err) {
             handleEtcdNotFoundError(err, cb);
             return;
         }
 
-        etcd.client.get('v1/metadata/' + applicationName + '/descriptions', function(descriptionError, descriptionResult){
-            if(descriptionError){
+        etcd.client.get('v1/metadata/' + applicationName + '/descriptions', function (descriptionError, descriptionResult) {
+            if (descriptionError) {
                 console.log(descriptionError);
             }
 
@@ -153,42 +157,46 @@ module.exports.getFeatureCategories = function(applicationName, cb){
 };
 
 
-var getSimpleFeatureToggle = function(featureName, featureNode){
+var getSimpleFeatureToggle = function (featureName, featureNode) {
     return [{
         name: featureName,
         value: featureNode.value === 'true'
     }];
 };
 
-var getMultiFeatureToggles = function(featureNode){
+var getMultiFeatureToggles = function (featureNode) {
     return _
         .chain(featureNode.nodes)
-        .filter(function(node) { return !isMetaNode(node); })
-        .map(function(node) {
+        .filter(function (node) {
+            return !isMetaNode(node);
+        })
+        .map(function (node) {
             return {
                 name: _.last(node.key.split('/')),
                 value: node.value === 'true'
-            };    
+            };
         })
         .value();
 };
 
-var getToggleSuggestions = function(metaData, toggles){
+var getToggleSuggestions = function (metaData, toggles) {
     var categories = category.getCategoriesFromConfig();
-    return _.difference(categories[metaData.categoryId].columns, _.map(toggles, function(toggle) { return toggle.name; }));
+    return _.difference(categories[metaData.categoryId].columns, _.map(toggles, function (toggle) {
+        return toggle.name;
+    }));
 };
 
-module.exports.getFeature = function(applicationName, featureName, cb) {
+module.exports.getFeature = function (applicationName, featureName, cb) {
     var path = 'v1/toggles/' + applicationName + '/' + featureName;
-    etcd.client.get(path, {recursive: true}, function(err, result){
+    etcd.client.get(path, {recursive: true}, function (err, result) {
 
         if (err) {
             handleEtcdNotFoundError(err, cb);
             return;
         }
 
-        getFeatureDescription(applicationName, result, function(err, featureDescription){
-            getFeatureToggles(featureName, result, function(err, toggles, toggleSuggestions, isMulti){
+        getFeatureDescription(applicationName, result, function (err, featureDescription) {
+            getFeatureToggles(featureName, result, function (err, toggles, toggleSuggestions, isMulti) {
                 cb(null, {
                     applicationName: applicationName,
                     featureName: featureName,
@@ -202,22 +210,22 @@ module.exports.getFeature = function(applicationName, featureName, cb) {
     });
 };
 
-var addFeatureDescription = function(applicationName, featureName, featureDescription, cb){
+var addFeatureDescription = function (applicationName, featureName, featureDescription, cb) {
     var descriptionPath = 'v1/metadata/' + applicationName + '/descriptions/' + featureName;
 
-    etcd.client.set(descriptionPath, featureDescription, function(err){
-        if (err){
+    etcd.client.set(descriptionPath, featureDescription, function (err) {
+        if (err) {
             console.log(err); // todo: better logging
         }
         if (cb) cb();
     });
 };
 
-var getFeatureDescription = function(applicationName, feature, cb){
+var getFeatureDescription = function (applicationName, feature, cb) {
     var descriptionPath = 'v1/metadata/' + applicationName + '/descriptions';
 
-    etcd.client.get(descriptionPath, function(error, result){
-        if(error){
+    etcd.client.get(descriptionPath, function (error, result) {
+        if (error) {
             console.log(error);
         }
 
@@ -228,12 +236,12 @@ var getFeatureDescription = function(applicationName, feature, cb){
     });
 };
 
-var getFeatureToggles = function(featureName, feature, cb){
+var getFeatureToggles = function (featureName, feature, cb) {
     var metaData = getMetaData(feature.node);
     var isMulti = isMultiFeature(metaData);
 
     var toggles, toggleSuggestions;
-    if (isMulti){
+    if (isMulti) {
         toggles = getMultiFeatureToggles(feature.node);
         toggleSuggestions = getToggleSuggestions(metaData, toggles);
     } else {
@@ -244,9 +252,9 @@ var getFeatureToggles = function(featureName, feature, cb){
     cb(null, toggles, toggleSuggestions, isMulti);
 };
 
-var addMultiFeature = function(path, applicationName, featureName, featureDescription, metaData, req, cb){
+var addMultiFeature = function (path, applicationName, featureName, featureDescription, metaData, req, cb) {
     var metaPath = path + '/@meta';
-    etcd.client.set(metaPath, JSON.stringify(metaData), function(err){
+    etcd.client.set(metaPath, JSON.stringify(metaData), function (err) {
         if (err) {
             cb(err);
             return;
@@ -254,18 +262,18 @@ var addMultiFeature = function(path, applicationName, featureName, featureDescri
 
         addFeatureDescription(applicationName, featureName, featureDescription);
 
-        audit.addFeatureAudit(req, applicationName, featureName, null, null, 'Feature Created', function(err){ 
-           if (err){
-               console.log(err); // todo: better logging
-           }
+        audit.addFeatureAudit(req, applicationName, featureName, null, null, 'Feature Created', function (err) {
+            if (err) {
+                console.log(err); // todo: better logging
+            }
         });
 
         cb();
     });
 };
 
-var addSimpleFeature = function(path, applicationName, featureName, featureDescription, metaData, req, cb){
-    etcd.client.set(path, false, function(err){
+var addSimpleFeature = function (path, applicationName, featureName, featureDescription, metaData, req, cb) {
+    etcd.client.set(path, false, function (err) {
         if (err) {
             cb(err);
             return;
@@ -273,17 +281,17 @@ var addSimpleFeature = function(path, applicationName, featureName, featureDescr
 
         addFeatureDescription(applicationName, featureName, featureDescription);
 
-        audit.addFeatureAudit(req, applicationName, featureName, null, false, 'Created', function(err){
-           if (err){
-               console.log(err); // todo: better logging
-           }
+        audit.addFeatureAudit(req, applicationName, featureName, null, false, 'Created', function (err) {
+            if (err) {
+                console.log(err); // todo: better logging
+            }
         });
 
         cb();
     });
 };
 
-module.exports.addFeature = function(applicationName, featureName, featureDescription, categoryId, req, cb){
+module.exports.addFeature = function (applicationName, featureName, featureDescription, categoryId, req, cb) {
     var metaData = {
         categoryId: categoryId
     };
@@ -292,23 +300,23 @@ module.exports.addFeature = function(applicationName, featureName, featureDescri
 
     var isMulti = isMultiFeature(metaData);
 
-    if (isMulti){
+    if (isMulti) {
         addMultiFeature(path, applicationName, featureName, featureDescription, metaData, req, cb);
     } else {
         addSimpleFeature(path, applicationName, featureName, featureDescription, metaData, req, cb);
     }
 };
 
-module.exports.updateFeatureToggle = function(applicationName, featureName, value, req, cb){
+module.exports.updateFeatureToggle = function (applicationName, featureName, value, req, cb) {
     var path = 'v1/toggles/' + applicationName + '/' + featureName;
-    etcd.client.set(path, value, function(err){
+    etcd.client.set(path, value, function (err) {
         if (err) {
             cb(err);
             return;
         }
 
-        audit.addFeatureAudit(req, applicationName, featureName, null, value, 'Updated', function(err){
-            if (err){
+        audit.addFeatureAudit(req, applicationName, featureName, null, value, 'Updated', function (err) {
+            if (err) {
                 console.log(err); // todo: better logging
             }
         });
@@ -317,20 +325,20 @@ module.exports.updateFeatureToggle = function(applicationName, featureName, valu
     });
 };
 
-module.exports.updateFeatureDescription = function(applicationName, featureName, newFeatureDescription, req, cb){
+module.exports.updateFeatureDescription = function (applicationName, featureName, newFeatureDescription, req, cb) {
     addFeatureDescription(applicationName, featureName, newFeatureDescription, cb);
 };
 
-module.exports.addFeatureToggle = function(applicationName, featureName, toggleName, req, cb){
-    var path = 'v1/toggles/' + applicationName + '/' + featureName +  '/' + toggleName;
-    etcd.client.set(path, false, function(err){
+module.exports.addFeatureToggle = function (applicationName, featureName, toggleName, req, cb) {
+    var path = 'v1/toggles/' + applicationName + '/' + featureName + '/' + toggleName;
+    etcd.client.set(path, false, function (err) {
         if (err) {
             cb(err);
             return;
         }
 
-        audit.addFeatureAudit(req, applicationName, featureName, toggleName, false, 'Toggle Created', function(err){
-            if (err){
+        audit.addFeatureAudit(req, applicationName, featureName, toggleName, false, 'Toggle Created', function (err) {
+            if (err) {
                 console.log(err); // todo: better logging
             }
         });
@@ -339,16 +347,16 @@ module.exports.addFeatureToggle = function(applicationName, featureName, toggleN
     });
 };
 
-module.exports.updateFeatureMultiToggle = function(applicationName, featureName, toggleName, value, req, cb){
-    var path = 'v1/toggles/' + applicationName + '/' + featureName +  '/' + toggleName;
-    etcd.client.set(path, value, function(err){
+module.exports.updateFeatureMultiToggle = function (applicationName, featureName, toggleName, value, req, cb) {
+    var path = 'v1/toggles/' + applicationName + '/' + featureName + '/' + toggleName;
+    etcd.client.set(path, value, function (err) {
         if (err) {
             cb(err);
             return;
         }
 
-        audit.addFeatureAudit(req, applicationName, featureName, toggleName, value, 'Updated', function(err){
-            if (err){
+        audit.addFeatureAudit(req, applicationName, featureName, toggleName, value, 'Updated', function (err) {
+            if (err) {
                 console.log(err); // todo: better logging
             }
         });
@@ -357,17 +365,17 @@ module.exports.updateFeatureMultiToggle = function(applicationName, featureName,
     });
 };
 
-module.exports.deleteFeature = function(applicationName, featureName, req, cb){
-    audit.addFeatureAudit(req, applicationName, featureName, null, null, 'Delete Requested', function(err){
-        if (err){
+module.exports.deleteFeature = function (applicationName, featureName, req, cb) {
+    audit.addFeatureAudit(req, applicationName, featureName, null, null, 'Delete Requested', function (err) {
+        if (err) {
             cb(new Error('Could not audit delete request. An audit is required to delete a feature'));
             return;
         }
         var path = 'v1/toggles/' + applicationName + '/' + featureName;
-        etcd.client.delete(path, { recursive: true }, function(err){
+        etcd.client.delete(path, {recursive: true}, function (err) {
             if (err) cb(err);
-            audit.addFeatureAudit(req, applicationName, featureName, null, null, 'Deleted', function(err) {
-                if (err){
+            audit.addFeatureAudit(req, applicationName, featureName, null, null, 'Deleted', function (err) {
+                if (err) {
                     console.log(err); // todo: better logging
                 }
                 cb();

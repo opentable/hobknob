@@ -1,0 +1,20 @@
+# EditorConfig is awesome: http://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+[*]
+end_of_line = crlf
+insert_final_newline = true
+indent_style = space
+trim_trailing_whitespace = true
+charset = utf-8
+
+[*.{js,json,coffee,json,less,sass,scss,css}]
+indent_size = 4
+
+[*.{config,cshtml,html,resx}]
+indent_size = 4
+
+[node_modules/**.js]
+codepaint = false
