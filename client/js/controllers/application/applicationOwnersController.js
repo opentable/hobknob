@@ -1,5 +1,6 @@
-featureToggleFrontend.controller('ApplicationOwnersController', ['$scope', 'authorisationService', 'focus', function ($scope, authorisationService, focus) {
+'use strict';
 
+featureToggleFrontend.controller('ApplicationOwnersController', ['$scope', 'authorisationService', 'focus', function ($scope, authorisationService, focus) {
     $scope.users = [];
     $scope.addingUser = false;
     $scope.newUserEmail = '';
@@ -14,9 +15,8 @@ featureToggleFrontend.controller('ApplicationOwnersController', ['$scope', 'auth
                 $scope.loadingUsers = false;
             },
             function (data) {
-                $scope.$emit('error', "Failed to load application owners", new Error(data));
+                $scope.$emit('error', 'Failed to load application owners', new Error(data));
                 $scope.loadingUsers = false;
-
             });
     };
 
@@ -32,12 +32,12 @@ featureToggleFrontend.controller('ApplicationOwnersController', ['$scope', 'auth
 
     var validateNewUser = function (email) {
         if (!validator.isEmail(email)) {
-            return "Invalid email address";
+            return 'Invalid email address';
         }
         if (_.any($scope.users, function (existingUser) {
-                return existingUser == email;
+                return existingUser === email;
             })) {
-            return "This user is already added to this application";
+            return 'This user is already added to this application';
         }
     };
 
@@ -54,10 +54,10 @@ featureToggleFrontend.controller('ApplicationOwnersController', ['$scope', 'auth
             function () {
                 $scope.users.push(email);
                 $scope.setAddingUserState(false);
-                $scope.$emit('success', email + " was successfully made an application owner");
+                $scope.$emit('success', email + ' was successfully made an application owner');
             },
             function (data) {
-                $scope.$emit('error', "Failed to add user to the application owners", new Error(data));
+                $scope.$emit('error', 'Failed to add user to the application owners', new Error(data));
             });
     };
 
@@ -70,7 +70,7 @@ featureToggleFrontend.controller('ApplicationOwnersController', ['$scope', 'auth
                 }
             },
             function (data) {
-                $scope.$emit('error', "Failed to remove user from the application owners", new Error(data));
+                $scope.$emit('error', 'Failed to remove user from the application owners', new Error(data));
             });
     };
 

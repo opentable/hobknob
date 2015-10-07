@@ -1,3 +1,5 @@
+'use strict';
+
 exports.authenticate = function (req, res) {
     res.render('authenticate', {
         layout: 'authenticate',
@@ -8,7 +10,7 @@ exports.authenticate = function (req, res) {
 
 exports.login = function (req, res) {
     if (req.isAuthenticated()) {
-        res.redirect("/");
+        res.redirect('/');
     }
     else {
         res.render('login');
@@ -17,5 +19,5 @@ exports.login = function (req, res) {
 
 exports.logout = function (req, res) {
     req.logout();
-    res.redirect("/login");
+    res.redirect('/login');
 };

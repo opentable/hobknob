@@ -1,5 +1,6 @@
-featureToggleFrontend.controller('FeaatureDangerController', ['$scope', 'toggleService', '$location', function ($scope, toggleService, $location) {
+'use strict';
 
+featureToggleFrontend.controller('FeaatureDangerController', ['$scope', 'toggleService', '$location', function ($scope, toggleService, $location) {
     $scope.confirm = false;
 
     $scope.deleteFeature = function () {
@@ -16,7 +17,7 @@ featureToggleFrontend.controller('FeaatureDangerController', ['$scope', 'toggleS
                 $scope.$emit('error', 'Failed to delete feature. See console for more detail.', err);
                 return;
             }
-            $location.path("/applications/" + applicationName);
+            $location.path('/applications/' + applicationName);
         });
     };
 }]);

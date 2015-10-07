@@ -1,6 +1,6 @@
-angular.module('featureToggleFrontend').factory('toggleService', ['ENV', '$http', 'CurrentUser', 'auditService', function (ENV, $http, CurrentUser, auditService) {
-    'use strict';
+'use strict';
 
+angular.module('featureToggleFrontend').factory('toggleService', ['ENV', '$http', 'CurrentUser', 'auditService', function (ENV, $http, CurrentUser, auditService) {
     var exports = {};
 
     exports.getFeatureCategories = function (applicationName, success, error) {

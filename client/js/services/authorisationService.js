@@ -1,6 +1,6 @@
-angular.module('featureToggleFrontend').factory('authorisationService', ['ENV', '$http', function (ENV, $http) {
-    'use strict';
+'use strict';
 
+angular.module('featureToggleFrontend').factory('authorisationService', ['ENV', '$http', function (ENV, $http) {
     var exports = {};
 
     exports.getUsers = function (applicationName, success, error) {
@@ -48,5 +48,4 @@ angular.module('featureToggleFrontend').factory('authorisationService', ['ENV', 
     };
 
     return exports;
-
 }]);

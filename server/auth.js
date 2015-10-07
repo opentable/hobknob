@@ -1,16 +1,18 @@
-var passport = require("passport"),
-    googleStrategy = require('passport-google-oauth').OAuth2Strategy;
+'use strict';
+
+var passport = require('passport');
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 module.exports.init = function (config) {
     if (config.RequiresAuth) {
         if (config.AuthProviders.GoogleAuth) {
             var GOOGLE_CLIENT_ID = config.AuthProviders.GoogleAuth.GoogleClientId;
             var GOOGLE_CLIENT_SECRET = config.AuthProviders.GoogleAuth.GoogleClientSecret;
-            var protocolSection = (config.hobknobProtocol) ? config.hobknobProtocol : "http";
-            var portSection = (config.hobknobPort) ? ":" + config.hobknobPort : '';
-            var googleCallbackURL = protocolSection + "://" + config.hobknobHost + portSection + "/auth/google/callback";
+            var protocolSection = (config.hobknobProtocol) ? config.hobknobProtocol : 'http';
+            var portSection = (config.hobknobPort) ? ':' + config.hobknobPort : '';
+            var googleCallbackURL = protocolSection + '://' + config.hobknobHost + portSection + '/auth/google/callback';
 
-            passport.use(new googleStrategy({
+            passport.use(new GoogleStrategy({
                     clientID: GOOGLE_CLIENT_ID,
                     clientSecret: GOOGLE_CLIENT_SECRET,
                     callbackURL: googleCallbackURL

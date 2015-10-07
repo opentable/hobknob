@@ -1,14 +1,16 @@
-var _ = require('underscore'),
-    config = require('./../../config/config.json'),
-    acl = require('./../acl'),
-    audit = require('./../audit'),
-    etcdBaseUrl = "http://" + config.etcdHost + ":" + config.etcdPort + '/v2/keys/';
+'use strict';
+
+var _ = require('underscore');
+var config = require('./../../config/config.json');
+var acl = require('./../acl');
+var audit = require('./../audit');
+var etcdBaseUrl = 'http://' + config.etcdHost + ':' + config.etcdPort + '/v2/keys/';
 
 var getCategory = function (id, name, description, columns, features) {
     return {
         id: id,
         name: name,
-        description: description || "",
+        description: description || '',
         columns: columns || [],
         features: features || []
     };
@@ -19,7 +21,7 @@ module.exports.simpleCategoryId = simpleCategoryId;
 
 var getSimpleCategory = function (name, description) {
     return getCategory(0, name || 'Simple Features',
-        description || 'Used for simple on/off feature toggles', [""]);
+        description || 'Used for simple on/off feature toggles', ['']);
 };
 
 var isSimpleCategory = function (categoryId) {

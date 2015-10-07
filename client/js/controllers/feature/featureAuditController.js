@@ -1,5 +1,6 @@
-featureToggleFrontend.controller('FeatureAuditController', ['$scope', 'auditService', 'CurrentUser', function ($scope, auditService, CurrentUser) {
+'use strict';
 
+featureToggleFrontend.controller('FeatureAuditController', ['$scope', 'auditService', 'CurrentUser', function ($scope, auditService, CurrentUser) {
     $scope.auditTrail = [];
 
     $scope.$on('toggleUpdated', function (event, toggle, isMultiToggle) {
@@ -7,7 +8,6 @@ featureToggleFrontend.controller('FeatureAuditController', ['$scope', 'auditServ
     });
 
     var addFakeAudit = function (toggleName, value, action, isMultiToggle) {
-
         var newCreatedIndex = $scope.auditTrail ? _.max($scope.auditTrail, function (audit) {
             return audit.createdIndex;
         }).createdIndex + 1 : 1;

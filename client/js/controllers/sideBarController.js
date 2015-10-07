@@ -1,9 +1,9 @@
-featureToggleFrontend.controller('SideBarController', ['$scope', 'applicationService', 'authorisationService', '$location', 'focus', 'CurrentUser', function ($scope, applicationService, authorisationService, $location, focus, CurrentUser) {
+'use strict';
 
+featureToggleFrontend.controller('SideBarController', ['$scope', 'applicationService', 'authorisationService', '$location', 'focus', 'CurrentUser', function ($scope, applicationService, authorisationService, $location, focus, CurrentUser) {
     $scope.applications = [];
     $scope.newApplicationName = '';
     $scope.adding = false;
-
     $scope.CurrentUser = CurrentUser;
 
     var loadApplications = function () {
@@ -12,7 +12,7 @@ featureToggleFrontend.controller('SideBarController', ['$scope', 'applicationSer
                 $scope.applications = data;
             },
             function (data) {
-                $scope.$emit('error', "Failed to load applications", new Error(data));
+                $scope.$emit('error', 'Failed to load applications', new Error(data));
             });
     };
 
@@ -28,15 +28,15 @@ featureToggleFrontend.controller('SideBarController', ['$scope', 'applicationSer
 
     var validateNewApplication = function (applicationName) {
         if (!applicationName) {
-            return "Must enter an application name";
+            return 'Must enter an application name';
         }
         if (_.any($scope.applications, function (application) {
-                return application.toLowerCase() == applicationName.toLowerCase();
+                return application.toLowerCase() === applicationName.toLowerCase();
             })) {
-            return "Application already exists";
+            return 'Application already exists';
         }
         if (!/^[a-z0-9-_.]+$/i.test(applicationName)) {
-            return "Application name must be alphanumeric with no spaces";
+            return 'Application name must be alphanumeric with no spaces';
         }
     };
 
@@ -45,7 +45,6 @@ featureToggleFrontend.controller('SideBarController', ['$scope', 'applicationSer
 
         var validationError = validateNewApplication(applicationName);
         if (validationError) {
-            console.log(validationError);
             $scope.$emit('error', validationError);
             return;
         }
@@ -59,7 +58,7 @@ featureToggleFrontend.controller('SideBarController', ['$scope', 'applicationSer
                 $scope.setAddingApplicationState(false);
             },
             function (data) {
-                $scope.$emit('error', "Failed to add application", new Error(data));
+                $scope.$emit('error', 'Failed to add application', new Error(data));
             });
     };
 

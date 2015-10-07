@@ -1,3 +1,5 @@
+'use strict';
+
 var audit = require('./../audit');
 
 module.exports = {
@@ -7,7 +9,7 @@ module.exports = {
 
         audit.getFeatureAuditTrail(applicationName, featureName, function (err, auditTrail) {
             if (err) {
-                if (err.errorCode == 100) { // key not found
+                if (err.errorCode === 100) { // key not found
                     res.send([]);
                     return;
                 }
@@ -22,7 +24,7 @@ module.exports = {
 
         audit.getApplicationAuditTrail(applicationName, function (err, auditTrail) {
             if (err) {
-                if (err.errorCode == 100) { // key not found
+                if (err.errorCode === 100) { // key not found
                     res.send([]);
                     return;
                 }

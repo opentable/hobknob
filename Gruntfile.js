@@ -1,6 +1,6 @@
-module.exports = function (grunt) {
-    "use strict";
+'use strict';
 
+module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
@@ -27,7 +27,7 @@ module.exports = function (grunt) {
                 space: '  ',
                 wrap: '{%= __ngModule %}',
                 constants: {
-                    ENV: require("./config/config.json")
+                    ENV: require('./config/config.json')
                 }
             },
             copyConfigToClient: {}
@@ -35,7 +35,7 @@ module.exports = function (grunt) {
 
         protractor: {
             options: {
-                configFile: "client/tests/e2e/protractor.conf.js",
+                configFile: 'client/tests/e2e/protractor.conf.js',
                 keepAlive: true,
                 noColor: false,
                 args: {
@@ -56,6 +56,18 @@ module.exports = function (grunt) {
             ]
         },
 
+        eslint: {
+            target: [
+                'Gruntfile.js',
+                'server/**/*.js',
+                'client/**/*.js',
+                '!client/public/**/*.js',
+                '!client/js/common/lib/**/*.js',
+                '!client/tests/**/*.js',
+                '!client/configuration/**/*.js'
+            ]
+        },
+
         simplemocha: {
             test: {
                 src: ['server/tests/**/*.js']
@@ -67,7 +79,7 @@ module.exports = function (grunt) {
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
     grunt.registerTask('default', 'build');
-    grunt.registerTask('build', ['copyConfigToClient', 'jshint']);
+    grunt.registerTask('build', ['copyConfigToClient', 'eslint']);
     grunt.registerTask('copyConfigToClient', ['ngconstant:copyConfigToClient']);
-    grunt.registerTask('test', ['jshint', 'simplemocha', 'protractor:run']);
+    grunt.registerTask('test', ['eslint', 'simplemocha', 'protractor:run']);
 };

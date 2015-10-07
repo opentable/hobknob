@@ -1,6 +1,6 @@
-angular.module('featureToggleFrontend').factory('auditService', ['ENV', '$http', function (ENV, $http) {
-    'use strict';
+'use strict';
 
+angular.module('featureToggleFrontend').factory('auditService', ['ENV', '$http', function (ENV, $http) {
     var exports = {};
 
     exports.getFeatureAuditTrail = function (applicationName, featureName, success, error) {
@@ -26,5 +26,4 @@ angular.module('featureToggleFrontend').factory('auditService', ['ENV', '$http',
     };
 
     return exports;
-
 }]);

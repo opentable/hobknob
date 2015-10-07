@@ -1,8 +1,7 @@
+'use strict';
+
 angular.module('featureToggleFrontend').factory('Category', function () {
-    'use strict';
-
     return (function () {
-
         function Category(categoryId) {
             this.categoryId = categoryId;
         }
@@ -13,5 +12,4 @@ angular.module('featureToggleFrontend').factory('Category', function () {
 
         return Category;
     })();
-
 });

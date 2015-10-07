@@ -1,11 +1,12 @@
-var etcd = require('../etcd'),
-    _ = require('underscore'),
-    acl = require('../acl'),
-    validator = require('validator'),
-    config = require('./../../config/config.json');
+'use strict';
+
+var etcd = require('../etcd');
+var _ = require('underscore');
+var acl = require('../acl');
+var validator = require('validator');
+var config = require('./../../config/config.json');
 
 module.exports = {
-
     getUsers: function (req, res) {
         var applicationName = req.params.applicationName;
         acl.getAllUsers(applicationName, function (err, users) {
