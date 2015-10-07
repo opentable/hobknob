@@ -4,7 +4,6 @@ var config = {
         'version': '',
         'platform': 'ANY'
     },
-    baseUrl: 'http://127.0.0.1:3006/',
     framework: 'jasmine2',
     specs: ['**/*.spec.js'],
     jasmineNodeOpts: {
