@@ -15,15 +15,12 @@ var config = {
     }
 };
 
-if (process.env.TRAVIS) {
-	config.sauceUser = process.env.SAUCE_USERNAME;
-	config.sauceKey = process.env.SAUCE_ACCESS_KEY;
+if (process.env.TRAVIS != undefined) {
     config.capabilities = {
         'browserName': 'firefox',
         'version': '',
         'platform': 'ANY',
         'build': process.env.TRAVIS_BUILD_NUMBER,
-        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
         'name': 'Hobknob Tests'
     };
 }
