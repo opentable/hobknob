@@ -15,11 +15,11 @@ var config = {
     }
 };
 
-if (process.env.TRAVIS) {
+if (process.env.SAUCE_USERNAME != undefined) {
 	config.sauceUser = process.env.SAUCE_USERNAME;
 	config.sauceKey = process.env.SAUCE_ACCESS_KEY;
     config.capabilities = {
-        'browserName': 'firefox',
+        'browserName': 'chrome',
         'version': '',
         'platform': 'ANY',
         'build': process.env.TRAVIS_BUILD_NUMBER,
