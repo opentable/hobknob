@@ -30,6 +30,6 @@
         "angular-toggle-switch": "~1.3.0"
     },
     "resolutions": {
-        "angular": "1.3.20"
+        "angular": "1.4.7"
     }
 }
