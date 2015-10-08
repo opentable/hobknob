@@ -1,6 +1,6 @@
 {
   "name": "hobknob",
-  "version": "2.2.5",
+  "version": "2.3.0",
   "description": "Front end for managing feature toggles in etcd",
   "scripts": {
     "prestart": "bower cache clean --config.interactive=false && bower install --config.interactive=false",
@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "express": "~3.4.8",
-    "express3-handlebars": "~0.5.2",
     "js-yaml": "~3.4.2",
     "config": "^1.16.0",
     "request": "~2.64.0",
