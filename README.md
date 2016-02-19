@@ -1,4 +1,4 @@
-<img src="http://eu-srs.opentable.com/Content/static/images/new/logo@2x.png" style="width:150px;margin:0 16px -4px 0;" alt="opentable logo" title="OpenTable" />Hobknob
+<img src="http://media.otstatic.com/img/logo-7cd459fb1da36ae8f2030a77aa098c2a.png" style="width:150px;margin:0 16px -4px 0;" alt="opentable logo" title="OpenTable" />Hobknob
 ======================
 
 [![Build Status](https://travis-ci.org/opentable/hobknob.svg?branch=master)](https://travis-ci.org/opentable/hobknob)
