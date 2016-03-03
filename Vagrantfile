@@ -15,8 +15,8 @@ Vagrant.configure("2") do |config|
   config.vm.network :forwarded_port, guest: 3006, host: 3006
 
   config.vm.provision "docker" do |d|
-    d.pull_images "coreos/etcd"
-    d.run "coreos/etcd", args: "-p 4001:4001", demonize: true
+    d.pull_images "quay.io/coreos/etcd"
+    d.run "quay.io/coreos/etcd", args: "-p 4001:4001", demonize: true
   end
   config.vm.provision "docker" do |d|
     d.build_image "/vagrant", args: '-t hobknob'
