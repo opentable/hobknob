@@ -3,6 +3,7 @@
 
 [![Build Status](https://travis-ci.org/opentable/hobknob.svg?branch=master)](https://travis-ci.org/opentable/hobknob)
 [<img src="http://standards-badges.herokuapp.com/image?serviceStatusEndpoint=0&logSchema=0&githubReadme=1">](http://standards-badges.herokuapp.com/?serviceStatusEndpoint=0&logSchema=0&githubReadme=1)
+[![Join the chat at https://gitter.im/opentable/hobknob](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/opentable/hobknob?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Hobknob is a feature toggle front-end built on top of [etcd](https://github.com/coreos/etcd).
 It allows users to create and modify feature toggles, which can then be accesesed in your applications.
