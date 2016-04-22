@@ -37,8 +37,11 @@ More information on etcd can be found here: [etcd](https://github.com/coreos/etc
 
 ## Vagrant
 The quickest way to run the app locally is to use Vagrant. If you don't have Vagrant you should install it from [here](http://www.vagrantup.com/).
-`vagrant-up` will spin up a vagrant instance and install etcd and Hobknob, which are exposed on ports 4001 and 3006 respectfully.
+`vagrant up` will spin up a vagrant instance and install etcd and Hobknob, which are exposed on ports 4001 and 3006 respectfully.
 Hobknob itself is deployed in a Docker container inside of the vagrant instance.
+
+### Notes
+There seems to be an existing issue with Vagrant version 1.7.2 when attempting to install Docker. Currently, Vagrant version 1.7.4 will work.
 
 ## Manual
 The application is dependant on NodeJS version 0.10.26. This can be downloaded [here](http://nodejs.org/download/).
@@ -129,7 +132,7 @@ To use oath in Hobknob add the following to your config (config/confg.json).
 
 This configuration is shared with Angular so you need to run the following:
 ```sh
-$ grunt 
+$ grunt
 ```
 
 #### Extra Authentication params (ie: `hd` param for domain limitation on Google Auth)
@@ -158,7 +161,7 @@ see https://developers.google.com/identity/protocols/OpenIDConnect#hd-param
 
 ### Access Control List
 When authentication is enabled, you can control who is allowed to add, update, or delete toggles per application.
- 
+
 The creator of an application is automatically an owner of that application. Application owners can add other owners via the Owners panel in the Application View.
 
 ![Application Owners](screenshots/ApplicationOwners.png)
@@ -223,7 +226,7 @@ config/config.json:
    "loggingMiddleware": {
      "path": "./simple-console",
      "settings": {
-       "enabled": true 
+       "enabled": true
      }
    }
 }
