@@ -73,6 +73,7 @@ var authoriseUserForThisApplication = function (req, res, next) {
 
     var applicationName = req.params.applicationName;
     var userEmail = req.user._json.email;
+
     acl.assert(userEmail, applicationName, function (err, isAuthroised) {
         if (err || !isAuthroised) {
             res.send(403);
@@ -112,6 +113,17 @@ app.get('/auth/google/callback',
         res.redirect('/#!/');
     }
 );
+
+app.get('/auth/azureadoauth2',
+  passport.authenticate('azure')
+);
+
+app.get('/auth/azureadoauth2/callback',
+  passport.authenticate('azure', { failureRedirect: '/oops' }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
 
 if (config.plugin && config.plugin.path) {
     require(config.plugin.path)(app);

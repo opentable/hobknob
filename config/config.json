@@ -1,9 +1,18 @@
 {
-    "RequiresAuth": false,
+    "RequiresAuth": true,
     "etcdHost": "127.0.0.1",
     "etcdPort": "4001",
     "hobknobHost": "localhost",
     "hobknobPort": "3006",
+    "AuthProviders":
+        {
+            "AzureAuth":
+            {
+                "AzureClientId": "",
+                "AzureClientSecret":"",
+                "AzureTenantId": ""
+            }
+        },
     "categories": [
         {
             "id": 0,
