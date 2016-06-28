@@ -21,9 +21,9 @@ angular.module('featureToggleFrontend')
               return '/img/user-blue.jpeg';
             }
 
-    				if (ENV.AuthProviders.AzureAuth) {
-    					return 'data:image/png;base64,' + this.picture;
-    				}
+            if (ENV.AuthProviders.AzureAuth) {
+              return 'data:image/png;base64,' + this.picture;
+            }
 
             if (this.picture) {
     					return this.picture;
