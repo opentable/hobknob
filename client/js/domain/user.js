@@ -16,22 +16,23 @@ angular.module('featureToggleFrontend')
 
         CurrentUser.prototype = {
 
-            getPicture: function () {
-				var picture;
+          getPicture: function () {
+            if (!ENV.RequiresAuth) {
+              return '/img/user-blue.jpeg';
+            }
 
-				if (ENV.AuthProviders.AzureAuth) {
-					picture = 'data:image/png;base64,' + this.picture;
-				} else if (this.picture) {
-					picture = this.picture;
-                }
-				else {
-					picture = '/img/user-blue.jpeg';
-				}
+    				if (ENV.AuthProviders.AzureAuth) {
+    					return 'data:image/png;base64,' + this.picture;
+    				}
 
-				return picture;
-            },
+            if (this.picture) {
+    					return this.picture;
+            }
 
-            getUser: function () {
+            return '/img/user-blue.jpeg';
+          },
+
+          getUser: function () {
                 return this;
             },
 
