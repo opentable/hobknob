@@ -25,7 +25,7 @@ angular.module('featureToggleFrontend')
             },
 
             getFullName: function () {
-                return this.name || 'Anonymous';
+                return this.name.givenName + ' ' + this.name.familyName || 'Anonymous';
             },
 
             requiresAuthentication: function () {
