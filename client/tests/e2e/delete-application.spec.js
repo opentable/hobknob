@@ -3,6 +3,10 @@ var Etcd = require('node-etcd'),
     _ = require('underscore');
 
 describe("Delete application", function () {
+    var addApplicationButtonCss = '#sidebar-wrapper .add-form > button';
+    var applicationNameInputCss = '#addApplicationInput';
+    var submitApplicationButtonCss = '#sidebar-wrapper .add-form form button[type=submit]';
+
     var deleteApplicationButtonCss = '[ng-click="deleteApplication()"]';
 
     var removeAllToggles = function (done) {
