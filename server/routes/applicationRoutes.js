@@ -18,7 +18,7 @@ var addApplication = function (req, res) {
         });
 };
 
-var deleteApplication = function(req, res){
+var deleteApplication = function (req, res) {
     application.deleteApplication(req.params.applicationName, req,
       function (err) {
           if (err) throw err;
@@ -26,7 +26,7 @@ var deleteApplication = function(req, res){
       });
 };
 
-var deleteApplicationMetaData = function(req, res, next){
+var deleteApplicationMetaData = function (req, res, next) {
     application.deleteApplicationMetaData(req.params.applicationName, next);
 };
 
