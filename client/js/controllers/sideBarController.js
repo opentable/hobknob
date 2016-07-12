@@ -68,5 +68,9 @@ featureToggleFrontend.controller('SideBarController', ['$scope', 'applicationSer
         return $location.path() === appUrlPart || $location.path().indexOf(appUrlPart + '/') > -1;
     };
 
+    $scope.$on('$locationChangeSuccess', function () {
+        loadApplications();
+    });
+
     loadApplications();
 }]);

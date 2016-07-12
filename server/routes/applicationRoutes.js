@@ -18,6 +18,14 @@ var addApplication = function (req, res) {
         });
 };
 
+var deleteApplication = function(req, res){
+    application.deleteApplication(req.params.applicationName, req,
+      function (err) {
+          if (err) throw err;
+          res.send(200);
+      });
+}
+
 var getApplicationMetaData = function (req, res) {
     var applicationName = req.params.applicationName;
     application.getApplicationMetaData(applicationName,
@@ -41,6 +49,7 @@ var saveApplicationMetaData = function (req, res) {
 module.exports.registerRoutes = function (app, authenticate) {
     app.get('/api/applications', getApplications);
     app.put('/api/applications', authenticate, addApplication);
+    app.delete('/api/applications/:applicationName', authenticate, deleteApplication);
     app.get('/api/applications/:applicationName/_meta', getApplicationMetaData);
     app.put('/api/applications/:applicationName/_meta/:metaDataKey', saveApplicationMetaData);
 };
