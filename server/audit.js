@@ -5,10 +5,6 @@ var _ = require('underscore');
 var config = require('./../config/config.json');
 var replicationHook = require('./src/hooks/auditReplication');
 
-var getUserDetails = function (req) {
-    return config.RequiresAuth ? req.user._json : {name: 'Anonymous'};
-};
-
 module.exports = {
     getApplicationAuditTrail: function (applicationName, callback) {
         var path = 'v1/audit/application/' + applicationName;
@@ -44,9 +40,9 @@ module.exports = {
         });
     },
 
-    addApplicationAudit: function (req, applicationName, action, callback) {
+    addApplicationAudit: function (user, applicationName, action, callback) {
         var audit = {
-            user: getUserDetails(req),
+            user: user,
             action: action,
             dateModified: new Date().toISOString() // todo: should be UTC time
         };
@@ -74,9 +70,9 @@ module.exports = {
         });
     },
 
-    addFeatureAudit: function (req, applicationName, featureName, toggleName, value, action, callback) {
+    addFeatureAudit: function (user, applicationName, featureName, toggleName, value, action, callback) {
         var audit = {
-            user: getUserDetails(req),
+            user: user,
             toggleName: toggleName,
             value: value,
             action: action,

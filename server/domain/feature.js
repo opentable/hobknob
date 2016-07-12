@@ -4,13 +4,17 @@ var etcd = require('../etcd');
 var _ = require('underscore');
 var config = require('./../../config/config.json');
 var acl = require('./../acl');
-var audit = require('./../audit');
 var category = require('./category');
 var etcdBaseUrl = 'http://' + config.etcdHost + ':' + config.etcdPort + '/v2/keys/';
 var s = require('string');
+var hooks = require('../src/hooks/featureHooks');
 
 var isMetaNode = function (node) {
     return s(node.key).endsWith('@meta');
+};
+
+var getUserDetails = function (req) {
+    return config.RequiresAuth ? req.user._json : {name: 'Anonymous'};
 };
 
 var getMetaData = function (featureNode) {
@@ -262,10 +266,12 @@ var addMultiFeature = function (path, applicationName, featureName, featureDescr
 
         addFeatureDescription(applicationName, featureName, featureDescription);
 
-        audit.addFeatureAudit(req, applicationName, featureName, null, null, 'Feature Created', function (auditErr) {
-            if (auditErr) {
-                console.log(auditErr); // todo: better logging
-            }
+        hooks.run({
+          fn: 'addFeature',
+          user: getUserDetails(req),
+          applicationName: applicationName,
+          featureName: featureName,
+          value: false
         });
 
         cb();
@@ -275,16 +281,18 @@ var addMultiFeature = function (path, applicationName, featureName, featureDescr
 var addSimpleFeature = function (path, applicationName, featureName, featureDescription, metaData, req, cb) {
     etcd.client.set(path, false, function (err) {
         if (err) {
-            cb(err);
-            return;
+            return cb(err);
         }
 
         addFeatureDescription(applicationName, featureName, featureDescription);
 
-        audit.addFeatureAudit(req, applicationName, featureName, null, false, 'Created', function (auditErr) {
-            if (auditErr) {
-                console.log(auditErr); // todo: better logging
-            }
+        hooks.run({
+          fn: 'addFeatureToggle',
+          user: getUserDetails(req),
+          applicationName: applicationName,
+          featureName: featureName,
+          toggleName: null,
+          value: false
         });
 
         cb();
@@ -315,10 +323,13 @@ module.exports.updateFeatureToggle = function (applicationName, featureName, val
             return;
         }
 
-        audit.addFeatureAudit(req, applicationName, featureName, null, value, 'Updated', function (auditErr) {
-            if (auditErr) {
-                console.log(auditErr); // todo: better logging
-            }
+        hooks.run({
+          fn: 'updateFeatureToggle',
+          user: getUserDetails(req),
+          applicationName: applicationName,
+          featureName: featureName,
+          toggleName: null,
+          value: false
         });
 
         cb();
@@ -337,10 +348,13 @@ module.exports.addFeatureToggle = function (applicationName, featureName, toggle
             return;
         }
 
-        audit.addFeatureAudit(req, applicationName, featureName, toggleName, false, 'Toggle Created', function (auditErr) {
-            if (auditErr) {
-                console.log(auditErr); // todo: better logging
-            }
+        hooks.run({
+          fn: 'addFeatureToggle',
+          user: getUserDetails(req),
+          applicationName: applicationName,
+          featureName: featureName,
+          toggleName: toggleName,
+          value: false
         });
 
         cb();
@@ -355,10 +369,13 @@ module.exports.updateFeatureMultiToggle = function (applicationName, featureName
             return;
         }
 
-        audit.addFeatureAudit(req, applicationName, featureName, toggleName, value, 'Updated', function (auditErr) {
-            if (auditErr) {
-                console.log(auditErr); // todo: better logging
-            }
+        hooks.run({
+          fn: 'updateFeatureToggle',
+          user: getUserDetails(req),
+          applicationName: applicationName,
+          featureName: featureName,
+          toggleName: toggleName,
+          value: value
         });
 
         cb();
@@ -366,20 +383,17 @@ module.exports.updateFeatureMultiToggle = function (applicationName, featureName
 };
 
 module.exports.deleteFeature = function (applicationName, featureName, req, cb) {
-    audit.addFeatureAudit(req, applicationName, featureName, null, null, 'Delete Requested', function (deleteErr) {
-        if (deleteErr) {
-            cb(new Error('Could not audit delete request. An audit is required to delete a feature'));
-            return;
-        }
-        var path = 'v1/toggles/' + applicationName + '/' + featureName;
-        etcd.client.delete(path, {recursive: true}, function (err) {
-            if (err) cb(err);
-            audit.addFeatureAudit(req, applicationName, featureName, null, null, 'Deleted', function (auditErr) {
-                if (auditErr) {
-                    console.log(auditErr); // todo: better logging
-                }
-                cb();
-            });
+    var path = 'v1/toggles/' + applicationName + '/' + featureName;
+    etcd.client.delete(path, {recursive: true}, function (err) {
+        if (err) cb(err);
+
+        hooks.run({
+          fn: 'deleteFeature',
+          user: getUserDetails(req),
+          applicationName: applicationName,
+          featureName: featureName
         });
+
+        cb();
     });
 };

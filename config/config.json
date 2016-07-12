@@ -35,5 +35,8 @@
     ],
     "plugin": {
         "path": "../server/examplePlugin.js"
-    }
+    },
+    "hooks": [
+      "server/exampleHook.js"
+    ]
 }
