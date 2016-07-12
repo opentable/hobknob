@@ -63,6 +63,7 @@ describe("Delete application", function () {
         addApplication("newTestApp");
         clickDeleteApplicationButton();
 
+        var applicationLinks = getApplicationLinks();
         expect(applicationLinks.count()).toEqual(0);
     });
 });
