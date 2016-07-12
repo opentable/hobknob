@@ -27,7 +27,8 @@ module.exports.init = function (config) {
                         return done(null, profile);
                     });
                 }));
-        } else if (config.AuthProviders.AzureAuth)
+        }
+        else if (config.AuthProviders.AzureAuth)
         {
           var AZURE_CLIENT_ID = config.AuthProviders.AzureAuth.AzureClientId;
           var AZURE_CLIENT_SECRET = config.AuthProviders.AzureAuth.AzureClientSecret;

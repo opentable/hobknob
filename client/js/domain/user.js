@@ -18,15 +18,15 @@ angular.module('featureToggleFrontend')
 
           getPicture: function () {
             if (!ENV.RequiresAuth) {
-              return '/img/user-blue.jpeg';
+                return '/img/user-blue.jpeg';
             }
 
             if (ENV.AuthProviders.AzureAuth) {
-              return 'data:image/png;base64,' + this.picture;
+                return 'data:image/png;base64,' + this.picture;
             }
 
             if (this.picture) {
-    					return this.picture;
+                return this.picture;
             }
 
             return '/img/user-blue.jpeg';
