@@ -99,6 +99,20 @@ module.exports = {
         });
     },
 
+    deleteApplicationMetaData: function (applicationName, cb) {
+        etcd.client.delete('v1/metadata/' + applicationName, {recursive: true}, function (err, result) {
+            if (err) {
+                if (err.errorCode === 100) { // key not found
+                    cb();
+                } else {
+                    cb(err);
+                }
+                return;
+            }
+            cb();
+        });
+    },
+
     saveApplicationMetaData: function (applicationName, metaDataKey, metaDataValue, cb) {
         var path = 'v1/metadata/' + applicationName + '/' + metaDataKey;
         etcd.client.set(path, metaDataValue, function (err) {
