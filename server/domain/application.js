@@ -66,7 +66,7 @@ module.exports = {
                 return cb(err);
             }
 
-            audit.addApplicationAudit(req, applicationName, 'Deleted', function () {
+            audit.addApplicationAudit(getUserDetails(req), applicationName, 'Deleted', function () {
                 if (err) {
                     console.log(err);
                 }
