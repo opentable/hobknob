@@ -25,6 +25,17 @@ angular.module('featureToggleFrontend').factory('applicationService', ['$http', 
             });
     };
 
+    exports.deleteApplication = function (name, cb) {
+        var path = '/api/applications/' + name;
+        $http.delete(path)
+            .success(function (data, status) {
+                cb();
+            })
+            .error(function (data) {
+                cb(data);
+            });
+    };
+
     exports.getApplicationMetaData = function (applicationName, cb) {
         var path = '/api/applications/' + applicationName + '/_meta';
         $http.get(path)
