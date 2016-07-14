@@ -27,25 +27,6 @@ module.exports.init = function (config) {
                         return done(null, profile);
                     });
                 }));
-        } else if (config.AuthProviders.AzureAuth)
-        {
-          var AZURE_CLIENT_ID = config.AuthProvider.AzureAuth.AzureClientId;
-          var AZURE_CLIENT_SECRET = config.AuthProviders.AzureAuth.AzureClientSecret;
-          var AZURE_TENANT_ID = config.AuthProvider.AzureAuth.AzureTenantId;
-          var azureCallbackURL = protocolSection + '://' + config.hobknobHost + portSection + '/auth/azure/callback';
-
-          passport.use(new Office365Strategy({
-                    clientID: AZURE_CLIENT_ID,
-                    clientSecret: AZURE_CLIENT_SECRET,
-                    callbackURL: azureCallbackURL,
-                    tenant: AZURE_TENANT_ID
-                  },
-                  function (accessToken, refreshToken, params, profile, done) {
-                      profile.accessToken = accessToken;
-                      process.nextTick(function() {
-                            return done(null, profile);
-                      });
-                  }));
         }
         else if (config.AuthProviders.AzureAuth)
         {
