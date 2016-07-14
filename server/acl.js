@@ -41,6 +41,20 @@ EtcdAclStore.prototype.revoke = function (userEmail, resource, callback) {
     });
 };
 
+EtcdAclStore.prototype.revokeAll = function(resource, callback) {
+  etcd.client.delete('v1/toggleAcl/' + resource, {recursive: true}, function (err) {
+      if (err) {
+          if (err.errorCode === 100) { // key not found
+              callback();
+          } else {
+              callback(err);
+          }
+          return;
+      }
+      callback();
+  });
+};
+
 EtcdAclStore.prototype.getAllUsers = function (resource, callback) {
     etcd.client.get('v1/toggleAcl/' + resource, {recursive: true}, function (err, result) {
         if (err) {

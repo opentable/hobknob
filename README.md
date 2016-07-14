@@ -1,8 +1,9 @@
-<img src="http://eu-srs.opentable.com/Content/static/images/new/logo@2x.png" style="width:150px;margin:0 16px -4px 0;" alt="opentable logo" title="OpenTable" />Hobknob
+<img src="http://media.otstatic.com/img/logo-7cd459fb1da36ae8f2030a77aa098c2a.png" style="width:150px;margin:0 16px -4px 0;" alt="opentable logo" title="OpenTable" />Hobknob
 ======================
 
 [![Build Status](https://travis-ci.org/opentable/hobknob.svg?branch=master)](https://travis-ci.org/opentable/hobknob)
 [<img src="http://standards-badges.herokuapp.com/image?serviceStatusEndpoint=0&logSchema=0&githubReadme=1">](http://standards-badges.herokuapp.com/?serviceStatusEndpoint=0&logSchema=0&githubReadme=1)
+[![Join the chat at https://gitter.im/opentable/hobknob](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/opentable/hobknob?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Hobknob is a feature toggle front-end built on top of [etcd](https://github.com/coreos/etcd).
 It allows users to create and modify feature toggles, which can then be accesesed in your applications.
@@ -36,8 +37,11 @@ More information on etcd can be found here: [etcd](https://github.com/coreos/etc
 
 ## Vagrant
 The quickest way to run the app locally is to use Vagrant. If you don't have Vagrant you should install it from [here](http://www.vagrantup.com/).
-`vagrant-up` will spin up a vagrant instance and install etcd and Hobknob, which are exposed on ports 4001 and 3006 respectfully.
+`vagrant up` will spin up a vagrant instance and install etcd and Hobknob, which are exposed on ports 4001 and 3006 respectfully.
 Hobknob itself is deployed in a Docker container inside of the vagrant instance.
+
+### Notes
+There seems to be an existing issue with Vagrant version 1.7.2 when attempting to install Docker. Currently, Vagrant version 1.7.4 will work.
 
 ## Manual
 The application is dependant on NodeJS version 0.10.26. This can be downloaded [here](http://nodejs.org/download/).
@@ -128,7 +132,7 @@ To use oath in Hobknob add the following to your config (config/confg.json).
 
 This configuration is shared with Angular so you need to run the following:
 ```sh
-$ grunt 
+$ grunt
 ```
 
 #### Extra Authentication params (ie: `hd` param for domain limitation on Google Auth)
@@ -157,7 +161,7 @@ see https://developers.google.com/identity/protocols/OpenIDConnect#hd-param
 
 ### Access Control List
 When authentication is enabled, you can control who is allowed to add, update, or delete toggles per application.
- 
+
 The creator of an application is automatically an owner of that application. Application owners can add other owners via the Owners panel in the Application View.
 
 ![Application Owners](screenshots/ApplicationOwners.png)
@@ -222,7 +226,7 @@ config/config.json:
    "loggingMiddleware": {
      "path": "./simple-console",
      "settings": {
-       "enabled": true 
+       "enabled": true
      }
    }
 }

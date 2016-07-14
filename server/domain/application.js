@@ -41,11 +41,37 @@ module.exports = {
 
             // todo: not sure if this is correct
             if (config.RequiresAuth) {
-                var userEmail = req.user._json.email; // todo: need better user management
+                var userEmail = req.user._json.email;
                 acl.grant(userEmail, applicationName, function (grantErr) {
                     if (grantErr) {
                         cb(grantErr);
                         return;
+                    }
+                    cb();
+                });
+            } else {
+                cb();
+            }
+        });
+    },
+
+    deleteApplication: function (applicationName, req, cb) {
+        var path = 'v1/toggles/' + applicationName;
+        etcd.client.delete(path, {recursive: true}, function (err) {
+            if (err) {
+                return cb(err);
+            }
+
+            audit.addApplicationAudit(req, applicationName, 'Deleted', function () {
+                if (err) {
+                    console.log(err);
+                }
+            });
+
+            if (config.RequiresAuth) {
+                acl.revokeAll(applicationName, function (revokeErr) {
+                    if (revokeErr) {
+                        return cb(revokeErr);
                     }
                     cb();
                 });
@@ -70,6 +96,20 @@ module.exports = {
                 return [metaDataKey, subNode.value];
             });
             cb(null, _.object(metaDataKeyValues));
+        });
+    },
+
+    deleteApplicationMetaData: function (applicationName, cb) {
+        etcd.client.delete('v1/metadata/' + applicationName, {recursive: true}, function (err, result) {
+            if (err) {
+                if (err.errorCode === 100) { // key not found
+                    cb();
+                } else {
+                    cb(err);
+                }
+                return;
+            }
+            cb();
         });
     },
 
