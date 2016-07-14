@@ -7,6 +7,10 @@ var acl = require('./../acl');
 var audit = require('./../audit');
 var etcdBaseUrl = 'http://' + config.etcdHost + ':' + config.etcdPort + '/v2/keys/';
 
+var getUserDetails = function (req) {
+    return config.RequiresAuth ? req.user._json : {name: 'Anonymous'};
+};
+
 module.exports = {
     getApplications: function (cb) {
         etcd.client.get('v1/toggles/', {recursive: false}, function (err, result) {
@@ -33,7 +37,7 @@ module.exports = {
                 return cb(err);
             }
 
-            audit.addApplicationAudit(req, applicationName, 'Created', function () {
+            audit.addApplicationAudit(getUserDetails(req), applicationName, 'Created', function () {
                 if (err) {
                     console.log(err); // todo: better logging
                 }
@@ -41,7 +45,7 @@ module.exports = {
 
             // todo: not sure if this is correct
             if (config.RequiresAuth) {
-                var userEmail = req.user._json.email;
+                var userEmail = getUserDetails(req).email; // todo: need better user management
                 acl.grant(userEmail, applicationName, function (grantErr) {
                     if (grantErr) {
                         cb(grantErr);
@@ -62,7 +66,7 @@ module.exports = {
                 return cb(err);
             }
 
-            audit.addApplicationAudit(req, applicationName, 'Deleted', function () {
+            audit.addApplicationAudit(getUserDetails(req), applicationName, 'Deleted', function () {
                 if (err) {
                     console.log(err);
                 }

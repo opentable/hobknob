@@ -232,6 +232,19 @@ config/config.json:
 }
 ```
 
+## Feature hooks
+You can add custom hooks that will run for feature-events (add, delete, update), E.g. reporting toggle events to slack, hipchat etc.
+
+The hooks can implement any or all of the interface methods specified [here](server/exampleHook.js). The function signature is `function(eventInfo, next){}` where `next` is a callback taking one argument (an error).
+
+Register your hooks by adding them to the `hooks` array in the configuration file:
+
+```
+  "hooks": [
+    "server/exampleHook.js"
+  ]
+```
+
 ## Hobknob Clients
 There are several clients for different languages.
 
