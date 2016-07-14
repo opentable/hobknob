@@ -67,7 +67,10 @@ module.exports.init = function (config) {
                         var decrypted = jwt.decode(profile.accessToken);
 
                         var profileData = {
-                            name: decrypted.given_name,
+                            name: {
+                                givenName: decrypted.given_name,
+                                familyName: decrypted.family_name
+                            },
                             fullName: decrypted.name,
                             email: decrypted.upn
                         };
