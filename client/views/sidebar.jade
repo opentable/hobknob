@@ -9,8 +9,9 @@
                 .profile-text
                     h4.media-heading {{CurrentUser.getFullName()}}
                     a.profile(ng-href='/#!/profile' ng-show="CurrentUser.requiresAuthentication()") profile
-                    p |
+                    span &nbsp;
                     a.logout(href='/logout' ng-show="CurrentUser.requiresAuthentication()") logout
+
         li.application(ng-repeat="application in applications | orderBy:'toString()'")
             a(ng-href="/#!/applications/{{application}}" ng-class="{ active: isActive(application) }") {{application}}
         .add-form
