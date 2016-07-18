@@ -37,7 +37,7 @@ angular.module('featureToggleFrontend')
             },
 
             getFullName: function () {
-                if(!ENV.RequiresAuth){
+                if (!ENV.RequiresAuth) {
                   return 'Anonymous';
                 }
 

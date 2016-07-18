@@ -5,7 +5,7 @@ featureToggleFrontend.controller('FeatureAuditController', ['$scope', 'auditServ
 
     $scope.isObject = function(input) {
         return angular.isObject(input);
-    }
+    };
 
     $scope.$on('toggleUpdated', function (event, toggle, isMultiToggle) {
         addFakeAudit(toggle.name, toggle.value, 'Updated', isMultiToggle);
