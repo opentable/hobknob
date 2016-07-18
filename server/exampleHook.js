@@ -3,7 +3,7 @@
 module.exports = {
   /*
   {
-    user: { name: 'anonymous' },
+    user: { name: 'anonymous' } or { name: { givenName: 'anony', familyName: 'mous' } },
     applicationName: 'my-app',
     featureName: 'my-feature',
   }
@@ -13,7 +13,7 @@ module.exports = {
   },
   /*
   {
-    user: { name: 'anonymous' },
+    user: { name: 'anonymous' } or { name: { givenName: 'anony', familyName: 'mous' } },
     applicationName: 'my-app',
     featureName: 'my-feature',
   }
@@ -23,7 +23,7 @@ module.exports = {
   },
   /*
   {
-    user: { name: 'anonymous' },
+    user: { name: 'anonymous' } or { name: { givenName: 'anony', familyName: 'mous' } },
     applicationName: 'my-app',
     featureName: 'my-feature',
     toggleName: 'my-toggle',
@@ -35,7 +35,7 @@ module.exports = {
   },
   /*
   {
-    user: { name: 'anonymous' },
+    user: { name: 'anonymous' } or { name: { givenName: 'anony', familyName: 'mous' } },
     applicationName: 'my-app',
     featureName: 'my-feature',
     toggleName: 'my-toggle',
@@ -47,7 +47,7 @@ module.exports = {
   },
   /*
   {
-    user: { name: 'anonymous' },
+    user: { name: 'anonymous' } or { name: { givenName: 'anony', familyName: 'mous' } },
     applicationName: 'my-app',
     featureName: 'my-feature',
     toggleName: 'my-toggle'
