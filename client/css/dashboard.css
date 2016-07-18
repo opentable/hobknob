@@ -213,3 +213,7 @@ span.editable:hover {
     font-style: normal;
     text-decoration: underline;
 }
+
+.fullwidth {
+  width: 100%
+}

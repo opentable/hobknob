@@ -17,6 +17,14 @@ exports.login = function (req, res) {
     }
 };
 
+exports.profile = function (req, res) {
+  if (req.isAuthenticated()) {
+      res.render('partials/userProfile');
+  } else {
+      res.redirect('/login');
+  }
+};
+
 exports.logout = function (req, res) {
     req.logout();
     res.redirect('/login');
