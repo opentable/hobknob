@@ -3,6 +3,10 @@
 featureToggleFrontend.controller('FeatureAuditController', ['$scope', 'auditService', 'CurrentUser', function ($scope, auditService, CurrentUser) {
     $scope.auditTrail = [];
 
+    $scope.isObject = function(input) {
+        return angular.isObject(input);
+    }
+
     $scope.$on('toggleUpdated', function (event, toggle, isMultiToggle) {
         addFakeAudit(toggle.name, toggle.value, 'Updated', isMultiToggle);
     });

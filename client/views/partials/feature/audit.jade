@@ -16,7 +16,7 @@
                     td
                         | {{featureName}}
                         span(ng-show="audit.toggleName") /{{audit.toggleName}}
-                    td {{audit.user.name}}
+                    td {{ isObject(audit.user.name) ? audit.user.name.givenName + ' ' + audit.user.name.familyName : audit.user.name }}
                     td {{audit.action}}
                     td {{audit.dateModified | date:'medium'}}
                     td
