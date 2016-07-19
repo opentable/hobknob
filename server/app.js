@@ -74,8 +74,8 @@ var authoriseUserForThisApplication = function (req, res, next) {
     var applicationName = req.params.applicationName;
     var userEmail = req.user._json.email;
 
-    acl.assert(userEmail, applicationName, function (err, isAuthroised) {
-        if (err || !isAuthroised) {
+    acl.assert(userEmail, applicationName, function (err, isAuthorised) {
+        if (err || !isAuthorised) {
             res.send(403);
         } else {
             next();
