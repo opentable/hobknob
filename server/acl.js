@@ -7,14 +7,14 @@ var EtcdAclStore = function () {
 };
 
 EtcdAclStore.prototype.grant = function (userEmail, resource, callback) {
-    etcd.client.set('v1/toggleAcl/' + resource + '/' + userEmail, userEmail, function (err) {
+    etcd.client.set('v1/toggleAcl/' + resource + '/' + userEmail.toLowerCase(), userEmail.toLowerCase(), function (err) {
         if (err) callback(err);
         callback();
     });
 };
 
 EtcdAclStore.prototype.assert = function (userEmail, resource, callback) {
-    etcd.client.get('v1/toggleAcl/' + resource + '/' + userEmail, function (err) {
+    etcd.client.get('v1/toggleAcl/' + resource + '/' + userEmail.toLowerCase(), function (err) {
         if (err) {
             if (err.errorCode === 100) { // key not found
                 callback(null, false);
@@ -28,7 +28,7 @@ EtcdAclStore.prototype.assert = function (userEmail, resource, callback) {
 };
 
 EtcdAclStore.prototype.revoke = function (userEmail, resource, callback) {
-    etcd.client.delete('v1/toggleAcl/' + resource + '/' + userEmail, function (err) {
+    etcd.client.delete('v1/toggleAcl/' + resource + '/' + userEmail.toLowerCase(), function (err) {
         if (err) {
             if (err.errorCode === 100) { // key not found
                 callback();
