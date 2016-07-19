@@ -6,7 +6,7 @@ featureToggleFrontend.controller('ApplicationViewController', ['$scope', '$route
     $scope.userHasPermissionsLoaded = false; // stops flickering of alert and buttons
 
     if ($scope.requiresAuthentication) {
-        authorisationService.isUserAuthorised($scope.applicationName, CurrentUser.email, function (err, isAuthorised) {
+        authorisationService.isUserAuthorised($scope.applicationName, CurrentUser.getEmail(), function (err, isAuthorised) {
             $scope.userHasPermissions = !err && isAuthorised;
             $scope.userHasPermissionsLoaded = true;
         });

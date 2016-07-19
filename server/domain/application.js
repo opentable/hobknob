@@ -45,7 +45,7 @@ module.exports = {
 
             // todo: not sure if this is correct
             if (config.RequiresAuth) {
-                var userEmail = getUserDetails(req).email; // todo: need better user management
+                var userEmail = getUserDetails(req).getEmail(); // todo: need better user management
                 acl.grant(userEmail, applicationName, function (grantErr) {
                     if (grantErr) {
                         cb(grantErr);

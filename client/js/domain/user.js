@@ -33,20 +33,24 @@ angular.module('featureToggleFrontend')
           },
 
           getUser: function () {
-                return this;
-            },
+              return this;
+          },
 
-            getFullName: function () {
-                if (!ENV.RequiresAuth) {
-                  return 'Anonymous';
-                }
+          getEmail: function() {
+            return this.email.toLowerCase();
+          },
 
-                return this.name.givenName + ' ' + this.name.familyName;
-            },
+          getFullName: function () {
+              if (!ENV.RequiresAuth) {
+                return 'Anonymous';
+              }
 
-            requiresAuthentication: function () {
-                return ENV.RequiresAuth;
-            }
+              return this.name.givenName + ' ' + this.name.familyName;
+          },
+
+          requiresAuthentication: function () {
+              return ENV.RequiresAuth;
+          }
 
         };
 
