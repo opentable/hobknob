@@ -329,7 +329,7 @@ module.exports.updateFeatureToggle = function (applicationName, featureName, val
           applicationName: applicationName,
           featureName: featureName,
           toggleName: null,
-          value: false
+          value: value
         });
 
         cb();
