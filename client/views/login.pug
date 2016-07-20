@@ -16,10 +16,10 @@ html(lang='en')
                     li.sidebar-brand
                         a.navbar-brand.logo(href='/')
                             img(src='/img/opentable-hr-mono.png')
-                        a(href='/auth/google',ng-if="authProvider == 'GoogleAuth'").btn.btn-block.btn-social.btn-google-plus.sign-in
+                        a(href='/auth/google',ng-if="authProvider == 'GoogleAuth'", id="loginwithgoogle").btn.btn-block.btn-social.btn-google-plus.sign-in
                             i.fa.fa-google-plus
                             | Sign in with Google
-                        a(href='/auth/azureadoauth2',ng-if="authProvider == 'AzureAuth'").btn.btn-block.btn-social.btn-windows.sign-in
+                        a(href='/auth/azureadoauth2',ng-if="authProvider == 'AzureAuth'", id="loginwithazure").btn.btn-block.btn-social.btn-windows.sign-in
                             i.fa.fa-windows
                             | Sign in with Azure AD
         script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
