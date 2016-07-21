@@ -17,7 +17,7 @@ var _ = require('underscore');
 var passport = require('./auth').init(config);
 
 app.set('views', path.join(__dirname, '/../client/views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 app.set('port', process.env.PORT || 3006);
 
 app.use(express.json());       // to support JSON-encoded bodies
