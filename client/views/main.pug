@@ -13,7 +13,7 @@ html(lang='en')
             window.user = !{JSON.stringify(user || {}, null, 2)};
     body(ng-app='featureToggleFrontend')
         #wrapper
-            include ./sidebar.jade
+            include ./sidebar.pug
             #page-content-wrapper
                 .container-fluid
                     .row
