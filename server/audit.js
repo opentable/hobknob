@@ -3,7 +3,6 @@
 var etcd = require('./etcd');
 var _ = require('underscore');
 var config = require('./../config/config.json');
-var replicationHook = require('./src/hooks/auditReplication');
 
 module.exports = {
     getApplicationAuditTrail: function (applicationName, callback) {
@@ -60,13 +59,7 @@ module.exports = {
                 audit: audit
             };
 
-            replicationHook.applicationAuditNotification(auditNotification, function (auditErr) {
-                if (auditErr) {
-                    callback(auditErr);
-                    return;
-                }
-                callback();
-            });
+            callback();
         });
     },
 
@@ -93,13 +86,7 @@ module.exports = {
                 audit: audit
             };
 
-            replicationHook.featureAuditNotification(auditNotification, function (auditErr) {
-                if (auditErr) {
-                    callback(auditErr);
-                    return;
-                }
-                callback();
-            });
+            callback();
         });
     }
 };
