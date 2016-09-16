@@ -5,6 +5,7 @@
     "etcdPort": "4001",
     "hobknobHost": "localhost",
     "hobknobPort": "3006",
+    "loadBalancerFile": "/etc/lbstatus/hobknob",
     "categories": [
         {
             "id": 0,
