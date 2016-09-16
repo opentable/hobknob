@@ -2,7 +2,7 @@
 
 var config = require('./../../config/config.json');
 var feature = function() {
-  switch (config.dataSource.toLower()) {
+  switch (config.dataSource.toLowerCase()) {
     case 'etcd':
       return require('./etcd/feature');
 
