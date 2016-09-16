@@ -6,9 +6,6 @@ var audit = function() {
     case 'etcd':
       return require('./etcd/audit');
 
-    case 'consul':
-      return require('./consul/audit');
-
     default:
       return null;
   }

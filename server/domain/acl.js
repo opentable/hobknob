@@ -6,9 +6,6 @@ var acl = function() {
     case 'etcd':
       return require('./etcd/acl');
 
-    case 'consul':
-      return require('./consul/acl');
-
     default:
       return null;
   }

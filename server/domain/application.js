@@ -6,9 +6,6 @@ var application = function() {
     case 'etcd':
       return require('./etcd/application');
 
-    case 'consul':
-      return require('./consul/application');
-
     default:
       return null;
   }

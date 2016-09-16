@@ -6,9 +6,6 @@ var feature = function() {
     case 'etcd':
       return require('./etcd/feature');
 
-    case 'consul':
-      return require('./consul/feature');
-
     default:
       return null;
   }
