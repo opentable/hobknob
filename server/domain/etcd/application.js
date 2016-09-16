@@ -3,7 +3,7 @@
 var etcd = require('../../etcd');
 var _ = require('underscore');
 var config = require('./../../../config/config.json');
-var acl = require('./../../acl');
+var acl = require('./../acl');
 var audit = require('./../../audit');
 var etcdBaseUrl = 'http://' + config.etcdHost + ':' + config.etcdPort + '/v2/keys/';
 
