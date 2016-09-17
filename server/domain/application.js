@@ -1,10 +1,10 @@
 'use strict';
 
-var config = require('./../../config/config.json');
+var config = require(__base + '/../config/config.json');
 var application = function() {
   switch (config.dataSource.toLowerCase()) {
     case 'etcd':
-      return require('./etcd/application');
+      return require(__base + '/domain/etcd/application');
 
     default:
       return null;

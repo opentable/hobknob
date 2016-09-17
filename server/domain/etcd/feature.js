@@ -1,13 +1,13 @@
 'use strict';
 
-var etcd = require('./etcd');
+var etcd = require(__base + '/domain/etcd/etcd');
 var _ = require('underscore');
-var config = require('./../../../config/config.json');
-var acl = require('./../acl');
-var category = require('./../category');
+var config = require(__base + '/../config/config.json');
+var acl = require(__base + '/domain/acl');
+var category = require(__base + '/domain/category');
 var etcdBaseUrl = 'http://' + config.etcdHost + ':' + config.etcdPort + '/v2/keys/';
 var s = require('string');
-var hooks = require('../../src/hooks/featureHooks');
+var hooks = require(__base + '/src/hooks/featureHooks');
 
 var isMetaNode = function (node) {
     return s(node.key).endsWith('@meta');
