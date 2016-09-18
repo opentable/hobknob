@@ -9,26 +9,26 @@ var acl = function() {
     default:
       return null;
   }
-}();
+};
 
 module.exports = {
     grant: function (userEmail, resource, callback) {
-      acl.grant(userEmail, resource, callback);
+      acl().grant(userEmail, resource, callback);
     },
 
     assert: function (userEmail, resource, callback) {
-      acl.assert(userEmail, resource, callback);
+      acl().assert(userEmail, resource, callback);
     },
 
     revoke: function (userEmail, resource, callback) {
-      acl.revoke(userEmail, resource, callback);
+      acl().revoke(userEmail, resource, callback);
     },
 
     revokeAll: function(resource, callback) {
-      acl.revokeAll(resource, callback);
+      acl().revokeAll(resource, callback);
     },
 
     getAllUsers: function (resource, callback) {
-      acl.getAllUsers(resource, callback);
+      acl().getAllUsers(resource, callback);
     }
 };

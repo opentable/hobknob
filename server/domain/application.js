@@ -9,30 +9,30 @@ var application = function() {
     default:
       return null;
   }
-}();
+};
 
 module.exports = {
     getApplications: function (cb) {
-      application.getApplications(cb);
+      application().getApplications(cb);
     },
 
     addApplication: function (applicationName, req, cb) {
-      application.addApplication(applicationName, req, cb);
+      application().addApplication(applicationName, req, cb);
     },
 
     deleteApplication: function (applicationName, req, cb) {
-      application.deleteApplication(applicationName, req, cb);
+      application().deleteApplication(applicationName, req, cb);
     },
 
     getApplicationMetaData: function (applicationName, cb) {
-      application.getApplicationMetaData(applicationName, cb);
+      application().getApplicationMetaData(applicationName, cb);
     },
 
     deleteApplicationMetaData: function (applicationName, cb) {
-      application.deleteApplicationMetaData(applicationName, cb);
+      application().deleteApplicationMetaData(applicationName, cb);
     },
 
     saveApplicationMetaData: function (applicationName, metaDataKey, metaDataValue, cb) {
-      application.saveApplicationMetaData(applicationName, metaDataKey, metaDataValue, cb);
+      application().saveApplicationMetaData(applicationName, metaDataKey, metaDataValue, cb);
     }
 };
