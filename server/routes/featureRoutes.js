@@ -1,6 +1,6 @@
 'use strict';
 
-var feature = require('./../domain/feature');
+var feature = require(__base + '/domain/feature');
 
 var getFeatureCategories = function (req, res) {
     feature.getFeatureCategories(req.params.applicationName,

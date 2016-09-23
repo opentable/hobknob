@@ -1,6 +1,6 @@
 'use strict';
 
-var etcd = require('./etcd');
+var etcd = require(__base + '/domain/etcd/etcd');
 var _ = require('underscore');
 
 var EtcdAclStore = function () {

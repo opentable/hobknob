@@ -1,10 +1,10 @@
 'use strict';
 
-var config = require('./../../config/config.json');
+var config = require(__base + '/../config/config.json');
 var feature = function() {
   switch (config.dataSource.toLowerCase()) {
     case 'etcd':
-      return require('./etcd/feature');
+      return require(__base + '/domain/etcd/feature');
 
     default:
       return null;

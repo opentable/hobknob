@@ -5,5 +5,7 @@
    - Additional backends are now supported - made possible by refactoring & wrapping the etcD support
  - Changed:
    - Add a failure flash when Azure gives you Auth problems to match the Google Auth experience
+ - Refactoring:
+   - Updated the imports to reference the root path - making refactoring simpler (things like `require('../../../config')` are now `require(__base + '/')`)
 
 ---

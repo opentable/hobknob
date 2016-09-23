@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('underscore');
-var acl = require('../domain/acl');
+var acl = require(__base + '/domain/acl');
 var validator = require('validator');
 
 module.exports = {

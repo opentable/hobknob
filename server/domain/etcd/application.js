@@ -1,10 +1,10 @@
 'use strict';
 
-var etcd = require('./etcd');
+var etcd = require(__base + '/domain/etcd/etcd');
 var _ = require('underscore');
-var config = require('./../../../config/config.json');
-var acl = require('./../acl');
-var audit = require('./../audit');
+var config = require(__base + '/../config/config.json');
+var acl = require(__base + '/domain/acl');
+var audit = require(__base + '/domain/audit');
 var etcdBaseUrl = 'http://' + config.etcdHost + ':' + config.etcdPort + '/v2/keys/';
 
 var getUserDetails = function (req) {
