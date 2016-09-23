@@ -8,6 +8,6 @@ describe("Dashboard", function () {
     });
 
     it('should have a title', function () {
-        expect(browser.getTitle()).toEqual('Opentable Feature Toggles');
+        expect(browser.getTitle()).toEqual('Hobknob Dashboard');
     });
 });

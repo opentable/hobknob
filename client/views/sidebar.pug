@@ -8,9 +8,9 @@
                 img.media-object.img-circle(ng-src='{{CurrentUser.getPicture()}}', alt='avatar')
                 .profile-text
                     h4.media-heading {{CurrentUser.getFullName()}}
-                    a.profile(ng-href='/#!/profile' ng-show="CurrentUser.requiresAuthentication()") profile
+                    a.profile(ng-href='/#!/profile' ng-show="CurrentUser.requiresAuthentication()" id="profile_link") profile
                     span &nbsp;
-                    a.logout(href='/logout' ng-show="CurrentUser.requiresAuthentication()") logout
+                    a.logout(href='/logout' ng-show="CurrentUser.requiresAuthentication()" id="logout_link") logout
 
         li.application(ng-repeat="application in applications | orderBy:'toString()'")
             a(ng-href="/#!/applications/{{application}}" ng-class="{ active: isActive(application) }") {{application}}
