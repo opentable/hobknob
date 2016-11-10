@@ -5,7 +5,8 @@ var application = function() {
   switch (config.dataSource.toLowerCase()) {
     case 'etcd':
       return require('./etcd/application');
-
+    case 'redis':
+      return require('./redis/application');
     default:
       return null;
   }

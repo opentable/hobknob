@@ -5,7 +5,8 @@ var audit = function() {
   switch (config.dataSource.toLowerCase()) {
     case 'etcd':
       return require('./etcd/audit');
-
+    case 'redis':
+      return require('./redis/audit');
     default:
       return null;
   }

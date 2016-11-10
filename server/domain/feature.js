@@ -5,7 +5,8 @@ var feature = function() {
   switch (config.dataSource.toLowerCase()) {
     case 'etcd':
       return require('./etcd/feature');
-
+    case 'redis':
+      return require('./redis/feature');
     default:
       return null;
   }
