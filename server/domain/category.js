@@ -2,9 +2,8 @@
 
 var _ = require('underscore');
 var config = require('./../../config/config.json');
-var acl = require('./../acl');
-var audit = require('./../audit');
-var etcdBaseUrl = 'http://' + config.etcdHost + ':' + config.etcdPort + '/v2/keys/';
+var acl = require('./acl');
+var audit = require('./audit');
 
 var getCategory = function (id, name, description, columns, features) {
     return {
@@ -16,8 +15,11 @@ var getCategory = function (id, name, description, columns, features) {
     };
 };
 
-var simpleCategoryId = 0;
+var simpleCategoryId = 0,
+    totalFeatureToggles = 0;
+
 module.exports.simpleCategoryId = simpleCategoryId;
+module.exports.totalFeatureToggles = totalFeatureToggles;
 
 var getSimpleCategory = function (name, description) {
     return getCategory(0, name || 'Simple Features',
@@ -41,4 +43,3 @@ module.exports.getCategoriesFromConfig = function () {
     });
     return _.object(categories);
 };
-

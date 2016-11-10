@@ -21,6 +21,7 @@
     "async": "^2.0.0-rc.6",
     "body-parser": "^1.14.0",
     "config": "^1.16.0",
+    "connect-etcd": "0.0.2",
     "express": "~3.4.8",
     "express-session": "^1.11.3",
     "js-yaml": "~3.4.2",

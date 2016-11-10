@@ -1,10 +1,8 @@
 'use strict';
 
-var etcd = require('../etcd');
 var _ = require('underscore');
-var acl = require('../acl');
+var acl = require('../domain/acl');
 var validator = require('validator');
-var config = require('./../../config/config.json');
 
 module.exports = {
     getUsers: function (req, res) {
