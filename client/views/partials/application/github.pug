@@ -1,10 +1,10 @@
 .panel.panel-default(ng-controller="GithubController")
-    .panel-heading
-        h3.panel-title Github
-    .panel-body
-        p.category-description Please supply this applications Github repo url to enable the 'search for toggle in code' feature
-        form(role="form")
-            .form-group
-                label(for="github-url") Github Repo Url
-                input#github-repo-url.form-control(type="text", placeholder="e.g. https://github.com/opentable/{{applicationName}}", ng-model="githubRepoUrl")
-            button#save-github-repo-url.btn.btn-default(ng-click="saveGithubRepoUrl()") Save
+  .panel-heading
+    h3.panel-title Github
+  .panel-body
+    p.category-description Please supply this applications Github repo url to enable the 'search for toggle in code' feature
+    form(role="form")
+      .form-group
+        label(for="github-url") Github Repo Url
+        input#github-repo-url.form-control(type="text", placeholder="e.g. https://github.com/opentable/{{applicationName}}", ng-model="githubRepoUrl")
+      button#save-github-repo-url.btn.btn-default(ng-click="saveGithubRepoUrl()") Save

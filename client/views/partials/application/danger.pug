@@ -1,7 +1,7 @@
 .panel.panel-danger(ng-controller="ApplicationDangerController",ng-show="userHasPermissionsLoaded && userHasPermissions")
-    .panel-heading
-        h3.panel-title Danger Zone
-    .panel-body
-        button.btn.btn-danger(ng-click="deleteApplication()")
-            span(ng-show="confirm") Confirm delete
-            span(ng-hide="confirm") Delete Application
+  .panel-heading
+    h3.panel-title Danger Zone
+  .panel-body
+    button.btn.btn-danger(ng-click="deleteApplication()")
+      span(ng-show="confirm") Confirm delete
+      span(ng-hide="confirm") Delete Application

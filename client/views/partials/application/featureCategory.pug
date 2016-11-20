@@ -1,33 +1,33 @@
 .panel.panel-default(ng-cloak,ng-controller="FeatureCategoryController",data-category-id="{{category.id}}")
-    .panel-heading
-        h3.panel-title {{category.name}}
-    .panel-body(ng-hide="loadingFeatures")
-        p.category-description {{category.description}}
-        p
-            em(ng-hide="category.features.length>0") No features added yet
-        table.table.table-striped(ng-show="category.features.length>0")
-            trhead
-                tr
-                    th Name
-                    th Description
-                    th.col-md-1(ng-repeat="column in category.columns") {{column}}
-            trbody
-                tr(ng-repeat="feature in category.features | orderBy: 'name'")
-                    td
-                        a(href="/#!/applications/{{applicationName}}/{{feature.name}}") {{feature.name}}
-                    td
-                        span {{ feature.description || "" }}
-                    td(ng-repeat="value in feature.values track by $index")
-                        span.tick.fa.fa-check-circle(ng-show="value")
-                        span.cross.fa.fa-times-circle(ng-show="value == false")
-                        span.dash.fa.fa-minus-circle(ng-show="value == null")
-        .add-form(ng-show="userHasPermissionsLoaded && userHasPermissions")
-            button.btn.btn-success(type="button",ng-click="setAddingFeatureState(true)",ng-hide="adding") New Feature
-            div
-                form(ng-submit="addFeature()")
-                    p
-                        input.form-control(type="text",id="name-input", ng-model="newFeatureName",placeholder="Feature Name",focus-on="newFeatureName",ng-show="adding")
-                    p
-                        input.form-control(type="text",id="desc-input", ng-model="newFeatureDescription",placeholder="Feature Description",focus-on="newFeatureDescription",ng-show="adding")
-                    button.btn.btn-warning.pull-right(type="button",ng-click="setAddingFeatureState(false)",ng-show="adding") Cancel
-                    button.btn.btn-success.pull-right(type="submit",ng-show="adding") Add
+  .panel-heading
+    h3.panel-title {{category.name}}
+  .panel-body(ng-hide="loadingFeatures")
+    p.category-description {{category.description}}
+    p
+      em(ng-hide="category.features.length>0") No features added yet
+    table.table.table-striped(ng-show="category.features.length>0")
+      trhead
+        tr
+          th Name
+          th Description
+          th.col-md-1(ng-repeat="column in category.columns") {{column}}
+      trbody
+        tr(ng-repeat="feature in category.features | orderBy: 'name'")
+          td
+            a(href="/#!/applications/{{applicationName}}/{{feature.name}}") {{feature.name}}
+          td
+            span {{ feature.description || "" }}
+          td(ng-repeat="value in feature.values track by $index")
+            span.tick.fa.fa-check-circle(ng-show="value")
+            span.cross.fa.fa-times-circle(ng-show="value == false")
+            span.dash.fa.fa-minus-circle(ng-show="value == null")
+    .add-form(ng-show="userHasPermissionsLoaded && userHasPermissions")
+      button.btn.btn-success(type="button",ng-click="setAddingFeatureState(true)",ng-hide="adding") New Feature
+      div
+        form(ng-submit="addFeature()")
+          p
+            input.form-control(type="text",id="name-input", ng-model="newFeatureName",placeholder="Feature Name",focus-on="newFeatureName",ng-show="adding")
+          p
+            input.form-control(type="text",id="desc-input", ng-model="newFeatureDescription",placeholder="Feature Description",focus-on="newFeatureDescription",ng-show="adding")
+          button.btn.btn-warning.pull-right(type="button",ng-click="setAddingFeatureState(false)",ng-show="adding") Cancel
+          button.btn.btn-success.pull-right(type="submit",ng-show="adding") Add

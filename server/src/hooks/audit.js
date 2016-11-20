@@ -4,12 +4,12 @@ var audit = require('../../domain/audit');
 
 module.exports = {
   /*
-  {
-    user: { name: 'anonymous' },
-    applicationName: 'my-app',
-    featureName: 'my-feature',
-  }
-  */
+   {
+   user: { name: 'anonymous' },
+   applicationName: 'my-app',
+   featureName: 'my-feature',
+   }
+   */
   addFeature: function (featureEvent, next) {
     audit.addFeatureAudit(
       featureEvent.user,
@@ -20,12 +20,12 @@ module.exports = {
       'Feature Created', next);
   },
   /*
-  {
-    user: { name: 'anonymous' },
-    applicationName: 'my-app',
-    featureName: 'my-feature',
-  }
-  */
+   {
+   user: { name: 'anonymous' },
+   applicationName: 'my-app',
+   featureName: 'my-feature',
+   }
+   */
   deleteFeature: function (featureEvent, next) {
     audit.addFeatureAudit(
       featureEvent.user,
@@ -36,14 +36,14 @@ module.exports = {
       'Deleted', next);
   },
   /*
-  {
-    user: { name: 'anonymous' },
-    applicationName: 'my-app',
-    featureName: 'my-feature',
-    toggleName: 'my-toggle',
-    value: false
-  }
-  */
+   {
+   user: { name: 'anonymous' },
+   applicationName: 'my-app',
+   featureName: 'my-feature',
+   toggleName: 'my-toggle',
+   value: false
+   }
+   */
   addFeatureToggle: function (toggleEvent, next) {
     audit.addFeatureAudit(
       toggleEvent.user,
@@ -54,14 +54,14 @@ module.exports = {
       'Toggle Created', next);
   },
   /*
-  {
-    user: { name: 'anonymous' },
-    applicationName: 'my-app',
-    featureName: 'my-feature',
-    toggleName: 'my-toggle',
-    value: false
-  }
-  */
+   {
+   user: { name: 'anonymous' },
+   applicationName: 'my-app',
+   featureName: 'my-feature',
+   toggleName: 'my-toggle',
+   value: false
+   }
+   */
   updateFeatureToggle: function (updateEvent, next) {
     audit.addFeatureAudit(
       updateEvent.user,
@@ -72,13 +72,13 @@ module.exports = {
       'Updated', next);
   },
   /*
-  {
-    user: { name: 'anonymous' },
-    applicationName: 'my-app',
-    featureName: 'my-feature',
-    toggleName: 'my-toggle'
-  }
-  */
+   {
+   user: { name: 'anonymous' },
+   applicationName: 'my-app',
+   featureName: 'my-feature',
+   toggleName: 'my-toggle'
+   }
+   */
   deleteFeatureToggle: function (deleteEvent, next) {
     audit.addFeatureAudit(
       deleteEvent.user,

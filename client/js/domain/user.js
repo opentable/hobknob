@@ -1,58 +1,58 @@
 'use strict';
 
 angular.module('featureToggleFrontend')
-    .factory('CurrentUser', function ($window, ENV) {
-        function CurrentUser() {
-            if (ENV.RequiresAuth === true) {
-                var data = $window.user._json;
-                angular.extend(this, data);
-            }
+  .factory('CurrentUser', function ($window, ENV) {
+    function CurrentUser() {
+      if (ENV.RequiresAuth === true) {
+        var data = $window.user._json; // eslint-disable-line no-underscore-dangle
+        angular.extend(this, data);
+      }
+    }
+
+    // todo: what does this do?
+    CurrentUser.create = function (data) {
+      return new CurrentUser(data);
+    };
+
+    CurrentUser.prototype = {
+
+      getPicture: function () {
+        if (!ENV.RequiresAuth) {
+          return '/img/user-blue.jpeg';
         }
 
-        // todo: what does this do?
-        CurrentUser.create = function (data) {
-            return new CurrentUser(data);
-        };
+        if (ENV.AuthProviders.AzureAuth && this.picture) {
+          return 'data:image/png;base64,' + this.picture;
+        }
 
-        CurrentUser.prototype = {
+        if (this.picture) {
+          return this.picture;
+        }
 
-          getPicture: function () {
-            if (!ENV.RequiresAuth) {
-                return '/img/user-blue.jpeg';
-            }
+        return '/img/user-blue.jpeg';
+      },
 
-            if (ENV.AuthProviders.AzureAuth && this.picture) {
-                return 'data:image/png;base64,' + this.picture;
-            }
+      getUser: function () {
+        return this;
+      },
 
-            if (this.picture) {
-                return this.picture;
-            }
+      getEmail: function () {
+        return this.email.toLowerCase();
+      },
 
-            return '/img/user-blue.jpeg';
-          },
+      getFullName: function () {
+        if (!ENV.RequiresAuth) {
+          return 'Anonymous';
+        }
 
-          getUser: function () {
-              return this;
-          },
+        return this.name.givenName + ' ' + this.name.familyName;
+      },
 
-          getEmail: function() {
-            return this.email.toLowerCase();
-          },
+      requiresAuthentication: function () {
+        return ENV.RequiresAuth;
+      }
 
-          getFullName: function () {
-              if (!ENV.RequiresAuth) {
-                return 'Anonymous';
-              }
+    };
 
-              return this.name.givenName + ' ' + this.name.familyName;
-          },
-
-          requiresAuthentication: function () {
-              return ENV.RequiresAuth;
-          }
-
-        };
-
-        return new CurrentUser();
-    });
+    return new CurrentUser();
+  });

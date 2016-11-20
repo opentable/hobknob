@@ -14,10 +14,11 @@ var hooks = builtInHooks.concat(customHooks).map(function (hook) {
   var hookpath = path.resolve(hook);
   try {
     return require(hookpath);
-  }
-  catch (error) {
+  } catch (error) {
     console.log('Error loading hook: ' + hookpath);
   }
+
+  return null;
 });
 
 module.exports.run = function (ev) {
@@ -26,8 +27,8 @@ module.exports.run = function (ev) {
       var fn = async.timeout(hook[ev.fn], TIMEOUT);
       return fn(ev, done);
     }
-    done();
-  }, function(err) {
+    return done();
+  }, function (err) {
     if (err) {
       console.log(err);
     }

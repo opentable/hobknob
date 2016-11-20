@@ -1,9 +1,9 @@
 h1.content-heading {{applicationName}}
 .col-md-12
-    .alert.alert-warning(ng-show="userHasPermissionsLoaded && !userHasPermissions") You do not have permissions to add features for this application. Please contact an Owner of this application if you require this ability.
-    div(ng-controller="FeatureCategoriesController")
-        div(ng-repeat="category in categories")
-            include ./application/featureCategory.pug
-    include ./application/owners.pug
-    include ./application/github.pug
-    include ./application/danger.pug
+  .alert.alert-warning(ng-show="userHasPermissionsLoaded && !userHasPermissions") You do not have permissions to add features for this application. Please contact an Owner of this application if you require this ability.
+  div(ng-controller="FeatureCategoriesController")
+    div(ng-repeat="category in categories")
+      include ./application/featureCategory.pug
+  include ./application/owners.pug
+  include ./application/github.pug
+  include ./application/danger.pug

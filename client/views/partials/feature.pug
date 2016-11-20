@@ -1,9 +1,9 @@
 div(ng-controller="FeatureViewController")
-    h1.content-heading
-        a(ng-href="/#!/applications/{{applicationName}}") {{applicationName}}
-        |  / {{featureName}}
-    .col-md-12
-        .alert.alert-warning(ng-show="userHasPermissionsLoaded && !userHasPermissions") You do not have permissions to create/update/delete toggles for this application. Please contact an Owner of this application if you require this ability.
-        include ./feature/toggles
-        include ./feature/audit
-        include ./feature/danger
+  h1.content-heading
+    a(ng-href="/#!/applications/{{applicationName}}") {{applicationName}}
+    |  / {{featureName}}
+  .col-md-12
+    .alert.alert-warning(ng-show="userHasPermissionsLoaded && !userHasPermissions") You do not have permissions to create/update/delete toggles for this application. Please contact an Owner of this application if you require this ability.
+    include ./feature/toggles
+    include ./feature/audit
+    include ./feature/danger

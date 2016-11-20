@@ -1,31 +1,31 @@
 #toggles.panel.panel-default(ng-controller="TogglesController")
-    .panel-heading
-        h3.panel-title
-            | Toggles
-    .panel-body
-        p
-            span(editable-text="description" onaftersave="updateToggleDescription(featureName, description)") {{ description || "Add description" }}
-        p(ng-hide="toggles.length")
-            em No toggles added yet
-        table.table.table-striped(ng-show="toggles.length")
-            trhead
-                tr
-                    th Name
-                    th
-            trbody
-                tr(ng-repeat="toggle in toggles", data-toggle-name="{{toggle.name}}")
-                    td
-                        span {{toggle.name}}
-                        | &nbsp;
-                        a.find-your-code(href="{{toggle.githubSearchUrl}}", target="_blank", tooltip="Find this toogle in your code")
-                            i.fa.fa-search
-                    td
-                        .pull-right
-                            toggle-switch( ng-model="toggle.value" ng-change="updateThisToggle(toggle)" ng-disabled="userHasPermissionsLoaded && !userHasPermissions" data-toggle="{{toggle.name}}").switch-primary
-        .add-form(ng-show="isMultiToggle && userHasPermissionsLoaded && userHasPermissions && toggleSuggestions.length > 0")
-            button.btn.btn-success(type="button",ng-click="setAddingToggleState(true)",ng-hide="adding") Add Toggle
-            div
-                form(ng-submit="addToggle()")
-                    select.form-control(ng-model="newToggleName" ng-options="toggleSuggestion for toggleSuggestion in toggleSuggestions" ng-show="adding")
-                    button.btn.btn-warning.pull-right(type="button",ng-click="setAddingToggleState(false)",ng-show="adding") Cancel
-                    button.btn.btn-success.pull-right(type="submit",ng-show="adding") Add
+  .panel-heading
+    h3.panel-title
+      | Toggles
+  .panel-body
+    p
+      span(editable-text="description" onaftersave="updateToggleDescription(featureName, description)") {{ description || "Add description" }}
+    p(ng-hide="toggles.length")
+      em No toggles added yet
+    table.table.table-striped(ng-show="toggles.length")
+      trhead
+        tr
+          th Name
+          th
+      trbody
+        tr(ng-repeat="toggle in toggles", data-toggle-name="{{toggle.name}}")
+          td
+            span {{toggle.name}}
+            | &nbsp;
+            a.find-your-code(href="{{toggle.githubSearchUrl}}", target="_blank", tooltip="Find this toogle in your code")
+              i.fa.fa-search
+          td
+            .pull-right
+              toggle-switch( ng-model="toggle.value" ng-change="updateThisToggle(toggle)" ng-disabled="userHasPermissionsLoaded && !userHasPermissions" data-toggle="{{toggle.name}}").switch-primary
+    .add-form(ng-show="isMultiToggle && userHasPermissionsLoaded && userHasPermissions && toggleSuggestions.length > 0")
+      button.btn.btn-success(type="button",ng-click="setAddingToggleState(true)",ng-hide="adding") Add Toggle
+      div
+        form(ng-submit="addToggle()")
+          select.form-control(ng-model="newToggleName" ng-options="toggleSuggestion for toggleSuggestion in toggleSuggestions" ng-show="adding")
+          button.btn.btn-warning.pull-right(type="button",ng-click="setAddingToggleState(false)",ng-show="adding") Cancel
+          button.btn.btn-success.pull-right(type="submit",ng-show="adding") Add

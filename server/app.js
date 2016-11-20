@@ -25,13 +25,13 @@ app.use(express.urlencoded()); // to support URL-encoded bodies
 app.use(express.favicon());
 
 if (config.loggingMiddleware && config.loggingMiddleware.path) {
-    app.use(require(config.loggingMiddleware.path)(config.loggingMiddleware.settings));
+  app.use(require(config.loggingMiddleware.path)(config.loggingMiddleware.settings));
 } else {
-    app.use(express.logger('dev'));
+  app.use(express.logger('dev'));
 }
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.cookieParser('featuretoggle'));
 app.use(require('./session').init(config, express));
@@ -44,53 +44,53 @@ app.use('/bower_components', express.static(path.join(__dirname, '/../public/bow
 
 app.get('/_lbstatus', loadBalancerRoutes.lbstatus);
 app.get('/service-status', function (req, res) {
-    res.status(200).end();
+  res.status(200).end();
 });
 
 var isAuthenticated = function (req) {
-    return !config.RequiresAuth || req.isAuthenticated();
+  return !config.RequiresAuth || req.isAuthenticated();
 };
 
 var ensureAuthenticatedOrRedirectToLogin = function (req, res, next) {
-    if (isAuthenticated(req)) {
-        return next();
-    }
-    res.redirect('/login');
+  if (isAuthenticated(req)) {
+    return next();
+  }
+  return res.redirect('/login');
 };
 
 var ensureAuthenticated = function (req, res, next) {
-    if (isAuthenticated(req)) {
-        return next();
-    }
-    res.send(403);
+  if (isAuthenticated(req)) {
+    return next();
+  }
+  return res.send(403);
 };
 
 var authoriseUserForThisApplication = function (req, res, next) {
-    if (!config.RequiresAuth) {
-        next();
-        return;
+  if (!config.RequiresAuth) {
+    next();
+    return;
+  }
+
+  var applicationName = req.params.applicationName;
+  var userEmail = req.user._json.email; // eslint-disable-line no-underscore-dangle
+
+  acl.assert(userEmail, applicationName, function (err, isAuthorised) {
+    if (err || !isAuthorised) {
+      res.send(403);
+    } else {
+      next();
     }
-
-    var applicationName = req.params.applicationName;
-    var userEmail = req.user._json.email;
-
-    acl.assert(userEmail, applicationName, function (err, isAuthorised) {
-        if (err || !isAuthorised) {
-            res.send(403);
-        } else {
-            next();
-        }
-    });
+  });
 };
 
 var passportGoogleAuthenticateParams = function () {
-    var defaultParams = {
-        scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']
-    };
+  var defaultParams = {
+    scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']
+  };
 
-    var conf = (config.AuthProviders && config.AuthProviders.GoogleAuth && config.AuthProviders.GoogleAuth.authentication) || {};
+  var conf = (config.AuthProviders && config.AuthProviders.GoogleAuth && config.AuthProviders.GoogleAuth.authentication) || {};
 
-    return _.extend(defaultParams, conf);
+  return _.extend(defaultParams, conf);
 };
 
 
@@ -101,17 +101,17 @@ app.get('/partials/:name', dashboardRoutes.partials);
 app.get('/logout', authenticateRoutes.logout);
 
 app.get('/auth/google',
-    passport.authenticate('google', passportGoogleAuthenticateParams()),
-    function (req, res) {
-        // The request will be redirected to Google for authentication
-    }
+  passport.authenticate('google', passportGoogleAuthenticateParams()),
+  function (req, res) {
+    // The request will be redirected to Google for authentication
+  }
 );
 
 app.get('/auth/google/callback',
-    passport.authenticate('google', {failureRedirect: '/oops', failureFlash: true}),
-    function (req, res) {
-        res.redirect('/#!/');
-    }
+  passport.authenticate('google', { failureRedirect: '/oops', failureFlash: true }),
+  function (req, res) {
+    res.redirect('/#!/');
+  }
 );
 
 app.get('/auth/azureadoauth2',
@@ -126,7 +126,7 @@ app.get('/auth/azureadoauth2/callback',
   });
 
 if (config.plugin && config.plugin.path) {
-    require(config.plugin.path)(app);
+  require(config.plugin.path)(app);
 }
 
 app.post('/api/applications/:applicationName/users', ensureAuthenticated, authoriseUserForThisApplication, authorisationRoutes.grant);

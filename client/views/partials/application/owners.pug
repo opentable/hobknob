@@ -1,23 +1,23 @@
 .panel.panel-default(ng-controller="ApplicationOwnersController",ng-show="requiresAuthentication")
-    .panel-heading
-        h3.panel-title Owners
-    .panel-body
-        table.table(ng-hide="loadingUsers")
-            trhead
-                tr
-                    th Email
-                    th
-            trbody
-                tr(ng-repeat="user in users | orderBy: 'toString()'")
-                    td
-                        | {{user}}
-                    td
-                        .pull-right
-                            button.btn.btn-danger.pull-right(type="button",ng-click="revokeUser(user)",ng-show="userHasPermissions") Remove
-        .add-form(ng-show="userHasPermissionsLoaded && userHasPermissions")
-            button.btn.btn-success(type="button",ng-click="setAddingUserState(true)",ng-hide="addingUser") Add user
-            div
-                form(ng-submit="grantUser()")
-                    input.form-control(type="text",ng-model="newUserEmail",placeholder="User Email",focus-on="newUserEmail",ng-show="addingUser")
-                    button.btn.btn-warning.pull-right(type="button",ng-click="setAddingUserState(false)",ng-show="addingUser") Cancel
-                    button.btn.btn-success.pull-right(type="submit",ng-show="addingUser") Add
+  .panel-heading
+    h3.panel-title Owners
+  .panel-body
+    table.table(ng-hide="loadingUsers")
+      trhead
+        tr
+          th Email
+          th
+      trbody
+        tr(ng-repeat="user in users | orderBy: 'toString()'")
+          td
+            | {{user}}
+          td
+            .pull-right
+              button.btn.btn-danger.pull-right(type="button",ng-click="revokeUser(user)",ng-show="userHasPermissions") Remove
+    .add-form(ng-show="userHasPermissionsLoaded && userHasPermissions")
+      button.btn.btn-success(type="button",ng-click="setAddingUserState(true)",ng-hide="addingUser") Add user
+      div
+        form(ng-submit="grantUser()")
+          input.form-control(type="text",ng-model="newUserEmail",placeholder="User Email",focus-on="newUserEmail",ng-show="addingUser")
+          button.btn.btn-warning.pull-right(type="button",ng-click="setAddingUserState(false)",ng-show="addingUser") Cancel
+          button.btn.btn-success.pull-right(type="submit",ng-show="addingUser") Add

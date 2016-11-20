@@ -1,26 +1,26 @@
 .panel.panel-default
-    .panel-heading
-        h3.panel-title
-            | Audit
-    .panel-body(ng-controller="FeatureAuditController")
-        table.table.table-striped
-            trhead
-                tr
-                    th Toggle
-                    th User
-                    th Action
-                    th Date Modified
-                    th
-            trbody
-                tr(ng-repeat="audit in auditTrail | orderBy:'createdIndex'" ng-animate=" 'animate' ")
-                    td
-                        | {{featureName}}
-                        span(ng-show="audit.toggleName") /{{audit.toggleName}}
-                    td {{ isObject(audit.user.name) ? audit.user.name.givenName + ' ' + audit.user.name.familyName : audit.user.name }}
-                    td {{audit.action}}
-                    td {{audit.dateModified | date:'medium'}}
-                    td
-                        .pull-right
-                            span.tick.fa.fa-check-circle(ng-show="audit.value")
-                            span.cross.fa.fa-times-circle(ng-show="audit.value == false")
-                            span.dash.fa.fa-minus-circle(ng-show="audit.value == null")
+  .panel-heading
+    h3.panel-title
+      | Audit
+  .panel-body(ng-controller="FeatureAuditController")
+    table.table.table-striped
+      trhead
+        tr
+          th Toggle
+          th User
+          th Action
+          th Date Modified
+          th
+      trbody
+        tr(ng-repeat="audit in auditTrail | orderBy:'createdIndex'" ng-animate=" 'animate' ")
+          td
+            | {{featureName}}
+            span(ng-show="audit.toggleName") /{{audit.toggleName}}
+          td {{ isObject(audit.user.name) ? audit.user.name.givenName + ' ' + audit.user.name.familyName : audit.user.name }}
+          td {{audit.action}}
+          td {{audit.dateModified | date:'medium'}}
+          td
+            .pull-right
+              span.tick.fa.fa-check-circle(ng-show="audit.value")
+              span.cross.fa.fa-times-circle(ng-show="audit.value == false")
+              span.dash.fa.fa-minus-circle(ng-show="audit.value == null")
