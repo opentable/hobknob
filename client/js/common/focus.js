@@ -1,19 +1,13 @@
-'use strict';
-
-featureToggleFrontend.directive('focusOn', function () {
-  return function (scope, elem, attr) {
-    scope.$on('focusOn', function (e, name) {
-      if (name === attr.focusOn) {
-        elem[0].focus();
-      }
-    });
-  };
+featureToggleFrontend.directive('focusOn', () => (scope, elem, attr) => {
+  scope.$on('focusOn', (e, name) => {
+    if (name === attr.focusOn) {
+      elem[0].focus();
+    }
+  });
 });
 
-featureToggleFrontend.factory('focus', function ($rootScope, $timeout) {
-  return function (name) {
-    $timeout(function () {
-      $rootScope.$broadcast('focusOn', name);
-    });
-  };
+featureToggleFrontend.factory('focus', ($rootScope, $timeout) => (name) => {
+  $timeout(() => {
+    $rootScope.$broadcast('focusOn', name);
+  });
 });

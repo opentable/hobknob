@@ -1,19 +1,17 @@
-'use strict';
-
-featureToggleFrontend.controller('AlertController', ['$scope', '$rootScope', function ($scope, $rootScope) {
+featureToggleFrontend.controller('AlertController', ['$scope', '$rootScope', ($scope, $rootScope) => {
   $scope.alert = null;
 
-  $rootScope.$on('success', function (event, message) {
+  $rootScope.$on('success', (event, message) => {
     $scope.alert = {
-      message: message,
-      class: 'alert-success'
+      message,
+      class: 'alert-success',
     };
   });
 
-  $rootScope.$on('error', function (event, message, err) {
+  $rootScope.$on('error', (event, message, err) => {
     $scope.alert = {
-      message: message,
-      class: 'alert-danger'
+      message,
+      class: 'alert-danger',
     };
 
     if (err) {
@@ -21,7 +19,7 @@ featureToggleFrontend.controller('AlertController', ['$scope', '$rootScope', fun
     }
   });
 
-  $scope.$on('$locationChangeStart', function () {
+  $scope.$on('$locationChangeStart', () => {
     $scope.alert = null;
   });
 }]);

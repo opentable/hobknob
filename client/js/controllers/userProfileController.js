@@ -1,5 +1,3 @@
-'use strict';
-
-featureToggleFrontend.controller('UserProfileController', ['$scope', 'CurrentUser', function ($scope, CurrentUser) {
+featureToggleFrontend.controller('UserProfileController', ['$scope', 'CurrentUser', ($scope, CurrentUser) => {
   $scope.currentUser = CurrentUser;
 }]);

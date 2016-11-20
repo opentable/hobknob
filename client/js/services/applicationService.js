@@ -1,59 +1,57 @@
-'use strict';
-
 angular.module('featureToggleFrontend').factory('applicationService', ['$http', function ($http) {
-  var exports = {};
+  const exports = {};
 
-  exports.getApplications = function (success, error) {
-    var path = '/api/applications';
+  exports.getApplications = (success, error) => {
+    const path = '/api/applications';
     return $http.get(path)
-      .success(function (data) {
+      .success((data) => {
         success(data);
       })
-      .error(function (data) {
+      .error((data) => {
         error(data);
       });
   };
 
-  exports.addApplication = function (name, success, error) {
-    var path = '/api/applications';
-    $http.put(path, { name: name })
-      .success(function (data, status) {
+  exports.addApplication = (name, success, error) => {
+    const path = '/api/applications';
+    $http.put(path, { name })
+      .success((data, status) => {
         success(status);
       })
-      .error(function (data) {
+      .error((data) => {
         error(data);
       });
   };
 
-  exports.deleteApplication = function (name, cb) {
-    var path = '/api/applications/' + name;
+  exports.deleteApplication = (name, cb) => {
+    const path = `/api/applications/${name}`;
     $http.delete(path)
-      .success(function (data, status) {
+      .success((data, status) => {
         cb();
       })
-      .error(function (data) {
+      .error((data) => {
         cb(data);
       });
   };
 
-  exports.getApplicationMetaData = function (applicationName, cb) {
-    var path = '/api/applications/' + applicationName + '/_meta';
+  exports.getApplicationMetaData = (applicationName, cb) => {
+    const path = `/api/applications/${applicationName}/_meta`;
     $http.get(path)
-      .success(function (data, status) {
+      .success((data, status) => {
         cb(null, data);
       })
-      .error(function (data) {
+      .error((data) => {
         cb(data);
       });
   };
 
-  exports.saveApplicationMetaData = function (applicationName, metaDataKey, metaDataValue, cb) {
-    var path = '/api/applications/' + applicationName + '/_meta/' + metaDataKey;
+  exports.saveApplicationMetaData = (applicationName, metaDataKey, metaDataValue, cb) => {
+    const path = `/api/applications/${applicationName}/_meta/${metaDataKey}`;
     $http.put(path, { value: metaDataValue })
-      .success(function () {
+      .success(() => {
         cb();
       })
-      .error(function (data) {
+      .error((data) => {
         cb(data);
       });
   };

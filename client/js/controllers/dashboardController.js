@@ -1,4 +1,1 @@
-'use strict';
-
-featureToggleFrontend.controller('DashboardController', function () {
-});
+featureToggleFrontend.controller('DashboardController', () => {});

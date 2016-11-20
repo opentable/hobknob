@@ -1,10 +1,8 @@
-'use strict';
-
 angular.module('featureToggleFrontend')
   .factory('CurrentUser', function ($window, ENV) {
     function CurrentUser() {
       if (ENV.RequiresAuth === true) {
-        var data = $window.user._json; // eslint-disable-line no-underscore-dangle
+        const data = $window.user._json; // eslint-disable-line no-underscore-dangle
         angular.extend(this, data);
       }
     }
@@ -16,13 +14,13 @@ angular.module('featureToggleFrontend')
 
     CurrentUser.prototype = {
 
-      getPicture: function () {
+      getPicture: () => {
         if (!ENV.RequiresAuth) {
           return '/img/user-blue.jpeg';
         }
 
         if (ENV.AuthProviders.AzureAuth && this.picture) {
-          return 'data:image/png;base64,' + this.picture;
+          return `data:image/png;base64,${this.picture}`;
         }
 
         if (this.picture) {
@@ -32,25 +30,18 @@ angular.module('featureToggleFrontend')
         return '/img/user-blue.jpeg';
       },
 
-      getUser: function () {
-        return this;
-      },
+      getUser: () => this,
+      getEmail: () => this.email.toLowerCase(),
 
-      getEmail: function () {
-        return this.email.toLowerCase();
-      },
-
-      getFullName: function () {
+      getFullName: () => {
         if (!ENV.RequiresAuth) {
           return 'Anonymous';
         }
 
-        return this.name.givenName + ' ' + this.name.familyName;
+        return `${this.name.givenName} ${this.name.familyName}`;
       },
 
-      requiresAuthentication: function () {
-        return ENV.RequiresAuth;
-      }
+      requiresAuthentication: () => ENV.RequiresAuth,
 
     };
 

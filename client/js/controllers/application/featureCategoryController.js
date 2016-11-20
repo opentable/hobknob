@@ -1,10 +1,8 @@
-'use strict';
-
-featureToggleFrontend.controller('FeatureCategoryController', ['$scope', '$timeout', 'toggleService', 'focus', 'ENV', function ($scope, $timeout, toggleService, focus, ENV) {
+featureToggleFrontend.controller('FeatureCategoryController', ['$scope', '$timeout', 'toggleService', 'focus', 'ENV', ($scope, $timeout, toggleService, focus, ENV) => {
   $scope.adding = false;
   $scope.newFeatureName = '';
   $scope.newFeatureDescription = '';
-  $scope.setAddingFeatureState = function (state) {
+  $scope.setAddingFeatureState = (state) => {
     $scope.adding = state;
     if (state) {
       focus('newFeatureName');
@@ -13,7 +11,7 @@ featureToggleFrontend.controller('FeatureCategoryController', ['$scope', '$timeo
     }
   };
 
-  var validateNewFeature = function (featureName) {
+  const validateNewFeature = (featureName) => {
     if (!featureName) {
       return 'Must enter an feature name';
     }
@@ -27,33 +25,33 @@ featureToggleFrontend.controller('FeatureCategoryController', ['$scope', '$timeo
     return null;
   };
 
-  $scope.addFeature = function () {
-    var categoryId = $scope.category.id;
-    var featureName = $scope.newFeatureName.trim();
-    var featureDescription = $scope.newFeatureDescription.trim();
-    var validationError = validateNewFeature(featureName);
+  $scope.addFeature = () => {
+    const categoryId = $scope.category.id;
+    const featureName = $scope.newFeatureName.trim();
+    const featureDescription = $scope.newFeatureDescription.trim();
+    const validationError = validateNewFeature(featureName);
     if (validationError) {
       $scope.$emit('error', validationError);
       return;
     }
 
     toggleService.addFeature($scope.applicationName, categoryId, featureName, featureDescription,
-      function () {
+      () => {
         $scope.addFakeFeature(featureName, featureDescription, categoryId);
         $scope.setAddingFeatureState(false);
-        $scope.$emit('success', featureName + ' was successfully added');
+        $scope.$emit('success', `${featureName} was successfully added`);
       },
-      function (data) {
+      (data) => {
         $scope.$emit('error', 'Failed to add feature', new Error(data));
       });
   };
 
-  $scope.updateFeatureDescription = function (featureName, newFeatureDescription) {
+  $scope.updateFeatureDescription = (featureName, newFeatureDescription) => {
     toggleService.updateFeatureDescription($scope.applicationName, featureName, newFeatureDescription,
-      function () {
-        $scope.$emit('success', featureName + '\'s description was successfully updated');
+      () => {
+        $scope.$emit('success', `${featureName}'s description was successfully updated`);
       },
-      function (data) {
+      (data) => {
         $scope.$emit('error', 'Failed to update feature', new Error(data));
       });
   };

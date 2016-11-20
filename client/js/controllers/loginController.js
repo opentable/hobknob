@@ -1,8 +1,6 @@
-'use strict';
-
-featureToggleFrontend.controller('LoginController', ['$scope', '$window', 'ENV', function ($scope, $window, ENV) {
+featureToggleFrontend.controller('LoginController', ['$scope', '$window', 'ENV', ($scope, $window, ENV) => {
   if (ENV.RequiresAuth) {
-    var authProvider = Object.keys(ENV.AuthProviders)[0];
+    const authProvider = Object.keys(ENV.AuthProviders)[0];
 
     $scope.authProvider = authProvider;
   } else {

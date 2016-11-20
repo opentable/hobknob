@@ -1,11 +1,9 @@
-'use strict';
-
-featureToggleFrontend.controller('GithubController', ['$scope', 'applicationService', function ($scope, applicationService) {
+featureToggleFrontend.controller('GithubController', ['$scope', 'applicationService', ($scope, applicationService) => {
   $scope.githubRepoUrl = '';
   $scope.githubRepoUrlLoading = true;
 
   applicationService.getApplicationMetaData($scope.applicationName,
-    function (err, metaData) {
+    (err, metaData) => {
       if (err) {
         return $scope.$emit('error', 'Failed to load application meta data', new Error(data));
       }
@@ -14,8 +12,8 @@ featureToggleFrontend.controller('GithubController', ['$scope', 'applicationServ
       return null;
     });
 
-  $scope.saveGithubRepoUrl = function () {
-    applicationService.saveApplicationMetaData($scope.applicationName, 'githubRepoUrl', $scope.githubRepoUrl, function (err) {
+  $scope.saveGithubRepoUrl = () => {
+    applicationService.saveApplicationMetaData($scope.applicationName, 'githubRepoUrl', $scope.githubRepoUrl, (err) => {
       if (err) {
         $scope.$emit('error', 'Failed to save the github repo url', new Error(data));
       } else {
