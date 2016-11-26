@@ -3,6 +3,10 @@
 var config = require(__base + '/../config/config.json');
 var acl = function() {
   switch (config.dataSource.toLowerCase()) {
+    case 'api':
+      // TODO: fix me
+      return require(__base + '/domain/etcd/acl');
+
     case 'etcd':
       return require(__base + '/domain/etcd/acl');
 

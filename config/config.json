@@ -1,6 +1,13 @@
 {
     "RequiresAuth": false,
-    "dataSource": "etcd",
+    "dataSource": "api",
+    "dataSources": {
+      "api": {
+        "host": "127.0.0.1",
+        "port": 3005,
+        "ssl": false
+      }
+    },
     "etcdHost": "127.0.0.1",
     "etcdPort": "4001",
     "hobknobHost": "localhost",

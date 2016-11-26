@@ -3,6 +3,10 @@
 var config = require(__base + '/../config/config.json');
 var audit = function() {
   switch (config.dataSource.toLowerCase()) {
+    case 'api':
+      // TODO: fix me
+      return require(__base + '/domain/etcd/audit');
+
     case 'etcd':
       return require(__base + '/domain/etcd/audit');
 
