@@ -12,7 +12,7 @@ var applicationRoutes = require('./routes/applicationRoutes');
 var featureRoutes = require('./routes/featureRoutes');
 var path = require('path');
 var acl = require('./acl');
-var config = require('./../config/config.json');
+var config = require('config');
 var _ = require('underscore');
 var passport = require('./auth').init(config);
 

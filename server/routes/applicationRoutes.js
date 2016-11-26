@@ -1,6 +1,6 @@
 'use strict';
 
-var application = require('./../domain/application');
+var application = require('../domain/application');
 
 var getApplications = function (req, res) {
     application.getApplications(
