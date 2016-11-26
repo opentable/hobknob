@@ -1,7 +1,7 @@
 'use strict';
 
 var fs = require('fs');
-var config = require('../../config/config.json');
+var config = require(__base + '/../config/server.json');
 
 exports.lbstatus = function (req, res) {
     var filePath = config.loadBalancerFile;

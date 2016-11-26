@@ -2,7 +2,7 @@
 
 var etcd = require(__base + '/domain/etcd/etcd');
 var _ = require('underscore');
-var config = require(__base + '/../config/server.json');
+var config = require(__base + '/../config/api.json');
 
 module.exports = {
     getApplicationAuditTrail: function (applicationName, callback) {

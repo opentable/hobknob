@@ -1,6 +1,6 @@
 'use strict';
 
-var config = require('./../../config/config.json');
+var config = require(__base + '/../config/server.json');
 
 exports.dashboard = function (req, res) {
     res.render('main',

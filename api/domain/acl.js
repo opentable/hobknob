@@ -1,12 +1,8 @@
 'use strict';
 
-var config = require(__base + '/../config/server.json');
+var config = require(__base + '/../config/api.json');
 var acl = function() {
   switch (config.dataSource.toLowerCase()) {
-    case 'api':
-      // TODO: fix me
-      return require(__base + '/domain/etcd/acl');
-
     case 'etcd':
       return require(__base + '/domain/etcd/acl');
 

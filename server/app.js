@@ -1,18 +1,19 @@
 'use strict';
+global.__base = __dirname;
 
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var dashboardRoutes = require('./routes/dashboardRoutes');
-var loadBalancerRoutes = require('./routes/loadbalancerRoutes');
-var authenticateRoutes = require('./routes/authenticateRoutes');
-var authorisationRoutes = require('./routes/authorisationRoutes');
-var auditRoutes = require('./routes/auditRoutes');
-var applicationRoutes = require('./routes/applicationRoutes');
-var featureRoutes = require('./routes/featureRoutes');
+var dashboardRoutes = require(__base + '/routes/dashboardRoutes');
+var loadBalancerRoutes = require(__base + '/routes/loadbalancerRoutes');
+var authenticateRoutes = require(__base + '/routes/authenticateRoutes');
+var authorisationRoutes = require(__base + '/routes/authorisationRoutes');
+var auditRoutes = require(__base + '/routes/auditRoutes');
+var applicationRoutes = require(__base + '/routes/applicationRoutes');
+var featureRoutes = require(__base + '/routes/featureRoutes');
 var path = require('path');
 var acl = require('./domain/acl');
-var config = require('./../config/config.json');
+var config = require(__base + '/../config/server.json');
 var _ = require('underscore');
 var passport = require('./auth').init(config);
 

@@ -1,6 +1,6 @@
 'use strict';
 
-var audit = require('./../domain/audit');
+var audit = require(__base + '/domain/audit');
 
 module.exports = {
     getFeatureAuditTrail: function (req, res) {

@@ -22,7 +22,7 @@ module.exports.init = function (config, express) {
         var EtcdStore = require('connect-etcd')(session);
 
         sessionMiddleware = session({
-            store: new EtcdStore({url: config.etcdHost, port: config.etcdPort}),
+            store: new EtcdStore({url: config.dataSources.etcd.host, port: config.dataSources.etcd.port}),
             secret: 'hobknob'
         });
     }
