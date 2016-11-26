@@ -1,11 +1,10 @@
 'use strict';
 
-var service = require(__base + '/domain/application');
-var featureService = require(__base + '/domain/feature');
+var applicationService = require(__base + '/services/application');
 
 module.exports = {
   list: function(req, res) {
-    service.getApplications(function (error, applications) {
+    applicationService.getAll(function (error, applications) {
       if (error != null) {
         throw error;
       }
@@ -16,23 +15,12 @@ module.exports = {
 
   metadata: function(req, res) {
     var applicationName = req.params.name;
-    service.getApplicationMetaData(applicationName, function (error, applicationMetaData) {
+    applicationService.buildForApplication(applicationName, function (error, application) {
       if (error != null) {
         throw error;
       }
 
-      featureService.getFeatureCategories(applicationName, function (error, features) {
-        if (error != null) {
-          throw error;
-        }
-
-        var model = {
-          name: applicationName,
-          metaData: applicationMetaData,
-          categories: features.categories
-        };
-        res.send(model);
-      });
+      res.send(application);
     });
   }
 };
