@@ -1,6 +1,6 @@
 'use strict';
 
-var config = require(__base + '/../config/config.json');
+var config = require(__base + '/../config/api.json');
 var feature = function() {
   switch (config.dataSource.toLowerCase()) {
     case 'etcd':

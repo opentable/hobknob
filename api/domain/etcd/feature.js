@@ -2,7 +2,7 @@
 
 var etcd = require(__base + '/domain/etcd/etcd');
 var _ = require('underscore');
-var config = require(__base + '/../config/config.json');
+var config = require(__base + '/../config/api.json');
 var acl = require(__base + '/domain/acl');
 var category = require(__base + '/domain/category');
 var etcdBaseUrl = 'http://' + config.etcdHost + ':' + config.etcdPort + '/v2/keys/';

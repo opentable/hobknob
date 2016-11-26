@@ -4,7 +4,7 @@ var path = require('path');
 var async = require('async');
 var TIMEOUT = 5 * 1000;
 
-var config = require(__base + '/../config/config.json');
+var config = require(__base + '/../config/api.json');
 var builtInHooks = [
   './server/src/hooks/audit.js'
 ];

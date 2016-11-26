@@ -1,7 +1,7 @@
 'use strict';
 
 var fs = require('fs');
-var config = require(__base + '/../config/config.json');
+var config = require(__base + '/../config/api.json');
 
 module.exports = {
   loadBalancer: function (req, res) {
