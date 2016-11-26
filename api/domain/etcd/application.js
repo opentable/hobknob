@@ -5,7 +5,7 @@ var _ = require('underscore');
 var config = require(__base + '/../config/api.json');
 var acl = require(__base + '/domain/acl');
 var audit = require(__base + '/domain/audit');
-var etcdBaseUrl = 'http://' + config.etcdHost + ':' + config.etcdPort + '/v2/keys/';
+var etcdBaseUrl = 'http://' + config.dataSources.etcd.host + ':' + config.dataSources.etcd.port + '/v2/keys/';
 
 var getUserDetails = function (req) {
     return config.RequiresAuth ? req.user._json : {name: 'Anonymous'};

@@ -6,10 +6,12 @@
         "host": "127.0.0.1",
         "port": 3005,
         "ssl": false
+      },
+      "etcd": {
+        "host": "127.0.0.1",
+        "port": 4001
       }
     },
-    "etcdHost": "127.0.0.1",
-    "etcdPort": "4001",
     "hobknobHost": "localhost",
     "hobknobPort": "3006",
     "loadBalancerFile": "/etc/lbstatus/hobknob",

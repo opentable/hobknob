@@ -5,7 +5,7 @@ var _ = require('underscore');
 var config = require(__base + '/../config/api.json');
 var acl = require(__base + '/domain/acl');
 var category = require(__base + '/domain/category');
-var etcdBaseUrl = 'http://' + config.etcdHost + ':' + config.etcdPort + '/v2/keys/';
+var etcdBaseUrl = 'http://' + config.dataSources.etcd.host + ':' + config.dataSources.etcd.port + '/v2/keys/';
 var s = require('string');
 var hooks = require(__base + '/src/hooks/featureHooks');
 
