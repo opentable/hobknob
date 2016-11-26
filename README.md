@@ -192,7 +192,7 @@ The configuration for the session is also stored in the config/default.json file
 }
 ```
 ## Configuring Logging
-By default, express has been configured to use a dev logger to stdout. You can configure to use different logging middleware by supplying configuration in config/defaul.json file.
+By default, express has been configured to use a dev logger to stdout. You can configure to use different logging middleware by supplying configuration in config/default.json file.
 
 ```json
 {
