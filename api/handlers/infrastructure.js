@@ -14,5 +14,10 @@ module.exports = {
               res.send(data);
           }
       });
+  },
+
+  serviceStatus: function (req, res) {
+    // TODO: implement me properly
+    res.status(200).end();
   }
 };
