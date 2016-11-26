@@ -1,6 +1,6 @@
 {
     "RequiresAuth": false,
-    "dataSource": "api",
+    "dataSource": "etcd",
     "dataSources": {
       "api": {
         "host": "127.0.0.1",
