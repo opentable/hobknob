@@ -1,7 +1,7 @@
 'use strict';
 
 var request = require('request');
-var config  = require(__base + '/../config/config.json');
+var config  = require(__base + '/../config/server.json');
 
 var buildApiUrl = function(endpoint) {
   var host = config.dataSources.api.host;

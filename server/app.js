@@ -13,7 +13,7 @@ var applicationRoutes = require(__base + '/routes/applicationRoutes');
 var featureRoutes = require(__base + '/routes/featureRoutes');
 var path = require('path');
 var acl = require('./domain/acl');
-var config = require(__base + '/../config/config.json');
+var config = require(__base + '/../config/server.json');
 var _ = require('underscore');
 var passport = require('./auth').init(config);
 

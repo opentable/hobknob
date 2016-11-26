@@ -1,6 +1,6 @@
 'use strict';
 
-var config = require(__base + '/../config/config.json');
+var config = require(__base + '/../config/server.json');
 var application = function() {
   switch (config.dataSource.toLowerCase()) {
     case 'api':
