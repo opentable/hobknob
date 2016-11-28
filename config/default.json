@@ -40,5 +40,9 @@
     },
     "hooks": [
       "server/exampleHook.js"
-    ]
+    ],
+    "customization": {
+        "logo": "/img/veinteractive-hr-mono.png",
+        "title": "Opentable Feature Toggles"
+    }
 }

@@ -1,8 +1,8 @@
 doctype html
-html(lang='en')
+html(lang='en' ng-app='featureToggleFrontend')
     head
         meta(name='viewport', content='width=device-width, initial-scale=1')
-        title Hobknob Dashboard
+        title(ng-bind="$root.title")
         link(href='/bower_components/bootstrap/dist/css/bootstrap.min.css', media='all', rel='stylesheet')
         link(href='/css/dashboard.css', media='all', rel='stylesheet')
         link(href='/bower_components/angular-xeditable/dist/css/xeditable.css' rel='stylesheet')
@@ -11,7 +11,7 @@ html(lang='en')
         script(src='/bower_components/jquery/dist/jquery.min.js')
         script(type="text/javascript").
             window.user = !{JSON.stringify(user || {}, null, 2)};
-    body(ng-app='featureToggleFrontend')
+    body
         #wrapper
             include ./sidebar.pug
             #page-content-wrapper

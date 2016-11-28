@@ -26,6 +26,9 @@ featureToggleFrontend.config(function ($routeProvider, $locationProvider, $httpP
     $httpProvider.defaults.headers.post = {'Content-Type': 'application/json'};
 });
 
-featureToggleFrontend.run(function (editableOptions) {
+featureToggleFrontend.run(function ($rootScope, editableOptions, ENV) {
     editableOptions.theme = 'bs3';
+    $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+        $rootScope.title = current.$$route.title ? current.$$route.title : ENV.customization.title;
+    });
 });

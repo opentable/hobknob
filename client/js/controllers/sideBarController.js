@@ -1,10 +1,11 @@
 'use strict';
 
-featureToggleFrontend.controller('SideBarController', ['$scope', 'applicationService', 'authorisationService', '$location', 'focus', 'CurrentUser', function ($scope, applicationService, authorisationService, $location, focus, CurrentUser) {
+featureToggleFrontend.controller('SideBarController', ['$scope', 'applicationService', 'authorisationService', '$location', 'focus', 'CurrentUser', 'ENV', function ($scope, applicationService, authorisationService, $location, focus, CurrentUser, ENV) {
     $scope.applications = [];
     $scope.newApplicationName = '';
     $scope.adding = false;
     $scope.CurrentUser = CurrentUser;
+    $scope.logo = ENV.customization.logo;
 
     var loadApplications = function () {
         applicationService.getApplications(
