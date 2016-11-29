@@ -29,6 +29,6 @@ featureToggleFrontend.config(function ($routeProvider, $locationProvider, $httpP
 featureToggleFrontend.run(function ($rootScope, editableOptions, ENV) {
     editableOptions.theme = 'bs3';
     $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
-        $rootScope.title = current.$$route.title ? current.$$route.title : ENV.customization.title;
+        $rootScope.title = current.$$route.title || ENV.customization.title;
     });
 });
