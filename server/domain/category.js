@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('underscore');
-var config = require('./../../config/config.json');
+var config = require('config');
 var acl = require('./acl');
 var audit = require('./audit');
 
