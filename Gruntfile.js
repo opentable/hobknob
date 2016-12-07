@@ -27,7 +27,7 @@ module.exports = function (grunt) {
                 space: '  ',
                 wrap: '{%= __ngModule %}',
                 constants: {
-                    ENV: require('./config/config.json')
+                    ENV: require('./config/default.json')
                 }
             },
             copyConfigToClient: {}

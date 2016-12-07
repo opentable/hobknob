@@ -2,9 +2,9 @@
 
 var etcd = require('./etcd');
 var _ = require('underscore');
-var config = require('./../../../config/config.json');
-var acl = require('./../acl');
-var category = require('./../category');
+var config = require('config');
+var acl = require('../acl');
+var category = require('../category');
 var etcdBaseUrl = 'http://' + config.etcdHost + ':' + config.etcdPort + '/v2/keys/';
 var s = require('string');
 var hooks = require('../../src/hooks/featureHooks');

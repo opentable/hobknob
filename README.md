@@ -86,7 +86,7 @@ $ npm test
 ```
 
 ## Configuring Feature Categories
-You can define the feature categories in the confuration file (config/config.json). Note, category id 0 is reserved for the simple, single value feature toggle category (however, you can still specify it in the config to set the name and description).
+You can define the feature categories in the confuration file (config/default.json). Note, category id 0 is reserved for the simple, single value feature toggle category (however, you can still specify it in the config to set the name and description).
 
 Example:
 
@@ -111,7 +111,7 @@ Example:
 ```
 
 ## Configuring Authentication
-By default Hobknob ships with authentication disabled. This is configurable by changing the config/config.json config file.
+By default Hobknob ships with authentication disabled. This is configurable by changing the config/default.json config file.
 
 ### Turning on Google OAuth
 First you must generate a google oauth client Id and client secret. To do this visit the [Google Developer Console](https://console.developers.google.com/project) and create a new project. Select this project once created and go into the section "APIs and auth" in the left hand menu. From here you can create a new oath client Id.
@@ -183,7 +183,7 @@ npm install connect-etcd --save
 
 Hobknob will realise the package is installed and assume that you therefore want to use it for session storage.
 
-The configuration for the session is also stored in the config/config.json file using the following:
+The configuration for the session is also stored in the config/default.json file using the following:
 
 ```json
 {
@@ -192,7 +192,7 @@ The configuration for the session is also stored in the config/config.json file 
 }
 ```
 ## Configuring Logging
-By default, express has been configured to use a dev logger to stdout. You can configure to use different logging middleware by supplying configuration in config/config.json file.
+By default, express has been configured to use a dev logger to stdout. You can configure to use different logging middleware by supplying configuration in config/default.json file.
 
 ```json
 {
@@ -219,7 +219,7 @@ module.exports = function(settings) {
 };
 ```
 
-config/config.json:
+config/default.json:
 ```json
 {
   ...
