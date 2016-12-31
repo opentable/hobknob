@@ -1,6 +1,7 @@
 'use strict';
 
 var config = require('config');
+var common = require('./common');
 var audit = require('./audit');
 var acl = require('./acl');
 
@@ -14,10 +15,6 @@ var application = function() {
   }
 };
 
-var getUserDetails = function (req) {
-    return config.RequiresAuth ? req.user._json : {name: 'Anonymous'};
-};
-
 module.exports = {
     getApplications: function (cb) {
       application().getApplications(cb);
@@ -29,7 +26,9 @@ module.exports = {
             return cb(err);
         }
 
-        audit.addApplicationAudit(getUserDetails(req), applicationName, 'Created', function () {
+        var userDetails = common.getUserDetails(req)
+
+        audit.addApplicationAudit(userDetails, applicationName, 'Created', function () {
             if (err) {
                 cb(err);
                 return;
@@ -37,7 +36,7 @@ module.exports = {
         });
 
         if (config.RequiresAuth) {
-            var userEmail = getUserDetails(req).email.toLowerCase(); // todo: need better user management
+            var userEmail = userDetails.email.toLowerCase(); // todo: need better user management
             acl.grant(userEmail, applicationName, function (grantErr) {
                 if (grantErr) {
                     cb(grantErr);
@@ -57,7 +56,7 @@ module.exports = {
               return cb(err);
           }
 
-          audit.addApplicationAudit(getUserDetails(req), applicationName, 'Deleted', function () {
+          audit.addApplicationAudit(common.getUserDetails(req), applicationName, 'Deleted', function () {
               if (err) {
                   console.log(err);
               }

@@ -7,10 +7,6 @@ var acl = require('../acl');
 var audit = require('../audit');
 var etcdBaseUrl = 'http://' + config.etcdHost + ':' + config.etcdPort + '/v2/keys/';
 
-var getUserDetails = function (req) {
-    return config.RequiresAuth ? req.user._json : {name: 'Anonymous'};
-};
-
 module.exports = {
     getApplications: function (cb) {
         etcd.client.get('v1/toggles/', {recursive: false}, function (err, result) {
