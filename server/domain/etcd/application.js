@@ -7,10 +7,6 @@ var acl = require('../acl');
 var audit = require('../audit');
 var etcdBaseUrl = 'http://' + config.etcdHost + ':' + config.etcdPort + '/v2/keys/';
 
-var getUserDetails = function (req) {
-    return config.RequiresAuth ? req.user._json : {name: 'Anonymous'};
-};
-
 module.exports = {
     getApplications: function (cb) {
         etcd.client.get('v1/toggles/', {recursive: false}, function (err, result) {
@@ -31,58 +27,13 @@ module.exports = {
     },
 
     addApplication: function (applicationName, req, cb) {
-        var path = 'v1/toggles/' + applicationName;
-        etcd.client.mkdir(path, function (err) {
-            if (err) {
-                return cb(err);
-            }
-
-            audit.addApplicationAudit(getUserDetails(req), applicationName, 'Created', function () {
-                if (err) {
-                    console.log(err); // todo: better logging
-                }
-            });
-
-            // todo: not sure if this is correct
-            if (config.RequiresAuth) {
-                var userEmail = getUserDetails(req).email.toLowerCase(); // todo: need better user management
-                acl.grant(userEmail, applicationName, function (grantErr) {
-                    if (grantErr) {
-                        cb(grantErr);
-                        return;
-                    }
-                    cb();
-                });
-            } else {
-                cb();
-            }
-        });
+      var path = 'v1/toggles/' + applicationName;
+      etcd.client.mkdir(path, cb);
     },
 
     deleteApplication: function (applicationName, req, cb) {
         var path = 'v1/toggles/' + applicationName;
-        etcd.client.delete(path, {recursive: true}, function (err) {
-            if (err) {
-                return cb(err);
-            }
-
-            audit.addApplicationAudit(getUserDetails(req), applicationName, 'Deleted', function () {
-                if (err) {
-                    console.log(err);
-                }
-            });
-
-            if (config.RequiresAuth) {
-                acl.revokeAll(applicationName, function (revokeErr) {
-                    if (revokeErr) {
-                        return cb(revokeErr);
-                    }
-                    cb();
-                });
-            } else {
-                cb();
-            }
-        });
+        etcd.client.delete(path, {recursive: true}, cb);
     },
 
     getApplicationMetaData: function (applicationName, cb) {

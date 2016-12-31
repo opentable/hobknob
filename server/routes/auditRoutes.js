@@ -9,10 +9,6 @@ module.exports = {
 
         audit.getFeatureAuditTrail(applicationName, featureName, function (err, auditTrail) {
             if (err) {
-                if (err.errorCode === 100) { // key not found
-                    res.send([]);
-                    return;
-                }
                 throw err;
             }
             res.send(auditTrail);
@@ -24,10 +20,6 @@ module.exports = {
 
         audit.getApplicationAuditTrail(applicationName, function (err, auditTrail) {
             if (err) {
-                if (err.errorCode === 100) { // key not found
-                    res.send([]);
-                    return;
-                }
                 throw err;
             }
             res.send(auditTrail);

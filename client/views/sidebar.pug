@@ -2,7 +2,7 @@
     ul.sidebar-nav
         li.sidebar-brand
             a.navbar-brand.logo(href='/')
-                img(src='/img/opentable-hr-mono.png')
+                img(ng-src='{{logo}}')
         li
             .profile
                 img.media-object.img-circle(ng-src='{{CurrentUser.getPicture()}}', alt='avatar')
