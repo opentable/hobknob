@@ -1,21 +1,21 @@
 doctype html
-html(lang='en')
+html(lang='en' ng-app='featureToggleFrontend' ng-cloak)
     head
         meta(name='viewport', content='width=device-width, initial-scale=1')
-        title Hobknob Dashboard
+        title(ng-bind="$root.title")
         link(href='/bower_components/bootstrap/dist/css/bootstrap.min.css', media='all', rel='stylesheet')
         link(href='/css/dashboard.css', media='all', rel='stylesheet')
         link(href='/css/toggleswitch.css', media='all', rel='stylesheet')
         link(href='/bower_components/bootstrap-social/bootstrap-social.css', media='all', rel='stylesheet')
         link(href='/bower_components/font-awesome/css/font-awesome.css', media='all', rel='stylesheet')
         script(src='/bower_components/jquery/dist/jquery.min.js')
-    body(ng-app='featureToggleFrontend' ng-cloak)
+    body
         #wrapper
             #sidebar-wrapper
                 ul.sidebar-nav(ng-controller="LoginController")
                     li.sidebar-brand
                         a.navbar-brand.logo(href='/')
-                            img(src='/img/opentable-hr-mono.png')
+                            img(ng-src='{{logo}}')
                         a(href='/auth/google',ng-if="authProvider == 'GoogleAuth'", id="loginwithgoogle").btn.btn-block.btn-social.btn-google-plus.sign-in
                             i.fa.fa-google-plus
                             | Sign in with Google
