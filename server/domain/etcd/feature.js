@@ -45,7 +45,7 @@ var getSimpleFeature = function (name, node, description) {
         description: description,
         values: [value],
         categoryId: 0,
-        fullPath: etcdBaseUrl + 'v1/toggles/' + name
+        fullPath: etcdBaseUrl + 'v1/toggles/' + name // TODO: determine why this is needed
     };
 };
 
@@ -62,7 +62,7 @@ var getMultiFeature = function (name, node, metaData, categories, description) {
         description: description,
         values: values,
         categoryId: metaData.categoryId,
-        fullPath: etcdBaseUrl + 'v1/toggles/' + name
+        fullPath: etcdBaseUrl + 'v1/toggles/' + name // TODO: determine why this is needed
     };
 };
 
