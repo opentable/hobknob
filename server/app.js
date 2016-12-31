@@ -95,6 +95,8 @@ var passportGoogleAuthenticateParams = function () {
 
 
 app.use(express.static(path.join(__dirname, '/../client')));
+
+// TODO: all this can be moved out into routes/handlers
 app.get('/login', authenticateRoutes.login);
 app.get('/', ensureAuthenticatedOrRedirectToLogin, dashboardRoutes.dashboard);
 app.get('/partials/:name', dashboardRoutes.partials);
