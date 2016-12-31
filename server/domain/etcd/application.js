@@ -37,28 +37,7 @@ module.exports = {
 
     deleteApplication: function (applicationName, req, cb) {
         var path = 'v1/toggles/' + applicationName;
-        etcd.client.delete(path, {recursive: true}, function (err) {
-            if (err) {
-                return cb(err);
-            }
-
-            audit.addApplicationAudit(getUserDetails(req), applicationName, 'Deleted', function () {
-                if (err) {
-                    console.log(err);
-                }
-            });
-
-            if (config.RequiresAuth) {
-                acl.revokeAll(applicationName, function (revokeErr) {
-                    if (revokeErr) {
-                        return cb(revokeErr);
-                    }
-                    cb();
-                });
-            } else {
-                cb();
-            }
-        });
+        etcd.client.delete(path, {recursive: true}, cb);
     },
 
     getApplicationMetaData: function (applicationName, cb) {
