@@ -9,6 +9,11 @@ module.exports = {
         var path = 'v1/audit/application/' + applicationName;
         etcd.client.get(path, {recursive: true}, function (err, result) {
             if (err) {
+                if (err.errorCode === 100) { // key not found
+                    callback(null, []);
+                    return;
+                }
+
                 callback(err);
                 return;
             }
@@ -26,6 +31,11 @@ module.exports = {
         var path = 'v1/audit/feature/' + applicationName + '/' + featureName;
         etcd.client.get(path, {recursive: true}, function (err, result) {
             if (err) {
+                if (err.errorCode === 100) { // key not found
+                    callback(null, []);
+                    return;
+                }
+
                 callback(err);
                 return;
             }
