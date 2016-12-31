@@ -31,32 +31,8 @@ module.exports = {
     },
 
     addApplication: function (applicationName, req, cb) {
-        var path = 'v1/toggles/' + applicationName;
-        etcd.client.mkdir(path, function (err) {
-            if (err) {
-                return cb(err);
-            }
-
-            audit.addApplicationAudit(getUserDetails(req), applicationName, 'Created', function () {
-                if (err) {
-                    console.log(err); // todo: better logging
-                }
-            });
-
-            // todo: not sure if this is correct
-            if (config.RequiresAuth) {
-                var userEmail = getUserDetails(req).email.toLowerCase(); // todo: need better user management
-                acl.grant(userEmail, applicationName, function (grantErr) {
-                    if (grantErr) {
-                        cb(grantErr);
-                        return;
-                    }
-                    cb();
-                });
-            } else {
-                cb();
-            }
-        });
+      var path = 'v1/toggles/' + applicationName;
+      etcd.client.mkdir(path, cb);
     },
 
     deleteApplication: function (applicationName, req, cb) {
