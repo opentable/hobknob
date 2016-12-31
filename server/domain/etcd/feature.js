@@ -3,6 +3,7 @@
 var etcd = require('./etcd');
 var _ = require('underscore');
 var config = require('config');
+var common = require('../common');
 var acl = require('../acl');
 var category = require('../category');
 var etcdBaseUrl = 'http://' + config.etcdHost + ':' + config.etcdPort + '/v2/keys/';
@@ -11,10 +12,6 @@ var hooks = require('../../src/hooks/featureHooks');
 
 var isMetaNode = function (node) {
     return s(node.key).endsWith('@meta');
-};
-
-var getUserDetails = function (req) {
-    return config.RequiresAuth ? req.user._json : {name: 'Anonymous'};
 };
 
 var getMetaData = function (featureNode) {
@@ -268,7 +265,7 @@ var addMultiFeature = function (path, applicationName, featureName, featureDescr
 
         hooks.run({
           fn: 'addFeature',
-          user: getUserDetails(req),
+          user: common.getUserDetails(req),
           applicationName: applicationName,
           featureName: featureName,
           value: false
@@ -288,7 +285,7 @@ var addSimpleFeature = function (path, applicationName, featureName, featureDesc
 
         hooks.run({
           fn: 'addFeatureToggle',
-          user: getUserDetails(req),
+          user: common.getUserDetails(req),
           applicationName: applicationName,
           featureName: featureName,
           toggleName: null,
@@ -325,7 +322,7 @@ module.exports.updateFeatureToggle = function (applicationName, featureName, val
 
         hooks.run({
           fn: 'updateFeatureToggle',
-          user: getUserDetails(req),
+          user: common.getUserDetails(req),
           applicationName: applicationName,
           featureName: featureName,
           toggleName: null,
@@ -350,7 +347,7 @@ module.exports.addFeatureToggle = function (applicationName, featureName, toggle
 
         hooks.run({
           fn: 'addFeatureToggle',
-          user: getUserDetails(req),
+          user: common.getUserDetails(req),
           applicationName: applicationName,
           featureName: featureName,
           toggleName: toggleName,
@@ -371,7 +368,7 @@ module.exports.updateFeatureMultiToggle = function (applicationName, featureName
 
         hooks.run({
           fn: 'updateFeatureToggle',
-          user: getUserDetails(req),
+          user: common.getUserDetails(req),
           applicationName: applicationName,
           featureName: featureName,
           toggleName: toggleName,
@@ -389,7 +386,7 @@ module.exports.deleteFeature = function (applicationName, featureName, req, cb) 
 
         hooks.run({
           fn: 'deleteFeature',
-          user: getUserDetails(req),
+          user: common.getUserDetails(req),
           applicationName: applicationName,
           featureName: featureName
         });
