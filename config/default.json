@@ -2,7 +2,7 @@
     "RequiresAuth": false,
     "dataSource": "etcd",
     "etcdHost": "127.0.0.1",
-    "etcdPort": "4001",
+    "etcdPort": "2379",
     "hobknobHost": "localhost",
     "hobknobPort": "3006",
     "loadBalancerFile": "/etc/lbstatus/hobknob",
@@ -43,6 +43,6 @@
     ],
     "customization": {
         "logo": "/img/opentable-hr-mono.png",
-        "title": "Opentable Feature Toggles"
+        "title": "Hobknob Dashboard"
     }
 }
