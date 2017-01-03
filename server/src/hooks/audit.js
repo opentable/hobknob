@@ -1,6 +1,4 @@
-'use strict';
-
-var audit = require('../../domain/audit');
+const audit = require('../../domain/audit');
 
 module.exports = {
   /*
@@ -10,7 +8,7 @@ module.exports = {
    featureName: 'my-feature',
    }
    */
-  addFeature: function (featureEvent, next) {
+  addFeature: (featureEvent, next) => {
     audit.addFeatureAudit(
       featureEvent.user,
       featureEvent.applicationName,
@@ -26,7 +24,7 @@ module.exports = {
    featureName: 'my-feature',
    }
    */
-  deleteFeature: function (featureEvent, next) {
+  deleteFeature: (featureEvent, next) => {
     audit.addFeatureAudit(
       featureEvent.user,
       featureEvent.applicationName,
@@ -44,7 +42,7 @@ module.exports = {
    value: false
    }
    */
-  addFeatureToggle: function (toggleEvent, next) {
+  addFeatureToggle: (toggleEvent, next) => {
     audit.addFeatureAudit(
       toggleEvent.user,
       toggleEvent.applicationName,
@@ -62,7 +60,7 @@ module.exports = {
    value: false
    }
    */
-  updateFeatureToggle: function (updateEvent, next) {
+  updateFeatureToggle: (updateEvent, next) => {
     audit.addFeatureAudit(
       updateEvent.user,
       updateEvent.applicationName,
@@ -79,7 +77,7 @@ module.exports = {
    toggleName: 'my-toggle'
    }
    */
-  deleteFeatureToggle: function (deleteEvent, next) {
+  deleteFeatureToggle: (deleteEvent, next) => {
     audit.addFeatureAudit(
       deleteEvent.user,
       deleteEvent.applicationName,
@@ -87,5 +85,5 @@ module.exports = {
       deleteEvent.toggleName,
       null,
       'Deleted', next);
-  }
+  },
 };

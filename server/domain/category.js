@@ -1,38 +1,29 @@
-'use strict';
+const _ = require('underscore');
+const config = require('./../../config/config.json');
 
-var _ = require('underscore');
-var config = require('./../../config/config.json');
-var acl = require('./acl');
-var audit = require('./audit');
-
-var getCategory = function (id, name, description, columns, features) {
+const getCategory = (id, name, description, columns, features) => { // eslint-disable-line arrow-body-style
   return {
-    id: id,
-    name: name,
+    id,
+    name,
     description: description || '',
     columns: columns || [],
-    features: features || []
+    features: features || [],
   };
 };
 
-var simpleCategoryId = 0;
+const simpleCategoryId = 0;
 module.exports.simpleCategoryId = simpleCategoryId;
 
-var getSimpleCategory = function (name, description) {
-  return getCategory(0, name || 'Simple Features',
-    description || 'Used for simple on/off feature toggles', ['']);
-};
+const getSimpleCategory = (name, description) => getCategory(0, name || 'Simple Features', description || 'Used for simple on/off feature toggles', ['']);
 
-var isSimpleCategory = function (categoryId) {
-  return categoryId === simpleCategoryId;
-};
+const isSimpleCategory = categoryId => categoryId === simpleCategoryId;
 
-module.exports.getCategoriesFromConfig = function () {
+module.exports.getCategoriesFromConfig = () => {
   if (!config.categories) {
     return { simpleCategoryId: getSimpleCategory() };
   }
 
-  var categories = _.map(config.categories, function (c) {
+  const categories = _.map(config.categories, (c) => {
     if (isSimpleCategory(c.id)) {
       return [simpleCategoryId, getSimpleCategory(c.name, c.description)];
     }

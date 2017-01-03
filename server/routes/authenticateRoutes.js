@@ -1,14 +1,12 @@
-'use strict';
-
-exports.authenticate = function (req, res) {
+exports.authenticate = (req, res) => {
   res.render('authenticate', {
     layout: 'authenticate',
     title: 'Feature toggles: Authenticate',
-    pageHeader: 'Authenticate'
+    pageHeader: 'Authenticate',
   });
 };
 
-exports.login = function (req, res) {
+exports.login = (req, res) => {
   if (req.isAuthenticated()) {
     res.redirect('/');
   } else {
@@ -16,7 +14,7 @@ exports.login = function (req, res) {
   }
 };
 
-exports.logout = function (req, res) {
+exports.logout = (req, res) => {
   req.logout();
   res.redirect('/login');
 };

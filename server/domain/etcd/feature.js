@@ -1,80 +1,75 @@
-'use strict';
+const etcd = require('./etcd');
+const _ = require('underscore');
+const config = require('./../../../config/config.json');
+const acl = require('./../acl');
+const category = require('./../category');
+const s = require('string');
+const hooks = require('../../src/hooks/featureHooks');
 
-var etcd = require('./etcd');
-var _ = require('underscore');
-var config = require('./../../../config/config.json');
-var acl = require('./../acl');
-var category = require('./../category');
-var etcdBaseUrl = 'http://' + config.etcdHost + ':' + config.etcdPort + '/v2/keys/';
-var s = require('string');
-var hooks = require('../../src/hooks/featureHooks');
+const etcdBaseUrl = `http://${config.etcdHost}:${config.etcdPort}/v2/keys/`;
 
-var isMetaNode = function (node) {
-  return s(node.key).endsWith('@meta');
+const isMetaNode = node => s(node.key).endsWith('@meta');
+
+const getUserDetails = (req) => {
+  if (config.RequiresAuth) {
+    return req.user._json; // eslint-disable-line no-underscore-dangle
+  }
+
+  return { name: 'Anonymous' };
 };
 
-var getUserDetails = function (req) {
-  return config.RequiresAuth ? req.user._json : { name: 'Anonymous' }; // eslint-disable-line no-underscore-dangle
-};
-
-var getMetaData = function (featureNode) {
-  var metaNode = _.find(featureNode.nodes, function (n) {
-    return isMetaNode(n);
-  });
+const getMetaData = (featureNode) => {
+  const metaNode = _.find(featureNode.nodes, n => isMetaNode(n));
   if (metaNode) {
     return JSON.parse(metaNode.value);
   }
   return {
-    categoryId: 0
+    categoryId: 0,
   };
 };
 
-var isMultiFeature = function (metaData) {
-  return metaData.categoryId !== category.simpleCategoryId;
-};
+const isMultiFeature = metaData => metaData.categoryId !== category.simpleCategoryId;
 
-var getNodeName = function (node) {
-  var splitKey = node.key.split('/');
+const getNodeName = (node) => {
+  const splitKey = node.key.split('/');
   return splitKey[splitKey.length - 1];
 };
 
-var getSimpleFeature = function (name, node, description) {
-  var value = node.value && node.value.toLowerCase() === 'true';
+const getSimpleFeature = (name, node, description) => {
+  const value = node.value && node.value.toLowerCase() === 'true';
   return {
-    name: name,
-    description: description,
+    name,
+    description,
     values: [value],
     categoryId: 0,
-    fullPath: etcdBaseUrl + 'v1/toggles/' + name
+    fullPath: `${etcdBaseUrl}v1/toggles/${name}`,
   };
 };
 
-var getMultiFeature = function (name, node, metaData, categories, description) {
-  var foundCategory = categories[metaData.categoryId];
-  var values = _.map(foundCategory.columns, function (column) {
-    var columnNode = _.find(node.nodes, function (c) {
-      return c.key === node.key + '/' + column;
-    });
+const getMultiFeature = (name, node, metaData, categories, description) => {
+  const foundCategory = categories[metaData.categoryId];
+  const values = _.map(foundCategory.columns, (column) => {
+    const columnNode = _.find(node.nodes, c => c.key === `${node.key}/${column}`);
     return columnNode && columnNode.value && columnNode.value.toLowerCase() === 'true';
   });
   return {
-    name: name,
-    description: description,
-    values: values,
+    name,
+    description,
+    values,
     categoryId: metaData.categoryId,
-    fullPath: etcdBaseUrl + 'v1/toggles/' + name
+    fullPath: `${etcdBaseUrl}v1/toggles/${name}`,
   };
 };
 
-var getFeature = function (node, categories, descriptionMap) {
-  var name = getNodeName(node);
+const getFeature = (node, categories, descriptionMap) => {
+  const name = getNodeName(node);
   if (name === '@meta') {
     return null;
   }
 
-  var description = descriptionMap[name];
+  const description = descriptionMap[name];
 
-  var metaData = getMetaData(node);
+  const metaData = getMetaData(node);
   if (isMultiFeature(metaData)) {
     return getMultiFeature(name, node, metaData, categories, description);
   }
@@ -82,7 +77,7 @@ var getFeature = function (node, categories, descriptionMap) {
   return getSimpleFeature(name, node, description);
 };
 
-var handleEtcdNotFoundError = function (err, cb) {
+const handleEtcdNotFoundError = (err, cb) => {
   if (err.errorCode === 100) { // key not found
     cb();
   } else {
@@ -90,10 +85,10 @@ var handleEtcdNotFoundError = function (err, cb) {
   }
 };
 
-var getCategoriesWithFeatureValues = function (applicationNode, descriptionsMap) {
-  var categories = category.getCategoriesFromConfig();
-  _.each(applicationNode.nodes, function (featureNode) {
-    var feature = getFeature(featureNode, categories, descriptionsMap);
+const getCategoriesWithFeatureValues = (applicationNode, descriptionsMap) => {
+  const categories = category.getCategoriesFromConfig();
+  _.each(applicationNode.nodes, (featureNode) => {
+    const feature = getFeature(featureNode, categories, descriptionsMap);
     if (feature) {
       categories[feature.categoryId].features.push(feature);
     }
@@ -101,25 +96,22 @@ var getCategoriesWithFeatureValues = function (applicationNode, descriptionsMap)
   return categories;
 };
 
-var trimEmptyCategoryColumns = function (categories) {
-  var featureHasValueAtIndex = function (index) {
-    return function (feature) {
-      return feature.values[index] !== null && feature.values[index] !== undefined;
-    };
-  };
-  _.each(categories, function (foundCategory) {
+const trimEmptyCategoryColumns = (categories) => {
+  const featureHasValueAtIndex = index => feature => feature.values[index] !== null && feature.values[index] !== undefined;
+
+  _.each(categories, (foundCategory) => {
     if (foundCategory.id !== 0) {
-      var columnsToRemove = [];
-      for (var i = 0; i < foundCategory.columns.length; i += 1) {
-        var aFeatureHasColumnValue = _.some(foundCategory.features, featureHasValueAtIndex(i));
+      const columnsToRemove = [];
+      for (let i = 0; i < foundCategory.columns.length; i += 1) {
+        const aFeatureHasColumnValue = _.some(foundCategory.features, featureHasValueAtIndex(i));
         if (!aFeatureHasColumnValue) {
           columnsToRemove.push(foundCategory.columns[i]);
         }
       }
-      _.each(columnsToRemove, function (columnName) {
-        var columnIndex = _.indexOf(foundCategory.columns, columnName);
+      _.each(columnsToRemove, (columnName) => {
+        const columnIndex = _.indexOf(foundCategory.columns, columnName);
         foundCategory.columns.splice(columnIndex, 1);
-        _.each(foundCategory.features, function (feature) {
+        _.each(foundCategory.features, (feature) => {
           feature.values.splice(columnIndex, 1);
         });
       });
@@ -127,90 +119,78 @@ var trimEmptyCategoryColumns = function (categories) {
   });
 };
 
-var getDescriptionsMap = function (node) {
-  var descriptions = _.map(node.nodes, function (descriptionNode) {
-    return [getNodeName(descriptionNode), descriptionNode.value];
-  });
-
+const getDescriptionsMap = (node) => {
+  const descriptions = _.map(node.nodes, descriptionNode => [getNodeName(descriptionNode), descriptionNode.value]);
   return _.object(descriptions);
 };
 
-module.exports.getFeatureCategories = function (applicationName, cb) {
-  var path = 'v1/toggles/' + applicationName;
-  etcd.client.get(path, { recursive: true }, function (err, result) {
+module.exports.getFeatureCategories = (applicationName, cb) => {
+  const path = `v1/toggles/${applicationName}`;
+  etcd.client.get(path, { recursive: true }, (err, result) => {
     if (err) {
       handleEtcdNotFoundError(err, cb);
       return;
     }
 
-    etcd.client.get('v1/metadata/' + applicationName + '/descriptions', function (descriptionError, descriptionResult) {
+    etcd.client.get(`v1/metadata/${applicationName}/descriptions`, (descriptionError, descriptionResult) => {
       if (descriptionError) {
         console.log(descriptionError);
       }
 
-      var descriptionsMap = !descriptionError ? getDescriptionsMap(descriptionResult.node) : {};
+      const descriptionsMap = !descriptionError ? getDescriptionsMap(descriptionResult.node) : {};
 
-      var categories = getCategoriesWithFeatureValues(result.node, descriptionsMap);
+      const categories = getCategoriesWithFeatureValues(result.node, descriptionsMap);
       trimEmptyCategoryColumns(categories);
 
       cb(null, {
-        categories: categories
+        categories,
       });
     });
   });
 };
 
 
-var getSimpleFeatureToggle = function (featureName, featureNode) {
-  return [{
-    name: featureName,
-    value: featureNode.value === 'true'
-  }];
+const getSimpleFeatureToggle = (featureName, featureNode) => [{
+  name: featureName,
+  value: featureNode.value === 'true',
+}];
+
+const getMultiFeatureToggles = featureNode => _.chain(featureNode.nodes)
+  .filter(node => !isMetaNode(node))
+  .map((node) => { // eslint-disable-line arrow-body-style
+    return {
+      name: _.last(node.key.split('/')),
+      value: node.value === 'true',
+    };
+  })
+  .value();
+
+const getToggleSuggestions = (metaData, toggles) => {
+  const categories = category.getCategoriesFromConfig();
+  return _.difference(categories[metaData.categoryId].columns, _.map(toggles, toggle => toggle.name));
 };
 
-var getMultiFeatureToggles = function (featureNode) {
-  return _
-    .chain(featureNode.nodes)
-    .filter(function (node) {
-      return !isMetaNode(node);
-    })
-    .map(function (node) {
-      return {
-        name: _.last(node.key.split('/')),
-        value: node.value === 'true'
-      };
-    })
-    .value();
-};
+const getFeatureDescription = (applicationName, feature, cb) => {
+  const descriptionPath = `v1/metadata/${applicationName}/descriptions`;
 
-var getToggleSuggestions = function (metaData, toggles) {
-  var categories = category.getCategoriesFromConfig();
-  return _.difference(categories[metaData.categoryId].columns, _.map(toggles, function (toggle) {
-    return toggle.name;
-  }));
-};
-
-var getFeatureDescription = function (applicationName, feature, cb) {
-  var descriptionPath = 'v1/metadata/' + applicationName + '/descriptions';
-
-  etcd.client.get(descriptionPath, function (error, result) {
+  etcd.client.get(descriptionPath, (error, result) => {
     if (error) {
       console.log(error);
     }
 
-    var descriptionsMap = !error ? getDescriptionsMap(result.node) : {};
-    var featureDescription = getFeature(feature.node, category.getCategoriesFromConfig(), descriptionsMap).description;
+    const descriptionsMap = !error ? getDescriptionsMap(result.node) : {};
+    const featureDescription = getFeature(feature.node, category.getCategoriesFromConfig(), descriptionsMap).description;
 
     cb(null, featureDescription);
   });
 };
 
-var getFeatureToggles = function (featureName, feature, cb) {
-  var metaData = getMetaData(feature.node);
-  var isMulti = isMultiFeature(metaData);
+const getFeatureToggles = (featureName, feature, cb) => {
+  const metaData = getMetaData(feature.node);
+  const isMulti = isMultiFeature(metaData);
 
-  var toggles;
-  var toggleSuggestions;
+  let toggles;
+  let toggleSuggestions;
 
   if (isMulti) {
     toggles = getMultiFeatureToggles(feature.node);
@@ -222,33 +202,33 @@ var getFeatureToggles = function (featureName, feature, cb) {
   cb(null, toggles, toggleSuggestions, isMulti);
 };
 
-module.exports.getFeature = function (applicationName, featureName, cb) {
-  var path = 'v1/toggles/' + applicationName + '/' + featureName;
-  etcd.client.get(path, { recursive: true }, function (err, result) {
+module.exports.getFeature = (applicationName, featureName, cb) => {
+  const path = `v1/toggles/${applicationName}/${featureName}`;
+  etcd.client.get(path, { recursive: true }, (err, result) => {
     if (err) {
       handleEtcdNotFoundError(err, cb);
       return;
     }
 
-    getFeatureDescription(applicationName, result, function (featureErr, featureDescription) {
-      getFeatureToggles(featureName, result, function (toggleErr, toggles, toggleSuggestions, isMulti) {
+    getFeatureDescription(applicationName, result, (featureErr, featureDescription) => {
+      getFeatureToggles(featureName, result, (toggleErr, toggles, toggleSuggestions, isMulti) => {
         cb(null, {
-          applicationName: applicationName,
-          featureName: featureName,
-          featureDescription: featureDescription,
-          toggles: toggles,
+          applicationName,
+          featureName,
+          featureDescription,
+          toggles,
           isMultiToggle: isMulti,
-          toggleSuggestions: toggleSuggestions
+          toggleSuggestions,
         });
       });
     });
   });
 };
 
-var addFeatureDescription = function (applicationName, featureName, featureDescription, cb) {
-  var descriptionPath = 'v1/metadata/' + applicationName + '/descriptions/' + featureName;
+const addFeatureDescription = (applicationName, featureName, featureDescription, cb) => {
+  const descriptionPath = `v1/metadata/${applicationName}/descriptions/${featureName}`;
 
-  etcd.client.set(descriptionPath, featureDescription, function (err) {
+  etcd.client.set(descriptionPath, featureDescription, (err) => {
     if (err) {
       console.log(err); // todo: better logging
     }
@@ -256,9 +236,9 @@ var addFeatureDescription = function (applicationName, featureName, featureDescr
   });
 };
 
-var addMultiFeature = function (path, applicationName, featureName, featureDescription, metaData, req, cb) {
-  var metaPath = path + '/@meta';
-  etcd.client.set(metaPath, JSON.stringify(metaData), function (err) {
+const addMultiFeature = (path, applicationName, featureName, featureDescription, metaData, req, cb) => {
+  const metaPath = `${path}/@meta`;
+  etcd.client.set(metaPath, JSON.stringify(metaData), (err) => {
     if (err) {
       cb(err);
       return;
@@ -269,17 +249,17 @@ var addMultiFeature = function (path, applicationName, featureName, featureDescr
     hooks.run({
       fn: 'addFeature',
       user: getUserDetails(req),
-      applicationName: applicationName,
-      featureName: featureName,
-      value: false
+      applicationName,
+      featureName,
+      value: false,
     });
 
     cb();
   });
 };
 
-var addSimpleFeature = function (path, applicationName, featureName, featureDescription, metaData, req, cb) {
-  etcd.client.set(path, false, function (err) {
+const addSimpleFeature = (path, applicationName, featureName, featureDescription, metaData, req, cb) => {
+  etcd.client.set(path, false, (err) => {
     if (err) {
       return cb(err);
     }
@@ -289,24 +269,24 @@ var addSimpleFeature = function (path, applicationName, featureName, featureDesc
     hooks.run({
       fn: 'addFeatureToggle',
       user: getUserDetails(req),
-      applicationName: applicationName,
-      featureName: featureName,
+      applicationName,
+      featureName,
       toggleName: null,
-      value: false
+      value: false,
     });
 
     return cb();
   });
 };
 
-module.exports.addFeature = function (applicationName, featureName, featureDescription, categoryId, req, cb) {
-  var metaData = {
-    categoryId: categoryId
+module.exports.addFeature = (applicationName, featureName, featureDescription, categoryId, req, cb) => {
+  const metaData = {
+    categoryId,
   };
 
-  var path = 'v1/toggles/' + applicationName + '/' + featureName;
+  const path = `v1/toggles/${applicationName}/${featureName}`;
 
-  var isMulti = isMultiFeature(metaData);
+  const isMulti = isMultiFeature(metaData);
 
   if (isMulti) {
     addMultiFeature(path, applicationName, featureName, featureDescription, metaData, req, cb);
@@ -315,9 +295,9 @@ module.exports.addFeature = function (applicationName, featureName, featureDescr
   }
 };
 
-module.exports.updateFeatureToggle = function (applicationName, featureName, value, req, cb) {
-  var path = 'v1/toggles/' + applicationName + '/' + featureName;
-  etcd.client.set(path, value, function (err) {
+module.exports.updateFeatureToggle = (applicationName, featureName, value, req, cb) => {
+  const path = `v1/toggles/${applicationName}/${featureName}`;
+  etcd.client.set(path, value, (err) => {
     if (err) {
       cb(err);
       return;
@@ -326,23 +306,23 @@ module.exports.updateFeatureToggle = function (applicationName, featureName, val
     hooks.run({
       fn: 'updateFeatureToggle',
       user: getUserDetails(req),
-      applicationName: applicationName,
-      featureName: featureName,
+      applicationName,
+      featureName,
       toggleName: null,
-      value: value
+      value,
     });
 
     cb();
   });
 };
 
-module.exports.updateFeatureDescription = function (applicationName, featureName, newFeatureDescription, req, cb) {
+module.exports.updateFeatureDescription = (applicationName, featureName, newFeatureDescription, req, cb) => {
   addFeatureDescription(applicationName, featureName, newFeatureDescription, cb);
 };
 
-module.exports.addFeatureToggle = function (applicationName, featureName, toggleName, req, cb) {
-  var path = 'v1/toggles/' + applicationName + '/' + featureName + '/' + toggleName;
-  etcd.client.set(path, false, function (err) {
+module.exports.addFeatureToggle = (applicationName, featureName, toggleName, req, cb) => {
+  const path = `v1/toggles/${applicationName}/${featureName}/${toggleName}`;
+  etcd.client.set(path, false, (err) => {
     if (err) {
       cb(err);
       return;
@@ -351,19 +331,19 @@ module.exports.addFeatureToggle = function (applicationName, featureName, toggle
     hooks.run({
       fn: 'addFeatureToggle',
       user: getUserDetails(req),
-      applicationName: applicationName,
-      featureName: featureName,
-      toggleName: toggleName,
-      value: false
+      applicationName,
+      featureName,
+      toggleName,
+      value: false,
     });
 
     cb();
   });
 };
 
-module.exports.updateFeatureMultiToggle = function (applicationName, featureName, toggleName, value, req, cb) {
-  var path = 'v1/toggles/' + applicationName + '/' + featureName + '/' + toggleName;
-  etcd.client.set(path, value, function (err) {
+module.exports.updateFeatureMultiToggle = (applicationName, featureName, toggleName, value, req, cb) => {
+  const path = `v1/toggles/${applicationName}/${featureName}/${toggleName}`;
+  etcd.client.set(path, value, (err) => {
     if (err) {
       cb(err);
       return;
@@ -372,26 +352,26 @@ module.exports.updateFeatureMultiToggle = function (applicationName, featureName
     hooks.run({
       fn: 'updateFeatureToggle',
       user: getUserDetails(req),
-      applicationName: applicationName,
-      featureName: featureName,
-      toggleName: toggleName,
-      value: value
+      applicationName,
+      featureName,
+      toggleName,
+      value,
     });
 
     cb();
   });
 };
 
-module.exports.deleteFeature = function (applicationName, featureName, req, cb) {
-  var path = 'v1/toggles/' + applicationName + '/' + featureName;
-  etcd.client.delete(path, { recursive: true }, function (err) {
+module.exports.deleteFeature = (applicationName, featureName, req, cb) => {
+  const path = `v1/toggles/${applicationName}/${featureName}`;
+  etcd.client.delete(path, { recursive: true }, (err) => {
     if (err) cb(err);
 
     hooks.run({
       fn: 'deleteFeature',
       user: getUserDetails(req),
-      applicationName: applicationName,
-      featureName: featureName
+      applicationName,
+      featureName,
     });
 
     cb();

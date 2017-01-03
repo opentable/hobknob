@@ -1,56 +1,54 @@
-'use strict';
+const application = require('./../domain/application');
 
-var application = require('./../domain/application');
-
-var getApplications = function (req, res) {
+const getApplications = (req, res) => {
   application.getApplications(
-    function (err, applications) {
+    (err, applications) => {
       if (err) throw err;
       res.send(applications);
     });
 };
 
-var addApplication = function (req, res) {
+const addApplication = (req, res) => {
   application.addApplication(req.body.name, req,
-    function (err) {
+    (err) => {
       if (err) throw err;
       res.send(201);
     });
 };
 
-var deleteApplication = function (req, res) {
+const deleteApplication = (req, res) => {
   application.deleteApplication(req.params.applicationName, req,
-    function (err) {
+    (err) => {
       if (err) throw err;
       res.send(200);
     });
 };
 
-var deleteApplicationMetaData = function (req, res, next) {
+const deleteApplicationMetaData = (req, res, next) => {
   application.deleteApplicationMetaData(req.params.applicationName, next);
 };
 
-var getApplicationMetaData = function (req, res) {
-  var applicationName = req.params.applicationName;
+const getApplicationMetaData = (req, res) => {
+  const applicationName = req.params.applicationName;
   application.getApplicationMetaData(applicationName,
-    function (err, metaData) {
+    (err, metaData) => {
       if (err) throw err;
       res.send(metaData);
     });
 };
 
-var saveApplicationMetaData = function (req, res) {
-  var applicationName = req.params.applicationName;
-  var metaDataKey = req.params.metaDataKey;
-  var metaDataValue = req.body.value;
+const saveApplicationMetaData = (req, res) => {
+  const applicationName = req.params.applicationName;
+  const metaDataKey = req.params.metaDataKey;
+  const metaDataValue = req.body.value;
   application.saveApplicationMetaData(applicationName, metaDataKey, metaDataValue,
-    function (err) {
+    (err) => {
       if (err) throw err;
       res.send(200);
     });
 };
 
-module.exports.registerRoutes = function (app, authenticate) {
+module.exports.registerRoutes = (app, authenticate) => {
   app.get('/api/applications', getApplications);
   app.put('/api/applications', authenticate, addApplication);
   app.delete('/api/applications/:applicationName', authenticate, deleteApplicationMetaData, deleteApplication);

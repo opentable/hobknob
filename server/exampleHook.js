@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = {
   /*
    {
@@ -8,7 +6,7 @@ module.exports = {
    featureName: 'my-feature',
    }
    */
-  addFeature: function (featureEvent, next) {
+  addFeature: (featureEvent, next) => {
     next();
   },
   /*
@@ -18,19 +16,7 @@ module.exports = {
    featureName: 'my-feature',
    }
    */
-  deleteFeature: function (featureEvent, next) {
-    next();
-  },
-  /*
-   {
-   user: { name: 'anonymous' } or { name: { givenName: 'anony', familyName: 'mous' } },
-   applicationName: 'my-app',
-   featureName: 'my-feature',
-   toggleName: 'my-toggle',
-   value: false
-   }
-   */
-  addFeatureToggle: function (toggleEvent, next) {
+  deleteFeature: (featureEvent, next) => {
     next();
   },
   /*
@@ -42,7 +28,19 @@ module.exports = {
    value: false
    }
    */
-  updateFeatureToggle: function (updateEvent, next) {
+  addFeatureToggle: (toggleEvent, next) => {
+    next();
+  },
+  /*
+   {
+   user: { name: 'anonymous' } or { name: { givenName: 'anony', familyName: 'mous' } },
+   applicationName: 'my-app',
+   featureName: 'my-feature',
+   toggleName: 'my-toggle',
+   value: false
+   }
+   */
+  updateFeatureToggle: (updateEvent, next) => {
     next();
   },
   /*
@@ -53,7 +51,7 @@ module.exports = {
    toggleName: 'my-toggle'
    }
    */
-  deleteFeatureToggle: function (deleteEvent, next) {
+  deleteFeatureToggle: (deleteEvent, next) => {
     next();
-  }
+  },
 };

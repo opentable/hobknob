@@ -1,5 +1,5 @@
 {
-  "extends": "airbnb-base/legacy",
+  "extends": "airbnb-base",
   "env": {
     "node": true
   },
@@ -10,7 +10,10 @@
     "max-len": 0,
     "no-unused-vars": 1,
     "vars-on-top": 1,
-    "global-require": 1
+    "global-require": 1,
+    "comma-dangle": 0,
+    "import/no-extraneous-dependencies": 1,
+    "import/no-dynamic-require": 1
   }
 }
 

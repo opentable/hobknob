@@ -1,15 +1,12 @@
-'use strict';
-
-exports.dashboard = function (req, res) {
+exports.dashboard = (req, res) => {
   res.render('main',
     {
       title: 'Dashboard',
       pageHeader: 'Dashboard',
-      user: req.user
+      user: req.user,
     });
 };
 
-exports.partials = function (req, res) {
-  var name = req.params.name;
-  res.render('partials/' + name);
+exports.partials = (req, res) => {
+  res.render(`partials/${req.params.name}`);
 };

@@ -1,13 +1,11 @@
-'use strict';
-
-var audit = require('./../domain/audit');
+const audit = require('./../domain/audit');
 
 module.exports = {
-  getFeatureAuditTrail: function (req, res) {
-    var applicationName = req.params.applicationName;
-    var featureName = req.params.featureName;
+  getFeatureAuditTrail: (req, res) => {
+    const applicationName = req.params.applicationName;
+    const featureName = req.params.featureName;
 
-    audit.getFeatureAuditTrail(applicationName, featureName, function (err, auditTrail) {
+    audit.getFeatureAuditTrail(applicationName, featureName, (err, auditTrail) => {
       if (err) {
         if (err.errorCode === 100) { // key not found
           res.send([]);
@@ -19,10 +17,10 @@ module.exports = {
     });
   },
 
-  getApplicationAuditTrail: function (req, res) {
-    var applicationName = req.params.applicationName;
+  getApplicationAuditTrail: (req, res) => {
+    const applicationName = req.params.applicationName;
 
-    audit.getApplicationAuditTrail(applicationName, function (err, auditTrail) {
+    audit.getApplicationAuditTrail(applicationName, (err, auditTrail) => {
       if (err) {
         if (err.errorCode === 100) { // key not found
           res.send([]);
@@ -32,5 +30,5 @@ module.exports = {
       }
       res.send(auditTrail);
     });
-  }
+  },
 };

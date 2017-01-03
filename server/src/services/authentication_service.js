@@ -1,18 +1,17 @@
-'use strict';
+const ldap = require('ldapjs');
 
-var ldap = require('ldapjs');
-var client;
+let client;
 
-exports.initLdap = function (ip) {
+exports.initLdap = (ip) => {
   client = ldap.createClient({
-    url: ip
+    url: ip,
   });
 };
 
-exports.login = function (username, password, callback) {
-  client.bind(username, password, function (err) {
+exports.login = (username, password, callback) => {
+  client.bind(username, password, (err) => {
     if (err) {
-      console.log('error in auth: ' + err);
+      console.log(`error in auth: ${err}`);
       callback(false);
       return;
     }

@@ -1,7 +1,6 @@
-'use strict';
+const config = require('./../../config/config.json');
 
-var config = require('./../../config/config.json');
-var application = function () {
+const application = () => {
   switch (config.dataSource.toLowerCase()) {
     case 'etcd':
       return require('./etcd/application');
@@ -12,27 +11,27 @@ var application = function () {
 };
 
 module.exports = {
-  getApplications: function (cb) {
+  getApplications: (cb) => {
     application().getApplications(cb);
   },
 
-  addApplication: function (applicationName, req, cb) {
+  addApplication: (applicationName, req, cb) => {
     application().addApplication(applicationName, req, cb);
   },
 
-  deleteApplication: function (applicationName, req, cb) {
+  deleteApplication: (applicationName, req, cb) => {
     application().deleteApplication(applicationName, req, cb);
   },
 
-  getApplicationMetaData: function (applicationName, cb) {
+  getApplicationMetaData: (applicationName, cb) => {
     application().getApplicationMetaData(applicationName, cb);
   },
 
-  deleteApplicationMetaData: function (applicationName, cb) {
+  deleteApplicationMetaData: (applicationName, cb) => {
     application().deleteApplicationMetaData(applicationName, cb);
   },
 
-  saveApplicationMetaData: function (applicationName, metaDataKey, metaDataValue, cb) {
+  saveApplicationMetaData: (applicationName, metaDataKey, metaDataValue, cb) => {
     application().saveApplicationMetaData(applicationName, metaDataKey, metaDataValue, cb);
-  }
+  },
 };

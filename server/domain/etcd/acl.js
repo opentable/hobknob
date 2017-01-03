@@ -1,20 +1,17 @@
-'use strict';
+const etcd = require('./etcd');
+const _ = require('underscore');
 
-var etcd = require('./etcd');
-var _ = require('underscore');
+const EtcdAclStore = function () {};
 
-var EtcdAclStore = function () {
-};
-
-EtcdAclStore.prototype.grant = function (userEmail, resource, callback) {
-  etcd.client.set('v1/toggleAcl/' + resource + '/' + userEmail.toLowerCase(), userEmail.toLowerCase(), function (err) {
+EtcdAclStore.prototype.grant = (userEmail, resource, callback) => {
+  etcd.client.set(`v1/toggleAcl/${resource}/${userEmail.toLowerCase()}`, userEmail.toLowerCase(), (err) => {
     if (err) callback(err);
     callback();
   });
 };
 
-EtcdAclStore.prototype.assert = function (userEmail, resource, callback) {
-  etcd.client.get('v1/toggleAcl/' + resource + '/' + userEmail.toLowerCase(), function (err) {
+EtcdAclStore.prototype.assert = (userEmail, resource, callback) => {
+  etcd.client.get(`v1/toggleAcl/${resource}/${userEmail.toLowerCase()}`, (err) => {
     if (err) {
       if (err.errorCode === 100) { // key not found
         callback(null, false);
@@ -27,8 +24,8 @@ EtcdAclStore.prototype.assert = function (userEmail, resource, callback) {
   });
 };
 
-EtcdAclStore.prototype.revoke = function (userEmail, resource, callback) {
-  etcd.client.delete('v1/toggleAcl/' + resource + '/' + userEmail.toLowerCase(), function (err) {
+EtcdAclStore.prototype.revoke = (userEmail, resource, callback) => {
+  etcd.client.delete(`v1/toggleAcl/${resource}/${userEmail.toLowerCase()}`, (err) => {
     if (err) {
       if (err.errorCode === 100) { // key not found
         callback();
@@ -41,8 +38,8 @@ EtcdAclStore.prototype.revoke = function (userEmail, resource, callback) {
   });
 };
 
-EtcdAclStore.prototype.revokeAll = function (resource, callback) {
-  etcd.client.delete('v1/toggleAcl/' + resource, { recursive: true }, function (err) {
+EtcdAclStore.prototype.revokeAll = (resource, callback) => {
+  etcd.client.delete(`v1/toggleAcl/${resource}`, { recursive: true }, (err) => {
     if (err) {
       if (err.errorCode === 100) { // key not found
         callback();
@@ -55,8 +52,8 @@ EtcdAclStore.prototype.revokeAll = function (resource, callback) {
   });
 };
 
-EtcdAclStore.prototype.getAllUsers = function (resource, callback) {
-  etcd.client.get('v1/toggleAcl/' + resource, { recursive: true }, function (err, result) {
+EtcdAclStore.prototype.getAllUsers = (resource, callback) => {
+  etcd.client.get(`v1/toggleAcl/${resource}`, { recursive: true }, (err, result) => {
     if (err) {
       if (err.errorCode === 100) { // key not found
         callback(null, []);
@@ -66,9 +63,7 @@ EtcdAclStore.prototype.getAllUsers = function (resource, callback) {
       return;
     }
 
-    var users = _.map(result.node.nodes || [], function (node) {
-      return node.value;
-    });
+    const users = _.map(result.node.nodes || [], node => node.value);
     callback(null, users);
   });
 };

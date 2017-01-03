@@ -1,18 +1,20 @@
-'use strict';
+const etcd = require('./etcd');
+const _ = require('underscore');
+const config = require('./../../../config/config.json');
+const acl = require('./../acl');
+const audit = require('./../audit');
 
-var etcd = require('./etcd');
-var _ = require('underscore');
-var config = require('./../../../config/config.json');
-var acl = require('./../acl');
-var audit = require('./../audit');
+const getUserDetails = (req) => {
+  if (config.RequiresAuth) {
+    return req.user._json; // eslint-disable-line no-underscore-dangle
+  }
 
-var getUserDetails = function (req) {
-  return config.RequiresAuth ? req.user._json : { name: 'Anonymous' }; // eslint-disable-line no-underscore-dangle
+  return { name: 'Anonymous' };
 };
 
 module.exports = {
-  getApplications: function (cb) {
-    etcd.client.get('v1/toggles/', { recursive: false }, function (err, result) {
+  getApplications: (cb) => {
+    etcd.client.get('v1/toggles/', { recursive: false }, (err, result) => {
       if (err) {
         if (err.errorCode === 100) { // key not found
           return cb(null, []);
@@ -21,22 +23,22 @@ module.exports = {
         return cb(err);
       }
 
-      var applications = _.map(result.node.nodes || [], function (node) {
-        var splitKey = node.key.split('/');
+      const applications = _.map(result.node.nodes || [], (node) => {
+        const splitKey = node.key.split('/');
         return splitKey[splitKey.length - 1];
       });
       return cb(null, applications);
     });
   },
 
-  addApplication: function (applicationName, req, cb) {
-    var path = 'v1/toggles/' + applicationName;
-    etcd.client.mkdir(path, function (err) {
+  addApplication: (applicationName, req, cb) => {
+    const path = `v1/toggles/${applicationName}`;
+    etcd.client.mkdir(path, (err) => {
       if (err) {
         return cb(err);
       }
 
-      audit.addApplicationAudit(getUserDetails(req), applicationName, 'Created', function () {
+      audit.addApplicationAudit(getUserDetails(req), applicationName, 'Created', () => {
         if (err) {
           console.log(err); // todo: better logging
         }
@@ -44,8 +46,8 @@ module.exports = {
 
       // todo: not sure if this is correct
       if (config.RequiresAuth) {
-        var userEmail = getUserDetails(req).email.toLowerCase(); // todo: need better user management
-        acl.grant(userEmail, applicationName, function (grantErr) {
+        const userEmail = getUserDetails(req).email.toLowerCase(); // todo: need better user management
+        acl.grant(userEmail, applicationName, (grantErr) => {
           if (grantErr) {
             return cb(grantErr);
           }
@@ -57,21 +59,21 @@ module.exports = {
     });
   },
 
-  deleteApplication: function (applicationName, req, cb) {
-    var path = 'v1/toggles/' + applicationName;
-    etcd.client.delete(path, { recursive: true }, function (err) {
+  deleteApplication: (applicationName, req, cb) => {
+    const path = `v1/toggles/${applicationName}`;
+    etcd.client.delete(path, { recursive: true }, (err) => {
       if (err) {
         return cb(err);
       }
 
-      audit.addApplicationAudit(getUserDetails(req), applicationName, 'Deleted', function () {
+      audit.addApplicationAudit(getUserDetails(req), applicationName, 'Deleted', () => {
         if (err) {
           console.log(err);
         }
       });
 
       if (config.RequiresAuth) {
-        acl.revokeAll(applicationName, function (revokeErr) {
+        acl.revokeAll(applicationName, (revokeErr) => {
           if (revokeErr) {
             return cb(revokeErr);
           }
@@ -83,8 +85,8 @@ module.exports = {
     });
   },
 
-  getApplicationMetaData: function (applicationName, cb) {
-    etcd.client.get('v1/metadata/' + applicationName, { recursive: true }, function (err, result) {
+  getApplicationMetaData: (applicationName, cb) => {
+    etcd.client.get(`v1/metadata/${applicationName}`, { recursive: true }, (err, result) => {
       if (err) {
         if (err.errorCode === 100) { // key not found
           cb(null, {});
@@ -93,16 +95,16 @@ module.exports = {
         }
         return;
       }
-      var metaDataKeyValues = _.map(result.node.nodes, function (subNode) {
-        var metaDataKey = _.last(subNode.key.split('/'));
+      const metaDataKeyValues = _.map(result.node.nodes, (subNode) => {
+        const metaDataKey = _.last(subNode.key.split('/'));
         return [metaDataKey, subNode.value];
       });
       cb(null, _.object(metaDataKeyValues));
     });
   },
 
-  deleteApplicationMetaData: function (applicationName, cb) {
-    etcd.client.delete('v1/metadata/' + applicationName, { recursive: true }, function (err, result) {
+  deleteApplicationMetaData: (applicationName, cb) => {
+    etcd.client.delete(`v1/metadata/${applicationName}`, { recursive: true }, (err, result) => {
       if (err) {
         if (err.errorCode === 100) { // key not found
           cb();
@@ -115,10 +117,8 @@ module.exports = {
     });
   },
 
-  saveApplicationMetaData: function (applicationName, metaDataKey, metaDataValue, cb) {
-    var path = 'v1/metadata/' + applicationName + '/' + metaDataKey;
-    etcd.client.set(path, metaDataValue, function (err) {
-      return cb(err);
-    });
-  }
+  saveApplicationMetaData: (applicationName, metaDataKey, metaDataValue, cb) => {
+    const path = `v1/metadata/${applicationName}/${metaDataKey}`;
+    etcd.client.set(path, metaDataValue, err => cb(err));
+  },
 };

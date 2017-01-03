@@ -1,22 +1,20 @@
-'use strict';
-
-var passport = require('passport');
-var request = require('request');
-var jwt = require('jsonwebtoken');
-var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-var AzureStrategy = require('passport-azure-ad-oauth2');
+const passport = require('passport');
+const request = require('request');
+const jwt = require('jsonwebtoken');
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const AzureStrategy = require('passport-azure-ad-oauth2');
 
 function getProfilePhotoFromAD(token, callback) {
-  var options = {
+  const options = {
     url: 'https://graph.windows.net/me/thumbnailPhoto?api-version=1.6',
     method: 'GET',
     headers: {
-      Authorization: 'Bearer ' + token
+      Authorization: `Bearer ${token}`
     },
-    encoding: null
+    encoding: null,
   };
-  var r;
-  var req = request(options, function (error, response, body) {
+  let r;
+  const req = request(options, (error, response, body) => {
     if (!error) {
       if (response.statusCode === 200) {
         try {
@@ -29,45 +27,43 @@ function getProfilePhotoFromAD(token, callback) {
           return callback(e);
         }
       } else {
-        var errorData = {
+        const errorData = {
           StatusCode: response.statusCode,
           Body: response.body
         };
         return callback(errorData);
       }
     } else {
-      console.log('Error: ' + error);
+      console.log(`Error: ${error}`);
       return callback(error);
     }
   });
 }
 
-module.exports.init = function (config) {
+module.exports.init = (config) => {
   if (config.RequiresAuth) {
-    var protocolSection = (config.hobknobProtocol) ? config.hobknobProtocol : 'http';
-    var portSection = (config.hobknobPort) ? ':' + config.hobknobPort : '';
+    const protocolSection = (config.hobknobProtocol) ? config.hobknobProtocol : 'http';
+    const portSection = (config.hobknobPort) ? `:${config.hobknobPort}` : '';
 
     if (config.AuthProviders.GoogleAuth) {
-      var GOOGLE_CLIENT_ID = config.AuthProviders.GoogleAuth.GoogleClientId;
-      var GOOGLE_CLIENT_SECRET = config.AuthProviders.GoogleAuth.GoogleClientSecret;
-      var googleCallbackURL = protocolSection + '://' + config.hobknobHost + portSection + '/auth/google/callback';
+      const GOOGLE_CLIENT_ID = config.AuthProviders.GoogleAuth.GoogleClientId;
+      const GOOGLE_CLIENT_SECRET = config.AuthProviders.GoogleAuth.GoogleClientSecret;
+      const googleCallbackURL = `${protocolSection}://${config.hobknobHost}${portSection}/auth/google/callback`;
 
       passport.use(new GoogleStrategy({
         clientID: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET,
         callbackURL: googleCallbackURL
       },
-      function (accessToken, refreshToken, profile, done) {
+      (accessToken, refreshToken, profile, done) => {
         profile.accessToken = accessToken;
-        process.nextTick(function () {
-          return done(null, profile);
-        });
+        process.nextTick(() => done(null, profile));
       }));
     } else if (config.AuthProviders.AzureAuth) {
-      var AZURE_CLIENT_ID = config.AuthProviders.AzureAuth.AzureClientId;
-      var AZURE_CLIENT_SECRET = config.AuthProviders.AzureAuth.AzureClientSecret;
-      var AZURE_TENANT_ID = config.AuthProviders.AzureAuth.AzureTenantId;
-      var azureCallbackURL = protocolSection + '://' + config.hobknobHost + portSection + '/auth/azureadoauth2/callback';
+      const AZURE_CLIENT_ID = config.AuthProviders.AzureAuth.AzureClientId;
+      const AZURE_CLIENT_SECRET = config.AuthProviders.AzureAuth.AzureClientSecret;
+      const AZURE_TENANT_ID = config.AuthProviders.AzureAuth.AzureTenantId;
+      const azureCallbackURL = `${protocolSection}://${config.hobknobHost}${portSection}/auth/azureadoauth2/callback`;
 
       passport.use('azure', new AzureStrategy({
         clientID: AZURE_CLIENT_ID,
@@ -76,12 +72,12 @@ module.exports.init = function (config) {
         tenant: AZURE_TENANT_ID,
         resource: 'https://graph.windows.net/'
       },
-      function (accessToken, refreshToken, params, profile, done) {
+      (accessToken, refreshToken, params, profile, done) => {
         profile.accessToken = accessToken;
 
-        var decrypted = jwt.decode(profile.accessToken);
+        const decrypted = jwt.decode(profile.accessToken);
 
-        var profileData = {
+        const profileData = {
           name: {
             givenName: decrypted.given_name,
             familyName: decrypted.family_name
@@ -89,26 +85,24 @@ module.exports.init = function (config) {
           fullName: decrypted.name,
           email: decrypted.upn
         };
-        getProfilePhotoFromAD(params.access_token, function (error, data) {
+        getProfilePhotoFromAD(params.access_token, (error, data) => {
           if (!error) {
             profileData.picture = data;
           } else {
             console.log(error);
           }
           profile._json = profileData; // eslint-disable-line no-underscore-dangle
-          process.nextTick(function () {
-            return done(null, profile);
-          });
+          process.nextTick(() => done(null, profile));
         });
       }));
     }
   }
 
-  passport.serializeUser(function (user, done) {
+  passport.serializeUser((user, done) => {
     done(null, user);
   });
 
-  passport.deserializeUser(function (obj, done) {
+  passport.deserializeUser((obj, done) => {
     done(null, obj);
   });
 

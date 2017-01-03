@@ -1,11 +1,9 @@
-'use strict';
+const session = require('express-session');
 
-var session = require('express-session');
-
-module.exports.init = function (config, express) {
-  var sessionMiddleware;
-  var useConnectEtcdSession;
-  var useConnectRedisSession;
+module.exports.init = (config, express) => {
+  let sessionMiddleware;
+  let useConnectEtcdSession;
+  let useConnectRedisSession;
 
   try {
     useConnectEtcdSession = require.resolve('connect-etcd');
@@ -20,18 +18,18 @@ module.exports.init = function (config, express) {
   }
 
   if (useConnectEtcdSession) {
-    var EtcdStore = require('connect-etcd')(session);
+    const EtcdStore = require('connect-etcd')(session);
 
     sessionMiddleware = session({
       store: new EtcdStore({ url: config.etcdHost, port: config.etcdPort }),
-      secret: 'hobknob'
+      secret: 'hobknob',
     });
   } else if (useConnectRedisSession) {
-    var RedisStore = require('connect-redis')(session);
+    const RedisStore = require('connect-redis')(session);
 
     sessionMiddleware = session({
       store: new RedisStore({ host: config.redisHost, port: config.redisPort }),
-      secret: 'hobknob'
+      secret: 'hobknob',
     });
   } else {
     sessionMiddleware = express.session();

@@ -1,7 +1,6 @@
-'use strict';
+const config = require('./../../config/config.json');
 
-var config = require('./../../config/config.json');
-var feature = function () {
+const feature = () => {
   switch (config.dataSource.toLowerCase()) {
     case 'etcd':
       return require('./etcd/feature');
@@ -12,35 +11,35 @@ var feature = function () {
 };
 
 module.exports = {
-  getFeatureCategories: function (applicationName, cb) {
+  getFeatureCategories: (applicationName, cb) => {
     feature().getFeatureCategories(applicationName, cb);
   },
 
-  getFeature: function (applicationName, featureName, cb) {
+  getFeature: (applicationName, featureName, cb) => {
     feature().getFeature(applicationName, featureName, cb);
   },
 
-  addFeature: function (applicationName, featureName, featureDescription, categoryId, req, cb) {
+  addFeature: (applicationName, featureName, featureDescription, categoryId, req, cb) => {
     feature().addFeature(applicationName, featureName, featureDescription, categoryId, req, cb);
   },
 
-  updateFeatureToggle: function (applicationName, featureName, value, req, cb) {
+  updateFeatureToggle: (applicationName, featureName, value, req, cb) => {
     feature().updateFeatureToggle(applicationName, featureName, value, req, cb);
   },
 
-  updateFeatureDescription: function (applicationName, featureName, value, req, cb) {
+  updateFeatureDescription: (applicationName, featureName, newFeatureDescription, req, cb) => {
     feature().updateFeatureDescription(applicationName, featureName, newFeatureDescription, req, cb);
   },
 
-  addFeatureToggle: function (applicationName, featureName, toggleName, req, cb) {
+  addFeatureToggle: (applicationName, featureName, toggleName, req, cb) => {
     feature().addFeatureToggle(applicationName, featureName, toggleName, req, cb);
   },
 
-  updateFeatureMultiToggle: function (applicationName, featureName, toggleName, value, req, cb) {
+  updateFeatureMultiToggle: (applicationName, featureName, toggleName, value, req, cb) => {
     feature().updateFeatureMultiToggle(applicationName, featureName, toggleName, value, req, cb);
   },
 
-  deleteFeature: function (applicationName, featureName, req, cb) {
+  deleteFeature: (applicationName, featureName, req, cb) => {
     feature().deleteFeature(applicationName, featureName, req, cb);
-  }
+  },
 };
