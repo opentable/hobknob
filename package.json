@@ -24,7 +24,6 @@
     "async": "^2.0.0-rc.6",
     "body-parser": "^1.14.0",
     "config": "^1.16.0",
-    "connect-etcd": "0.0.2",
     "connect-redis": "^3.1.0",
     "express": "~3.4.8",
     "express-session": "^1.11.3",
