@@ -1,33 +1,31 @@
-'use strict';
+const path = require('path');
+const async = require('async');
+const config = require('config');
 
-var path = require('path');
-var async = require('async');
-var TIMEOUT = 5 * 1000;
-
-var config = require('config');
-var builtInHooks = [
+const TIMEOUT = 5 * 1000;
+const builtInHooks = [
   './server/src/hooks/audit.js'
 ];
-var customHooks = config.hooks || [];
+const customHooks = config.hooks || [];
 
-var hooks = builtInHooks.concat(customHooks).map(function (hook) {
-  var hookpath = path.resolve(hook);
+const hooks = builtInHooks.concat(customHooks).map((hook) => {
+  const hookpath = path.resolve(hook);
   try {
     return require(hookpath);
-  }
-  catch (error) {
-    console.log('Error loading hook: ' + hookpath);
+  } catch (error) {
+    console.log(`Error loading hook: ${hookpath}`);
+    return null;
   }
 });
 
-module.exports.run = function (ev) {
-  async.each(hooks, function (hook, done) {
+module.exports.run = (ev) => {
+  async.each(hooks, (hook, done) => {
     if (hook[ev.fn]) {
-      var fn = async.timeout(hook[ev.fn], TIMEOUT);
+      const fn = async.timeout(hook[ev.fn], TIMEOUT);
       return fn(ev, done);
     }
-    done();
-  }, function(err) {
+    return done();
+  }, (err) => {
     if (err) {
       console.log(err);
     }

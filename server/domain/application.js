@@ -1,7 +1,8 @@
-'use strict';
 
-var config = require('config');
-var application = function() {
+
+const config = require('config');
+
+const application = () => {
   switch (config.dataSource.toLowerCase()) {
     case 'etcd':
       return require('./etcd/application');
@@ -12,27 +13,27 @@ var application = function() {
 };
 
 module.exports = {
-    getApplications: function (cb) {
-      application().getApplications(cb);
-    },
+  getApplications: (cb) => {
+    application().getApplications(cb);
+  },
 
-    addApplication: function (applicationName, req, cb) {
-      application().addApplication(applicationName, req, cb);
-    },
+  addApplication: (applicationName, req, cb) => {
+    application().addApplication(applicationName, req, cb);
+  },
 
-    deleteApplication: function (applicationName, req, cb) {
-      application().deleteApplication(applicationName, req, cb);
-    },
+  deleteApplication: (applicationName, req, cb) => {
+    application().deleteApplication(applicationName, req, cb);
+  },
 
-    getApplicationMetaData: function (applicationName, cb) {
-      application().getApplicationMetaData(applicationName, cb);
-    },
+  getApplicationMetaData: (applicationName, cb) => {
+    application().getApplicationMetaData(applicationName, cb);
+  },
 
-    deleteApplicationMetaData: function (applicationName, cb) {
-      application().deleteApplicationMetaData(applicationName, cb);
-    },
+  deleteApplicationMetaData: (applicationName, cb) => {
+    application().deleteApplicationMetaData(applicationName, cb);
+  },
 
-    saveApplicationMetaData: function (applicationName, metaDataKey, metaDataValue, cb) {
-      application().saveApplicationMetaData(applicationName, metaDataKey, metaDataValue, cb);
-    }
+  saveApplicationMetaData: (applicationName, metaDataKey, metaDataValue, cb) => {
+    application().saveApplicationMetaData(applicationName, metaDataKey, metaDataValue, cb);
+  }
 };
