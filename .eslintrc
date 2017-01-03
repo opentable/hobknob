@@ -13,7 +13,8 @@
     "global-require": 1,
     "comma-dangle": 0,
     "import/no-extraneous-dependencies": 1,
-    "import/no-dynamic-require": 1
+    "import/no-dynamic-require": 1,
+    "import/no-unresolved": 1
   }
 }
 
