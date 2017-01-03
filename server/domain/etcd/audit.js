@@ -1,78 +1,92 @@
-const etcd = require('./etcd');
-const _ = require('underscore');
+'use strict';
+
+var etcd = require('./etcd');
+var _ = require('underscore');
+var config = require('config');
 
 module.exports = {
-  getApplicationAuditTrail: (applicationName, callback) => {
-    const path = `v1/audit/application/${applicationName}`;
-    etcd.client.get(path, { recursive: true }, (err, result) => {
-      if (err) {
-        callback(err);
-        return;
-      }
+    getApplicationAuditTrail: function (applicationName, callback) {
+        var path = 'v1/audit/application/' + applicationName;
+        etcd.client.get(path, {recursive: true}, function (err, result) {
+            if (err) {
+                callback(err);
+                return;
+            }
 
-      const auditTrail = _.map(result.node.nodes || [], (node) => {
-        const auditJson = JSON.parse(node.value);
-        auditJson.createdIndex = node.createdIndex;
-        return auditJson;
-      });
-      callback(null, auditTrail);
-    });
-  },
+            var auditTrail = _.map(result.node.nodes || [], function (node) {
+                var auditJson = JSON.parse(node.value);
+                auditJson.createdIndex = node.createdIndex;
+                return auditJson;
+            });
+            callback(null, auditTrail);
+        });
+    },
 
-  getFeatureAuditTrail: (applicationName, featureName, callback) => {
-    const path = `v1/audit/application/${applicationName}/${featureName}`;
-    etcd.client.get(path, { recursive: true }, (err, result) => {
-      if (err) {
-        callback(err);
-        return;
-      }
+    getFeatureAuditTrail: function (applicationName, featureName, callback) {
+        var path = 'v1/audit/feature/' + applicationName + '/' + featureName;
+        etcd.client.get(path, {recursive: true}, function (err, result) {
+            if (err) {
+                callback(err);
+                return;
+            }
 
-      const auditTrail = _.map(result.node.nodes || [], (node) => {
-        const auditJson = JSON.parse(node.value);
-        auditJson.createdIndex = node.createdIndex;
-        return auditJson;
-      });
-      callback(null, auditTrail);
-    });
-  },
+            var auditTrail = _.map(result.node.nodes || [], function (node) {
+                var auditJson = JSON.parse(node.value);
+                auditJson.createdIndex = node.createdIndex;
+                return auditJson;
+            });
+            callback(null, auditTrail);
+        });
+    },
 
-  addApplicationAudit: (user, applicationName, action, callback) => {
-    const audit = {
-      user,
-      action,
-      dateModified: new Date().toISOString(), // todo: should be UTC time
-    };
-    const auditJson = JSON.stringify(audit);
+    addApplicationAudit: function (user, applicationName, action, callback) {
+        var audit = {
+            user: user,
+            action: action,
+            dateModified: new Date().toISOString() // todo: should be UTC time
+        };
+        var auditJson = JSON.stringify(audit);
 
-    const path = `v1/audit/application/${applicationName}`;
-    etcd.client.post(path, auditJson, (err) => {
-      if (err) {
-        callback(err);
-        return;
-      }
+        var path = 'v1/audit/application/' + applicationName;
+        etcd.client.post(path, auditJson, function (err) {
+            if (err) {
+                callback(err);
+                return;
+            }
 
-      callback();
-    });
-  },
+            var auditNotification = {
+                applicationName: applicationName,
+                audit: audit
+            };
 
-  addFeatureAudit: (user, applicationName, featureName, toggleName, value, action, callback) => {
-    const audit = {
-      user,
-      toggleName,
-      value,
-      action,
-      dateModified: new Date().toISOString(), // todo: should be UTC time
-    };
-    const auditJson = JSON.stringify(audit);
+            callback();
+        });
+    },
 
-    const path = `v1/audit/feature/${applicationName}/${featureName}`;
-    etcd.client.post(path, auditJson, (err) => {
-      if (err) {
-        callback(err);
-        return;
-      }
+    addFeatureAudit: function (user, applicationName, featureName, toggleName, value, action, callback) {
+        var audit = {
+            user: user,
+            toggleName: toggleName,
+            value: value,
+            action: action,
+            dateModified: new Date().toISOString() // todo: should be UTC time
+        };
+        var auditJson = JSON.stringify(audit);
 
-      callback();
-    });
-  },
+        var path = 'v1/audit/feature/' + applicationName + '/' + featureName;
+        etcd.client.post(path, auditJson, function (err) {
+            if (err) {
+                callback(err);
+                return;
+            }
+
+            var auditNotification = {
+                applicationName: applicationName,
+                featureName: featureName,
+                audit: audit
+            };
+
+            callback();
+        });
+    }
 };

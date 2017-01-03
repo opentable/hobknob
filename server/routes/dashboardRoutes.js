@@ -1,12 +1,17 @@
-exports.dashboard = (req, res) => {
-  res.render('main',
-    {
-      title: 'Dashboard',
-      pageHeader: 'Dashboard',
-      user: req.user,
-    });
+'use strict';
+
+var config = require('config');
+
+exports.dashboard = function (req, res) {
+    res.render('main',
+        {
+            title: 'Dashboard',
+            pageHeader: 'Dashboard',
+            user: req.user
+        });
 };
 
-exports.partials = (req, res) => {
-  res.render(`partials/${req.params.name}`);
+exports.partials = function (req, res) {
+    var name = req.params.name;
+    res.render('partials/' + name);
 };

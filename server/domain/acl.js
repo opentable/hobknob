@@ -1,6 +1,7 @@
-const config = require('./../../config/config.json');
+'use strict';
 
-const acl = () => {
+var config = require('config');
+var acl = function() {
   switch (config.dataSource.toLowerCase()) {
     case 'etcd':
       return require('./etcd/acl');
@@ -11,23 +12,23 @@ const acl = () => {
 };
 
 module.exports = {
-  grant: (userEmail, resource, callback) => {
-    acl().grant(userEmail, resource, callback);
-  },
+    grant: function (userEmail, resource, callback) {
+      acl().grant(userEmail, resource, callback);
+    },
 
-  assert: (userEmail, resource, callback) => {
-    acl().assert(userEmail, resource, callback);
-  },
+    assert: function (userEmail, resource, callback) {
+      acl().assert(userEmail, resource, callback);
+    },
 
-  revoke: (userEmail, resource, callback) => {
-    acl().revoke(userEmail, resource, callback);
-  },
+    revoke: function (userEmail, resource, callback) {
+      acl().revoke(userEmail, resource, callback);
+    },
 
-  revokeAll: (resource, callback) => {
-    acl().revokeAll(resource, callback);
-  },
+    revokeAll: function(resource, callback) {
+      acl().revokeAll(resource, callback);
+    },
 
-  getAllUsers: (resource, callback) => {
-    acl().getAllUsers(resource, callback);
-  },
+    getAllUsers: function (resource, callback) {
+      acl().getAllUsers(resource, callback);
+    }
 };

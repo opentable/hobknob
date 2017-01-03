@@ -1,10 +1,10 @@
-h1.content-heading User Profile
+h1.content-heading(id="user_profile_title") User Profile
 
 .col-md-12
-  div(ng-controller="UserProfileController")
-    strong Name:
-    input(type="text" class="fullwidth" readonly="readonly" value="{{currentUser.getFullName()}}")
-    br
-    br
-    strong Email:
-    input(type="text" class="fullwidth" readonly="readonly" value="{{currentUser.getEmail()}}")
+    div(ng-controller="UserProfileController")
+      strong Name:
+      input(type="text" class="fullwidth" readonly="readonly" id="user_name_field" value="{{currentUser.getFullName()}}")
+      br
+      br
+      strong Email:
+      input(type="text" class="fullwidth" readonly="readonly" id="user_email_field" value="{{currentUser.getEmail()}}")

@@ -1,33 +1,33 @@
-const path = require('path');
-const async = require('async');
-const config = require('../../../config/config.json');
+'use strict';
 
-const TIMEOUT = 5 * 1000;
+var path = require('path');
+var async = require('async');
+var TIMEOUT = 5 * 1000;
 
-const builtInHooks = [
-  './server/src/hooks/audit.js',
+var config = require('config');
+var builtInHooks = [
+  './server/src/hooks/audit.js'
 ];
-const customHooks = config.hooks || [];
+var customHooks = config.hooks || [];
 
-const hooks = builtInHooks.concat(customHooks).map((hook) => {
-  const hookpath = path.resolve(hook);
+var hooks = builtInHooks.concat(customHooks).map(function (hook) {
+  var hookpath = path.resolve(hook);
   try {
-    return require(hookpath); // eslint-disable-line import/no-dynamic-require
-  } catch (error) {
-    console.log(`Error loading hook: ${hookpath}`);
+    return require(hookpath);
   }
-
-  return null;
+  catch (error) {
+    console.log('Error loading hook: ' + hookpath);
+  }
 });
 
-module.exports.run = (ev) => {
-  async.each(hooks, (hook, done) => {
+module.exports.run = function (ev) {
+  async.each(hooks, function (hook, done) {
     if (hook[ev.fn]) {
-      const fn = async.timeout(hook[ev.fn], TIMEOUT);
+      var fn = async.timeout(hook[ev.fn], TIMEOUT);
       return fn(ev, done);
     }
-    return done();
-  }, (err) => {
+    done();
+  }, function(err) {
     if (err) {
       console.log(err);
     }
