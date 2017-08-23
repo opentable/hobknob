@@ -20,6 +20,7 @@
   "dependencies": {
     "async": "^2.0.0-rc.6",
     "body-parser": "^1.14.0",
+    "bower": "^1.8.0",
     "config": "^1.16.0",
     "express": "~3.4.8",
     "express-session": "^1.11.3",
