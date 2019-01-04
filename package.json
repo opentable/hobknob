@@ -46,10 +46,10 @@
     "grunt-contrib-copy": "~0.8.1",
     "grunt-eslint": "^17.2.0",
     "grunt-ng-constant": "^1.1.0",
-    "grunt-protractor-runner": "2.1.0",
+    "grunt-protractor-runner": "5.0.0",
     "grunt-simple-mocha": "^0.4.0",
     "matchdep": "~1.0.0",
-    "protractor": "2.4.0",
+    "protractor": "5.4.2",
     "shelljs": "~0.5.3"
   }
 }
