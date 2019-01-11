@@ -3,9 +3,9 @@
   "version": "2.3.0",
   "description": "Front end for managing feature toggles in etcd",
   "scripts": {
+    "postinstall": "webdriver-manager update",
     "prestart": "bower cache clean --config.interactive=false && bower install --config.interactive=false",
     "start": "node server/app.js",
-    "pretest": "node node_modules/protractor/bin/webdriver-manager update",
     "test": "grunt test"
   },
   "repository": {
