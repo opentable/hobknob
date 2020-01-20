@@ -16,13 +16,8 @@ var config = {
 };
 
 if (process.env.TRAVIS) {
-    config.capabilities = {
-        'browserName': 'firefox',
-        'version': '',
-        'platform': 'ANY',
-        'build': process.env.TRAVIS_BUILD_NUMBER,
-        'name': 'Hobknob Tests'
-    };
+    config.capabilities.build = process.env.TRAVIS_BUILD_NUMBER;
+    config.capabilities.name = 'Hobknob Tests';
 }
 
 exports.config = config;
