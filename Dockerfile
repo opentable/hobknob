@@ -1,4 +1,4 @@
-FROM node:6
+FROM node:12
 
 ADD package.json /tmp/package.json
 RUN cd /tmp && npm install -g grunt-cli && npm install

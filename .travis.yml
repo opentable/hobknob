@@ -1,14 +1,10 @@
 sudo: required
 dist: trusty
 addons:
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
+  chrome: stable
 language: node_js
 node_js:
-- '6'
+- '12'
 before_install:
 - npm install -g -q bower
 - npm install -g -q grunt-cli
