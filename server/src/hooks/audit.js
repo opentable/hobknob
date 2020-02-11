@@ -1,6 +1,6 @@
 'use strict';
 
-var audit = require('../../audit');
+var audit = require('../../domain/audit');
 
 module.exports = {
   /*
