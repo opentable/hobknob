@@ -26,6 +26,7 @@ module.exports.init = function (config, express) {
             secret: 'hobknob'
         });
     }
+    // TODO: support for Consul
     else if (useConnectRedisSession) {
         var RedisStore = require('connect-redis')(session);
 
