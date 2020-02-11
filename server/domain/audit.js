@@ -9,22 +9,22 @@ var audit = function() {
     default:
       return null;
   }
-}();
+};
 
 module.exports = {
     getApplicationAuditTrail: function (applicationName, callback) {
-        audit.getApplicationAuditTrail(applicationName, callback);
+        audit().getApplicationAuditTrail(applicationName, callback);
     },
 
     getFeatureAuditTrail: function (applicationName, featureName, callback) {
-        audit.getFeatureAuditTrail(applicationName, featureName, callback);
+        audit().getFeatureAuditTrail(applicationName, featureName, callback);
     },
 
     addApplicationAudit: function (user, applicationName, action, callback) {
-        audit.addApplicationAudit(user, applicationName, action, callback);
+        audit().addApplicationAudit(user, applicationName, action, callback);
     },
 
     addFeatureAudit: function (user, applicationName, featureName, toggleName, value, action, callback) {
-        audit.addFeatureAudit(user, applicationName, featureName, toggleName, value, action, callback);
+        audit().addFeatureAudit(user, applicationName, featureName, toggleName, value, action, callback);
     }
 };
