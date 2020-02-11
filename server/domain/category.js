@@ -2,7 +2,7 @@
 
 var _ = require('underscore');
 var config = require('./../../config/config.json');
-var acl = require('./../acl');
+var acl = require('./acl');
 var audit = require('./../audit');
 
 var getCategory = function (id, name, description, columns, features) {
