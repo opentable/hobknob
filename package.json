@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "description": "Front end for managing feature toggles in etcd",
   "scripts": {
-    "postinstall": "webdriver-manager update",
+    "postinstall": "webdriver-manager update --chrome --versions.chrome=79.0.3945.36",
     "prestart": "bower cache clean --config.interactive=false && bower install --config.interactive=false",
     "start": "node server/app.js",
     "test": "grunt test"
