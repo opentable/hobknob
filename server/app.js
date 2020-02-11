@@ -119,7 +119,7 @@ app.get('/auth/azureadoauth2',
 );
 
 app.get('/auth/azureadoauth2/callback',
-  passport.authenticate('azure', { failureRedirect: '/oops' }),
+  passport.authenticate('azure', { failureRedirect: '/oops', failureFlash: true }),
   function (req, res) {
     // Successful authentication, redirect home.
     res.redirect('/');
