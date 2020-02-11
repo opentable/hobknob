@@ -1,7 +1,8 @@
 'use strict';
 
+var config = require('./../../config/config.json');
 var acl = function() {
-  switch (config.dataSource.toLower()) {
+  switch (config.dataSource.toLowerCase()) {
     case 'etcd':
       return require('./etcd/acl');
 
