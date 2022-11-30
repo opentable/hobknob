@@ -11,7 +11,7 @@ var auditRoutes = require('./routes/auditRoutes');
 var applicationRoutes = require('./routes/applicationRoutes');
 var featureRoutes = require('./routes/featureRoutes');
 var path = require('path');
-var acl = require('./acl');
+var acl = require('./domain/acl');
 var config = require('./../config/config.json');
 var _ = require('underscore');
 var passport = require('./auth').init(config);
@@ -119,7 +119,7 @@ app.get('/auth/azureadoauth2',
 );
 
 app.get('/auth/azureadoauth2/callback',
-  passport.authenticate('azure', { failureRedirect: '/oops' }),
+  passport.authenticate('azure', { failureRedirect: '/oops', failureFlash: true }),
   function (req, res) {
     // Successful authentication, redirect home.
     res.redirect('/');
